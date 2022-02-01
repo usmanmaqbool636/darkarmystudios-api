@@ -100,7 +100,7 @@ const LoginCover = () => {
                   Remember Me
                 </Label>
               </div>
-              <Button color='primary' tag={Link} block to='/'>
+              <Button color='primary' tag={Link} block to='/home'>
                 Sign in
               </Button>
             </Form>
