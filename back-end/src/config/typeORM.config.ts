@@ -1,11 +1,11 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 export const TypeOrmConfig: TypeOrmModuleOptions = {
-    type: 'postgres',
+    type: 'mariadb',
     host: 'localhost',
-    port: 5432,
-    username: 'postgres',
-    password: '1212',
-    database: 'kma',
+    port: 3306,
+    username: 'root',
+    password: 'root',
+    database: 'profitrack',
     entities: [__dirname + '/../**/*.entity.{js,ts}', __dirname + '/../**/model/*.entity.{js,ts}'],
     subscribers: [__dirname + '/../**/*.subscriber.{js,ts}'],
     synchronize: true,

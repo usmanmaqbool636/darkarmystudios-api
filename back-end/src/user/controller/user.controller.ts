@@ -18,7 +18,7 @@ export class UserController {
             message: '',
         });
     }
-    @Post("/login")
+    @Post("/signup")
     async createUser(@Body() user: UserDTO, @Res() res): Promise<void> {
         // console.log("User", user)
         await this.userService.createUserService(user)
