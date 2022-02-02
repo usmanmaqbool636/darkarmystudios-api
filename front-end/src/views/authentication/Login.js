@@ -15,7 +15,10 @@ const LoginCover = () => {
     source = require(`@src/assets/images/pages/${illustration}`).default
     const [credentials, setCredentials] = useState({ email: '', password: '' })
 
-    const handleChange = (e) => setCredentials({ ...credentials, [e.target.name]: e.target.value })
+    const handleChange = (e) => {
+      console.log(e.target.value)
+      setCredentials({ ...credentials, [e.target.name]: e.target.value })
+    }
     const handleSubmit = (e) => {
       e.preventDefault()
       dispatch(logInStart(credentials))
@@ -90,7 +93,7 @@ const LoginCover = () => {
                 <Label className='form-label' for='login-email'>
                   Email
                 </Label>
-                <Input type='email' id='login-email' placeholder='john@example.com' autoFocus onChange={handleChange} />
+                <Input type='email' name='email' id='login-email' placeholder='john@example.com' autoFocus onChange={handleChange} />
               </div>
               <div className='mb-1'>
                 <div className='d-flex justify-content-between'>
@@ -101,7 +104,7 @@ const LoginCover = () => {
                     <small>Forgot Password?</small>
                   </Link>
                 </div>
-                <InputPasswordToggle className='input-group-merge' id='login-password' />
+                <InputPasswordToggle className='input-group-merge' name='password' id='login-password' onChange={() => handleChange(event)}/>
               </div>
               <div className='form-check mb-1'>
                 <Input type='checkbox' id='remember-me' />

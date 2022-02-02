@@ -10,7 +10,7 @@ import {
 import types from './authActionTypes'
 
 const logIn = async (email, password) => {
-  const response = await axios.post('https://profitrack.darkarmylabs.com/api/login', {
+  const response = await axios.post('https://profitrack.darkarmylabs.com/api/user/login', {
     email,
     password
   })
