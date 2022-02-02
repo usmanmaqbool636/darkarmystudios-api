@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 
 // ** Redux Imports
 import { Provider } from 'react-redux'
-import { store } from './redux/store'
+import { store } from './store'
 
 // ** Intl & ThemeColors Context
 import { ToastContainer } from 'react-toastify'

@@ -1,16 +1,25 @@
+import React, { useState } from 'react'
 import { useSkin } from '@hooks/useSkin'
 import { Link } from 'react-router-dom'
 import { Facebook, Twitter, Mail, GitHub } from 'react-feather'
 import InputPasswordToggle from '@components/input-password-toggle'
 import { Row, Col, CardTitle, CardText, Form, Label, Input, Button } from 'reactstrap'
 import '@styles/react/pages/page-authentication.scss'
+import { useDispatch } from 'react-redux'
+import { logInStart } from '../../store/auth/authActions'
 
 const LoginCover = () => {
   const { skin } = useSkin()
-
+  const dispatch = useDispatch()
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
     source = require(`@src/assets/images/pages/${illustration}`).default
+    const [credentials, setCredentials] = useState({ email: '', password: '' })
 
+    const handleChange = (e) => setCredentials({ ...credentials, [e.target.name]: e.target.value })
+    const handleSubmit = (e) => {
+      e.preventDefault()
+      dispatch(logInStart(credentials))
+    }
   return (
     <div className='auth-wrapper auth-cover'>
       <Row className='auth-inner m-0'>
@@ -76,12 +85,12 @@ const LoginCover = () => {
               Welcome to ProfiTrack! 👋
             </CardTitle>
             <CardText className='mb-2'>Please sign-in to your account and start the adventure</CardText>
-            <Form className='auth-login-form mt-2' onSubmit={e => e.preventDefault()}>
+            <Form className='auth-login-form mt-2' onSubmit={handleSubmit} >
               <div className='mb-1'>
                 <Label className='form-label' for='login-email'>
                   Email
                 </Label>
-                <Input type='email' id='login-email' placeholder='john@example.com' autoFocus />
+                <Input type='email' id='login-email' placeholder='john@example.com' autoFocus onChange={handleChange} />
               </div>
               <div className='mb-1'>
                 <div className='d-flex justify-content-between'>
@@ -100,7 +109,7 @@ const LoginCover = () => {
                   Remember Me
                 </Label>
               </div>
-              <Button color='primary' tag={Link} block to='/home'>
+              <Button color='primary' tag={Link} block to='/home' onClick={handleSubmit}>
                 Sign in
               </Button>
             </Form>
