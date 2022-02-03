@@ -8,7 +8,7 @@ import '@styles/react/pages/page-authentication.scss'
 import { useDispatch } from 'react-redux'
 import { logInStart } from '../../store/auth/authActions'
 
-const LoginCover = () => {
+const LoginCover = (context) => {
   const { skin } = useSkin()
   const dispatch = useDispatch()
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
@@ -21,7 +21,8 @@ const LoginCover = () => {
     }
     const handleSubmit = (e) => {
       e.preventDefault()
-      dispatch(logInStart(credentials))
+      dispatch(logInStart(credentials)) 
+      context.history.push('/home')
     }
   return (
     <div className='auth-wrapper auth-cover'>

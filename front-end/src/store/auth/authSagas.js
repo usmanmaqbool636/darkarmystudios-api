@@ -14,7 +14,10 @@ const logIn = async (email, password) => {
     email,
     password
   })
-  return { token: response.data.accessToken }
+  
+  
+  return {
+     token: response.data.accessToken }
 }
 
 const register = async (email, password) => {
