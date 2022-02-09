@@ -21,7 +21,7 @@ const LoginCover = (context) => {
     }
     const handleSubmit = (e) => {
       e.preventDefault()
-      dispatch(logInStart(credentials)) 
+      dispatch(logInStart(credentials))
       context.history.push('/home')
     }
   return (

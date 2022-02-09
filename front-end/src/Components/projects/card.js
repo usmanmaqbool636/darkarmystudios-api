@@ -71,18 +71,18 @@ const CardProject = (props) => {
             <CardText className='mb-0'>Meet world popular developers</CardText>
           </div>
         </div>
-        <div className='d-flex'>
-          <Avatar color='light-primary' className='rounded me-1' icon={<Calendar size={18} />} />
+        <div className='d-flex justify-content-between text-center mt-2'>
           <div>
-            <h6 className='mb-0'>Sat, May 25, 2020</h6>
-            <small>10:AM to 6:PM</small>
+            <h6 className='mb-0'>4</h6>
+            <small>Complete Task</small>
           </div>
-        </div>
-        <div className='d-flex mt-2'>
-          <Avatar color='light-primary' className='rounded me-1' icon={<MapPin size={18} />} />
           <div>
-            <h6 className='mb-0'>Central Park</h6>
-            <small>Manhattan, New york City</small>
+            <h6 className='mb-0'>5</h6>
+            <small>Remaining Task</small>
+          </div>
+          <div>
+            <h6 className='mb-0'>4</h6>
+            <small>In process task</small>
           </div>
         </div>
         <AvatarGroup data={data} />

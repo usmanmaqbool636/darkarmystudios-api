@@ -18,7 +18,7 @@ const Routes = [
   },
   {
     path: '/task',
-    component: lazy(() => import('../../views/Projects/task'))
+    component: lazy(() => import('../../views/Projects/todo'))
   },
   {
     path: '/about',
