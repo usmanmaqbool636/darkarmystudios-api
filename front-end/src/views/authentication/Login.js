@@ -13,7 +13,7 @@ const LoginCover = (context) => {
   const dispatch = useDispatch()
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
     source = require(`@src/assets/images/pages/${illustration}`).default
-    const [credentials, setCredentials] = useState({ email: '', password: '' })
+    const [credentials, setCredentials] = useState({ email: "dark00@gmail.com", password: "Dark@321" })
 
     const handleChange = (e) => {
       console.log(e.target.value)
@@ -22,8 +22,15 @@ const LoginCover = (context) => {
     const handleSubmit = (e) => {
       e.preventDefault()
       dispatch(logInStart(credentials))
-      context.history.push('/home')
+      if (credentials.email === "dark00@gmail.com" && credentials.password === "Dark@321") {
+        localStorage.setItem('email', credentials.email)
+        localStorage.setItem('password', credentials.password)
+
+        context.history.push('/home')
+      } else {
+      }
     }
+    
   return (
     <div className='auth-wrapper auth-cover'>
       <Row className='auth-inner m-0'>
@@ -113,7 +120,7 @@ const LoginCover = (context) => {
                   Remember Me
                 </Label>
               </div>
-              <Button color='primary' tag={Link} block to='/home' onClick={handleSubmit}>
+              <Button color='primary' tag={Link} block  onClick={handleSubmit}>
                 Sign in
               </Button>
             </Form>
