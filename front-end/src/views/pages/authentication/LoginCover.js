@@ -7,7 +7,6 @@ import '@styles/react/pages/page-authentication.scss'
 
 const LoginCover = () => {
   const { skin } = useSkin()
-  const { skin2 } = useSkin()
 
 
   const illustration = skin === 'dark' ? 'login-v2-dark.svg' : 'login-v2.svg',
