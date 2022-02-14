@@ -55,3 +55,8 @@ select.form-control[multiple] {
   color: $body-color;
   font-size: $font-size-base;
 }
+.dark-layout {
+  .form-check-label.form-label {
+    color: $theme-dark-label-color;
+  }
+}

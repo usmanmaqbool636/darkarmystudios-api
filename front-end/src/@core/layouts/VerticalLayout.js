@@ -4,7 +4,11 @@ import { useLocation } from 'react-router-dom'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
-import { handleMenuCollapsed, handleContentWidth, handleMenuHidden } from '@store/layout'
+import {
+  handleMenuCollapsed,
+  handleContentWidth,
+  handleMenuHidden
+} from '@store/layout'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -36,7 +40,16 @@ import '@styles/base/core/menu/menu-types/vertical-overlay-menu.scss'
 
 const VerticalLayout = props => {
   // ** Props
-  const { menu, navbar, footer, menuData, children, routerProps, setLastLayout, currentActiveItem } = props
+  const {
+    menu,
+    navbar,
+    footer,
+    menuData,
+    children,
+    routerProps,
+    setLastLayout,
+    currentActiveItem
+  } = props
 
   // ** Hooks
   const [isRtl, setIsRtl] = useRTL()
@@ -109,13 +122,15 @@ const VerticalLayout = props => {
   }
 
   const navbarClasses = {
-    floating: contentWidth === 'boxed' ? 'floating-nav container-xxl' : 'floating-nav',
+    floating:
+      contentWidth === 'boxed' ? 'floating-nav container-xxl' : 'floating-nav',
     sticky: 'fixed-top',
     static: 'navbar-static-top',
     hidden: 'd-none'
   }
 
-  const bgColorCondition = navbarColor !== '' && navbarColor !== 'light' && navbarColor !== 'white'
+  const bgColorCondition =
+    navbarColor !== '' && navbarColor !== 'light' && navbarColor !== 'white'
 
   if (!isMounted) {
     return null
@@ -123,9 +138,9 @@ const VerticalLayout = props => {
   return (
     <div
       className={classnames(
-        `wrapper vertical-layout ${navbarWrapperClasses[navbarType] || 'navbar-floating'} ${
-          footerClasses[footerType] || 'footer-static'
-        }`,
+        `wrapper vertical-layout ${
+          navbarWrapperClasses[navbarType] || 'navbar-floating'
+        } ${footerClasses[footerType] || 'footer-static'}`,
         {
           // Modern Menu
           'vertical-menu-modern': windowWidth >= 1200,
@@ -161,11 +176,21 @@ const VerticalLayout = props => {
         dark={skin === 'dark' || bgColorCondition}
         color={bgColorCondition ? navbarColor : undefined}
         className={classnames(
-          `header-navbar navbar align-items-center ${navbarClasses[navbarType] || 'floating-nav'} navbar-shadow`
+          `header-navbar navbar align-items-center ${
+            navbarClasses[navbarType] || 'floating-nav'
+          } navbar-shadow`
         )}
       >
         <div className='navbar-container d-flex content'>
-          {navbar ? navbar : <NavbarComponent setMenuVisibility={setMenuVisibility} skin={skin} setSkin={setSkin} />}
+          {navbar ? (
+            navbar
+          ) : (
+            <NavbarComponent
+              setMenuVisibility={setMenuVisibility}
+              skin={skin}
+              setSkin={setSkin}
+            />
+          )}
         </div>
       </Navbar>
       {children}
@@ -206,11 +231,21 @@ const VerticalLayout = props => {
         />
       ) : null}
       <footer
-        className={classnames(`footer footer-light ${footerClasses[footerType] || 'footer-static'}`, {
-          'd-none': footerType === 'hidden'
-        })}
+        className={classnames(
+          `footer footer-light ${footerClasses[footerType] || 'footer-static'}`,
+          {
+            'd-none': footerType === 'hidden'
+          }
+        )}
       >
-        {footer ? footer : <FooterComponent footerType={footerType} footerClasses={footerClasses} />}
+        {footer ? (
+          footer
+        ) : (
+          <FooterComponent
+            footerType={footerType}
+            footerClasses={footerClasses}
+          />
+        )}
       </footer>
 
       {themeConfig.layout.scrollTop === true ? (

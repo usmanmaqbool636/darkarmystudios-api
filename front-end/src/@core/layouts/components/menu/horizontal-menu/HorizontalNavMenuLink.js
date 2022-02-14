@@ -4,17 +4,14 @@ import { NavLink } from 'react-router-dom'
 
 // ** Third Party Components
 import classnames from 'classnames'
+import { useTranslation } from 'react-i18next'
 
-const HorizontalNavMenuLink = ({
-  item,
-  isChild,
-  activeItem,
-  setActiveItem,
-  setOpenDropdown,
-  currentActiveItem
-}) => {
+const HorizontalNavMenuLink = ({ item, isChild, activeItem, setActiveItem, setOpenDropdown, currentActiveItem }) => {
   // ** Conditional Link Tag, if item has newTab or externalLink props use <a> tag else use NavLink
   const LinkTag = item.externalLink ? 'a' : NavLink
+
+  // ** Hooks
+  const { t } = useTranslation()
 
   // ** Remove all items from OpenDropdown array
   const resetOpenDropdowns = () => setOpenDropdown([])
@@ -53,11 +50,7 @@ const HorizontalNavMenuLink = ({
                   return false
                 }
 
-                if (
-                  match.url &&
-                  match.url !== '' &&
-                  match.url === item.navLink
-                ) {
+                if (match.url && match.url !== '' && match.url === item.navLink) {
                   currentActiveItem = item.navLink
                 }
               }
@@ -65,7 +58,7 @@ const HorizontalNavMenuLink = ({
         /*eslint-enable */
       >
         {item.icon}
-        <span>{item.title}</span>
+        <span>{t(item.title)}</span>
       </LinkTag>
     </li>
   )

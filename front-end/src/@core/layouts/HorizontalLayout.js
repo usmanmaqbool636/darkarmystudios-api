@@ -35,7 +35,16 @@ import '@styles/base/core/menu/menu-types/horizontal-menu.scss'
 
 const HorizontalLayout = props => {
   // ** Props
-  const { children, navbar, menuData, footer, menu, currentActiveItem, routerProps, setLastLayout } = props
+  const {
+    children,
+    navbar,
+    menuData,
+    footer,
+    menu,
+    currentActiveItem,
+    routerProps,
+    setLastLayout
+  } = props
 
   // ** Hooks
   const { skin, setSkin } = useSkin()
@@ -96,11 +105,13 @@ const HorizontalLayout = props => {
   }
 
   const navbarClasses = {
-    floating: contentWidth === 'boxed' ? 'floating-nav container-xxl' : 'floating-nav',
+    floating:
+      contentWidth === 'boxed' ? 'floating-nav container-xxl' : 'floating-nav',
     sticky: 'fixed-top'
   }
 
-  const bgColorCondition = navbarColor !== '' && navbarColor !== 'light' && navbarColor !== 'white'
+  const bgColorCondition =
+    navbarColor !== '' && navbarColor !== 'light' && navbarColor !== 'white'
 
   if (!isMounted) {
     return null
@@ -109,18 +120,21 @@ const HorizontalLayout = props => {
   return (
     <div
       className={classnames(
-        `wrapper horizontal-layout horizontal-menu ${navbarWrapperClasses[navbarType] || 'navbar-floating'} ${
-          footerClasses[footerType] || 'footer-static'
-        } menu-expanded`
+        `wrapper horizontal-layout horizontal-menu ${
+          navbarWrapperClasses[navbarType] || 'navbar-floating'
+        } ${footerClasses[footerType] || 'footer-static'} menu-expanded`
       )}
       {...(isHidden ? { 'data-col': '1-column' } : {})}
     >
       <Navbar
         expand='lg'
         container={false}
-        className={classnames('header-navbar navbar-fixed align-items-center navbar-shadow navbar-brand-center', {
-          'navbar-scrolled': navbarScrolled
-        })}
+        className={classnames(
+          'header-navbar navbar-fixed align-items-center navbar-shadow navbar-brand-center',
+          {
+            'navbar-scrolled': navbarScrolled
+          }
+        )}
       >
         {!navbar && (
           <div className='navbar-header d-xl-block d-none'>
@@ -148,15 +162,24 @@ const HorizontalLayout = props => {
             expand='sm'
             light={skin !== 'dark'}
             dark={skin === 'dark' || bgColorCondition}
-            className={classnames(`header-navbar navbar-horizontal navbar-shadow menu-border`, {
-              [navbarClasses[navbarType]]: navbarType !== 'static',
-              'floating-nav': (!navbarClasses[navbarType] && navbarType !== 'static') || navbarType === 'floating'
-            })}
+            className={classnames(
+              `header-navbar navbar-horizontal navbar-shadow menu-border`,
+              {
+                [navbarClasses[navbarType]]: navbarType !== 'static',
+                'floating-nav':
+                  (!navbarClasses[navbarType] && navbarType !== 'static') ||
+                  navbarType === 'floating'
+              }
+            )}
           >
             {menu ? (
               menu
             ) : (
-              <MenuComponent menuData={menuData} routerProps={routerProps} currentActiveItem={currentActiveItem} />
+              <MenuComponent
+                menuData={menuData}
+                routerProps={routerProps}
+                currentActiveItem={currentActiveItem}
+              />
             )}
           </Navbar>
         </div>
@@ -188,11 +211,21 @@ const HorizontalLayout = props => {
         />
       ) : null}
       <footer
-        className={classnames(`footer footer-light ${footerClasses[footerType] || 'footer-static'}`, {
-          'd-none': footerType === 'hidden'
-        })}
+        className={classnames(
+          `footer footer-light ${footerClasses[footerType] || 'footer-static'}`,
+          {
+            'd-none': footerType === 'hidden'
+          }
+        )}
       >
-        {footer ? footer : <FooterComponent footerType={footerType} footerClasses={footerClasses} />}
+        {footer ? (
+          footer
+        ) : (
+          <FooterComponent
+            footerType={footerType}
+            footerClasses={footerClasses}
+          />
+        )}
       </footer>
 
       {themeConfig.layout.scrollTop === true ? (

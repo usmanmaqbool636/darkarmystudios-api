@@ -3,12 +3,7 @@ import { Fragment } from 'react'
 
 // ** Custom Components
 import NavbarUser from './NavbarUser'
-
-// ** Third Party Components
-import { Menu } from 'react-feather'
-
-// ** Reactstrap Imports
-import { NavItem, NavLink } from 'reactstrap'
+import NavbarBookmarks from './NavbarBookmarks'
 
 const ThemeNavbar = props => {
   // ** Props
@@ -16,13 +11,9 @@ const ThemeNavbar = props => {
 
   return (
     <Fragment>
-      <ul className='navbar-nav d-xl-none'>
-        <NavItem className='mobile-menu me-auto d-flex align-items-center'>
-          <NavLink className='nav-menu-main menu-toggle hidden-xs is-active' onClick={() => setMenuVisibility(true)}>
-            <Menu className='ficon' />
-          </NavLink>
-        </NavItem>
-      </ul>
+      <div className='bookmark-wrapper d-flex align-items-center'>
+        <NavbarBookmarks setMenuVisibility={setMenuVisibility} />
+      </div>
       <NavbarUser skin={skin} setSkin={setSkin} />
     </Fragment>
   )

@@ -11,8 +11,5 @@ export const useFooterType = () => {
     dispatch(handleFooterType(type))
   }
 
-  return {
-    setFooterType,
-    footerType: store.footerType
-  }
+  return { setFooterType, footerType: store.footerType }
 }

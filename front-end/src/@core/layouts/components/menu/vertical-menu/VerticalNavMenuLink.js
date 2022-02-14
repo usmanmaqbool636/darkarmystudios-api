@@ -4,6 +4,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 
 // ** Third Party Components
 import classnames from 'classnames'
+import { useTranslation } from 'react-i18next'
 
 // ** Reactstrap Imports
 import { Badge } from 'reactstrap'
@@ -18,6 +19,7 @@ const VerticalNavMenuLink = ({
   const LinkTag = item.externalLink ? 'a' : NavLink
 
   // ** Hooks
+  const { t } = useTranslation()
   const location = useLocation()
 
   useEffect(() => {
@@ -58,9 +60,18 @@ const VerticalNavMenuLink = ({
                 }
               }
             })}
+        onClick={e => {
+          if (
+            item.navLink.length === 0 ||
+            item.navLink === '#' ||
+            item.disabled === true
+          ) {
+            e.preventDefault()
+          }
+        }}
       >
         {item.icon}
-        <span className='menu-item text-truncate'>{item.title}</span>
+        <span className='menu-item text-truncate'>{t(item.title)}</span>
 
         {item.badge && item.badgeText ? (
           <Badge className='ms-auto me-1' color={item.badge} pill>

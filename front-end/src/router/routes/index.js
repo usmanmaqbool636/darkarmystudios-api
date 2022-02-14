@@ -1,62 +1,31 @@
-import { lazy } from 'react'
+// ** Routes Imports
+import AppRoutes from './Apps'
+import FormRoutes from './Forms'
+import PagesRoutes from './Pages'
+import TablesRoutes from './Tables'
+import ChartsRoutes from './Charts'
+import DashboardRoutes from './Dashboards'
+import UiElementRoutes from './UiElements'
+import ExtensionsRoutes from './Extensions'
+import PageLayoutsRoutes from './PageLayouts'
 
 // ** Document title
 const TemplateTitle = '%s - Vuexy React Admin Template'
 
 // ** Default Route
-const DefaultRoute = '/login'
+const DefaultRoute = '/dashboard/ecommerce'
 
 // ** Merge Routes
 const Routes = [
-  {
-    path: '/home',
-    component: lazy(() => import('../../views/Home'))
-  },
-  {
-    path: '/projects',
-    component: lazy(() => import('../../views/Projects'))
-  },
-  {
-    path: '/task',
-    component: lazy(() => import('../../views/Projects/todo'))
-  },
-  {
-    path: '/about',
-    component: lazy(() => import('../../views/Projects/calendar'))
-  },
-  {
-    path: '/second-page',
-    component: lazy(() => import('../../views/SecondPage'))
-  },
-  {
-    path: '/login',
-    component: lazy(() => import('../../views/authentication/Login')),
-    layout: 'BlankLayout',
-    meta: {
-      authRoute: true
-    }
-  },
-  {
-    path: '/Register',
-    component: lazy(() => import('../../views/authentication/Register')),
-    layout: 'BlankLayout',
-    meta: {
-      authRoute: true
-    }
-  },
-  {
-    path: '/forgot-password',
-    component: lazy(() => import('../../views/authentication/ForgotPassword')),
-    layout: 'BlankLayout',
-    meta: {
-      authRoute: true
-    }
-  },
-  {
-    path: '/error',
-    component: lazy(() => import('../../views/Error')),
-    layout: 'BlankLayout'
-  }
+  ...DashboardRoutes,
+  ...AppRoutes,
+  ...PagesRoutes,
+  ...UiElementRoutes,
+  ...ExtensionsRoutes,
+  ...PageLayoutsRoutes,
+  ...FormRoutes,
+  ...TablesRoutes,
+  ...ChartsRoutes
 ]
 
 export { DefaultRoute, TemplateTitle, Routes }

@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 
 // ** Third Party Components
 import classnames from 'classnames'
+import { useTranslation } from 'react-i18next'
 
 // ** Reactstrap Imports
 import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap'
@@ -32,6 +33,7 @@ const HorizontalNavMenuGroup = props => {
   } = props
 
   // ** Hooks
+  const { t } = useTranslation()
   const location = useLocation()
 
   // ** URL Var
@@ -104,13 +106,9 @@ const HorizontalNavMenuGroup = props => {
         })}
       >
         {item.icon}
-        <span>{item.title}</span>
+        <span>{t(item.title)}</span>
       </DropdownToggle>
-      <DropdownMenu
-        tag='ul'
-        modifiers={menuModifiers}
-        className={classnames({ 'first-level': submenu === false })}
-      >
+      <DropdownMenu tag='ul' modifiers={menuModifiers} className={classnames({ 'first-level': submenu === false })}>
         <HorizontalNavMenuItems
           submenu={true}
           parentItem={item}

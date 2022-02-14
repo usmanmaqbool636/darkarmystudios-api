@@ -18,17 +18,13 @@ html[dir='rtl'] {
   }
 
   // Vertical Menu Item Arrows
-  .vertical-layout.vertical-menu-modern {
-    .main-menu .navigation {
-      li.has-sub {
-        > a:after {
-          transform: rotate(90deg) !important;
-        }
-        &:not(.open) {
-          > a:after {
-            transform: rotate(180deg) !important;
-          }
-        }
+  .vertical-layout .main-menu .navigation li.has-sub {
+    > a:after {
+      transform: rotate(90deg) !important;
+    }
+    &:not(.open) {
+      > a:after {
+        transform: rotate(180deg) !important;
       }
     }
   }
@@ -36,6 +32,39 @@ html[dir='rtl'] {
   // Horizontal menu
   .horizontal-menu .header-navbar.navbar-horizontal .dropdown-menu .dropdown-toggle::after {
     background-image: url(str-replace(str-replace($chevron-left, 'currentColor', $body-color), '#', '%23'));
+  }
+
+  // Dropdown RTL Changes
+  .dropdown,
+  .dropup,
+  .btn-group {
+    .dropdown-menu {
+      right: auto !important;
+      left: auto !important;
+
+      &.dropdown-menu-end {
+        left: 0 !important;
+
+        &::before {
+          right: 0.6rem;
+          left: auto;
+        }
+      }
+    }
+  }
+
+  .dropstart {
+    .dropdown-menu {
+      right: 0.5rem !important;
+      margin-right: $dropdown_spacing !important;
+    }
+  }
+
+  .dropend {
+    .dropdown-menu {
+      left: 0.5rem !important;
+      margin-left: $dropdown_spacing !important;
+    }
   }
 
   // Breadcrumbs
@@ -130,7 +159,7 @@ html[dir='rtl'] {
   .bs-tooltip-right .arrow,
   .bs-tooltip-auto[data-popper-placement^='right'] .arrow {
     right: auto;
-    left: -1px;
+    left: 0;
     transform: translate3d(0px, 9px, 0px) rotate(180deg) !important;
   }
 

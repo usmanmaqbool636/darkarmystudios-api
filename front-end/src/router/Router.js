@@ -1,15 +1,17 @@
 // ** React Imports
-import { Suspense, lazy, Fragment } from 'react'
+import { Suspense, useContext, lazy, Fragment } from 'react'
 
 // ** Utils
+import { isUserLoggedIn } from '@utils'
 import { useLayout } from '@hooks/useLayout'
+import { AbilityContext } from '@src/utility/context/Can'
 import { useRouterTransition } from '@hooks/useRouterTransition'
 
 // ** Custom Components
 import LayoutWrapper from '@layouts/components/layout-wrapper'
 
 // ** Router Components
-import { HashRouter as AppRouter, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter as AppRouter, Route, Switch, Redirect } from 'react-router-dom'
 
 // ** Routes & Default Routes
 import { DefaultRoute, Routes } from './routes'
@@ -23,6 +25,9 @@ const Router = () => {
   // ** Hooks
   const { layout, setLayout, setLastLayout } = useLayout()
   const { transition, setTransition } = useRouterTransition()
+
+  // ** ACL Ability Context
+  const ability = useContext(AbilityContext)
 
   // ** Default Layout
   const DefaultLayout = layout === 'horizontal' ? 'HorizontalLayout' : 'VerticalLayout'
@@ -51,10 +56,10 @@ const Router = () => {
     return { LayoutRoutes, LayoutPaths }
   }
 
-  const NotAuthorized = lazy(() => import('@src/views/NotAuthorized'))
+  const NotAuthorized = lazy(() => import('@src/views/pages/misc/NotAuthorized'))
 
   // ** Init Error Component
-  const Error = lazy(() => import('@src/views/Error'))
+  const Error = lazy(() => import('@src/views/pages/misc/Error'))
 
   /**
    ** Final Route Component Checks for Login & User Role and then redirects to the route
@@ -143,7 +148,7 @@ const Router = () => {
 
                           {route.layout === 'BlankLayout' ? (
                             <Fragment>
-                              <route.component {...props} />
+                              <FinalRoute route={route} {...props} />
                             </Fragment>
                           ) : (
                             <LayoutWrapper
@@ -170,7 +175,7 @@ const Router = () => {
                               /*eslint-enable */
                             >
                               <Suspense fallback={null}>
-                                <route.component {...props} />
+                                <FinalRoute route={route} {...props} />
                               </Suspense>
                             </LayoutWrapper>
                           )}
@@ -195,7 +200,7 @@ const Router = () => {
           exact
           path='/'
           render={() => {
-            return <Redirect to={DefaultRoute} />
+            return isUserLoggedIn() ? <Redirect to={DefaultRoute} /> : <Redirect to='/login' />
           }}
         />
         {/* Not Auth Route */}
