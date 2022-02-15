@@ -13,7 +13,8 @@ import { handleLogin } from '@store/authentication'
 // ** Third Party Components
 import { useForm, Controller } from 'react-hook-form'
 import { Facebook, Twitter, Mail, GitHub } from 'react-feather'
-
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 // ** Context
 import { AbilityContext } from '@src/utility/context/Can'
 
@@ -56,7 +57,18 @@ const Register = () => {
       const { username, email, password } = data
       useJwt
         .register({ username, email, password })
-        .then(res => {
+        toast.success('Account Created', 
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+          })
+
+                  .then(res => {
           if (res.data.error) {
             for (const property in res.data.error) {
               if (res.data.error[property] !== null) {
@@ -152,6 +164,7 @@ const Register = () => {
         </Col>
         <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
           <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
+          <ToastContainer />
             <CardTitle tag='h2' className='fw-bold mb-1'>
               Adventure starts here 🚀
             </CardTitle>

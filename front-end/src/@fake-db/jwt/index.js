@@ -5,11 +5,11 @@ const data = {
   users: [
     {
       id: 1,
-      fullName: 'John Doe',
-      username: 'johndoe',
-      password: 'admin',
+      fullName: 'Zarish Sajid',
+      username: 'Zarish',
+      password: 'Dark@321',
       avatar: require('@src/assets/images/portrait/small/avatar-s-11.jpg').default,
-      email: 'admin@demo.com',
+      email: 'dark00@gmail.com',
       role: 'admin',
       ability: [
         {

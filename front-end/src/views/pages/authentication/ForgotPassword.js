@@ -15,14 +15,27 @@ import { ChevronLeft } from 'react-feather'
 
 // ** Styles
 import '@styles/react/pages/page-authentication.scss'
-
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 const ForgotPassword = () => {
   // ** Hooks
   const { skin } = useSkin()
-
+ 
   const illustration = skin === 'dark' ? 'forgot-password-v2-dark.svg' : 'forgot-password-v2.svg',
     source = require(`@src/assets/images/pages/${illustration}`).default
 
+    const handleSubmit = () => {
+      toast.success('Email Sent', 
+      {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined
+        })
+      }
   if (!isUserLoggedIn()) {
     return (
       <div className='auth-wrapper auth-cover'>
@@ -85,20 +98,21 @@ const ForgotPassword = () => {
           </Col>
           <Col className='d-flex align-items-center auth-bg px-2 p-lg-5' lg='4' sm='12'>
             <Col className='px-xl-2 mx-auto' sm='8' md='6' lg='12'>
+            <ToastContainer />
               <CardTitle tag='h2' className='fw-bold mb-1'>
                 Forgot Password? 🔒
               </CardTitle>
               <CardText className='mb-2'>
                 Enter your email and we'll send you instructions to reset your password
               </CardText>
-              <Form className='auth-forgot-password-form mt-2' onSubmit={e => e.preventDefault()}>
+              <Form className='auth-forgot-password-form mt-2' onSubmit={handleSubmit}>
                 <div className='mb-1'>
                   <Label className='form-label' for='login-email'>
                     Email
                   </Label>
                   <Input type='email' id='login-email' placeholder='john@example.com' autoFocus />
                 </div>
-                <Button color='primary' block>
+                <Button type='submit' color='primary' block>
                   Send reset link
                 </Button>
               </Form>

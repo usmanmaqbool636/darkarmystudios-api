@@ -13,7 +13,8 @@ import { Dropdown, DropdownMenu, DropdownToggle, DropdownItem, Badge, Button } f
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
 import { getCartItems, deleteCartItem, getProduct } from '@src/views/apps/ecommerce/store'
-
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 // ** Styles
 import '@styles/react/libs/input-number/input-number.scss'
 
@@ -31,13 +32,27 @@ const CartDropdown = () => {
   }, [])
 
   // ** Function to toggle Dropdown
-  const toggle = () => setDropdownOpen(prevState => !prevState)
+  const toggle = () =>  setDropdownOpen(prevState => !prevState)
+
 
   // ** Function to call on Dropdown Item Click
   const handleDropdownItemClick = id => {
     dispatch(getProduct(id))
     toggle()
   }
+  const onSubmit = () => {
+    toast.success(' Transcation Sucessful ', 
+    {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined
+      })
+      setDropdownOpen(prevState => !prevState)
+    }
 
   // ** Loops through Cart Array to return Cart Items
   const renderCartItems = () => {
@@ -90,10 +105,11 @@ const CartDropdown = () => {
           </PerfectScrollbar>
           <li className='dropdown-menu-footer'>
             <div className='d-flex justify-content-between mb-1'>
+            <ToastContainer />
               <h6 className='fw-bolder mb-0'>Total:</h6>
               <h6 className='text-primary fw-bolder mb-0'>${Number(total.toFixed(2))}</h6>
             </div>
-            <Button tag={Link} to='/apps/ecommerce/checkout' color='primary' block onClick={toggle}>
+            <Button tag={Link} to='/apps/ecommerce/checkout' color='primary' block onClick={onSubmit}>
               Checkout
             </Button>
           </li>

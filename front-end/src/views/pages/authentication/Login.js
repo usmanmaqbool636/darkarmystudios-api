@@ -46,8 +46,8 @@ const ToastContent = ({ name, role }) => (
 )
 
 const defaultValues = {
-  password: 'admin',
-  loginEmail: 'admin@demo.com'
+  password: 'Dark@321',
+  loginEmail: 'dark00@gmail.com'
 }
 
 const Login = () => {
@@ -156,7 +156,7 @@ const Login = () => {
               Welcome to Vuexy! 👋
             </CardTitle>
             <CardText className='mb-2'>Please sign-in to your account and start the adventure</CardText>
-            <Alert color='primary'>
+            {/* <Alert color='primary'>
               <div className='alert-body font-small-2'>
                 <p>
                   <small className='me-50'>
@@ -178,7 +178,7 @@ const Login = () => {
               <UncontrolledTooltip target='login-tip' placement='left'>
                 This is just for ACL demo purpose.
               </UncontrolledTooltip>
-            </Alert>
+            </Alert> */}
             <Form className='auth-login-form mt-2' onSubmit={handleSubmit(onSubmit)}>
               <div className='mb-1'>
                 <Label className='form-label' for='login-email'>
