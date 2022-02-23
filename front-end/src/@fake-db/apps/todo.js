@@ -1,5 +1,5 @@
 import mock from '../mock'
-
+const TASKS = "TASKS"
 const data = {
   tasks: [
     {
@@ -278,7 +278,15 @@ const data = {
 // ------------------------------------------------
 // GET: Return Tasks
 // ------------------------------------------------
+// with local storage
 mock.onGet('/apps/todo/tasks').reply(config => {
+  let tasks = []
+  if (!localStorage.getItem(TASKS)) {
+    localStorage.setItem(TASKS, JSON.stringify(data.tasks))
+    tasks = data.tasks
+  } else {
+    tasks = JSON.parse(localStorage.getItem(TASKS))
+  }
   // eslint-disable-next-line object-curly-newline
   const { q = '', filter, tag, sortBy: sortByParam = 'latest' } = config.params
   /* eslint-enable */
@@ -333,7 +341,7 @@ mock.onGet('/apps/todo/tasks').reply(config => {
   }
 
   /* eslint-disable */
-  const filteredData = data.tasks.filter(task => {
+  const filteredData = tasks.filter(task => {
     if (filter || tag) {
       return (
         task.title.toLowerCase().includes(queryLowered) && hasFilter(task) && (tag ? task.tags.includes(tag) : true)
@@ -389,22 +397,30 @@ mock.onGet('/apps/todo/tasks').reply(config => {
   if (sortDesc) sortedData.reverse()
   return [200, sortedData]
 })
-
 // ------------------------------------------------
 // POST: Add new task
 // ------------------------------------------------
+// with local storage
 mock.onPost('/apps/todo/add-tasks').reply(config => {
   // Get event from post data
+  let tasks = []
+  if (!localStorage.getItem(TASKS)) {
+    localStorage.setItem(TASKS, JSON.stringify(data.tasks))
+    tasks = data.tasks
+  } else {
+    tasks = JSON.parse(localStorage.getItem(TASKS))
+  }
   const { task } = JSON.parse(config.data)
 
-  const { length } = data.tasks
+  const { length } = tasks
   let lastIndex = 0
   if (length) {
-    lastIndex = data.tasks[length - 1].id
+    lastIndex = tasks[length - 1].id
   }
   task.id = lastIndex + 1
 
-  data.tasks.push(task)
+  tasks.push(task)
+  localStorage.setItem(TASKS, JSON.stringify(tasks))
 
   return [201, { task }]
 })
@@ -412,29 +428,32 @@ mock.onPost('/apps/todo/add-tasks').reply(config => {
 // ------------------------------------------------
 // POST: Update Task
 // ------------------------------------------------
+// update tasks with local storage
 mock.onPost('/apps/todo/update-task').reply(config => {
   const taskData = JSON.parse(config.data).task
-
+  let tasks = JSON.parse(localStorage.getItem(TASKS))
   // Convert Id to number
   taskData.id = Number(taskData.id)
+  tasks = tasks.map(task => task.id === taskData.id ? taskData : task)
+  // const task = tasks.find(e => e.id === Number(taskData.id))
+  // Object.assign(task, taskData)
+  
+  localStorage.setItem(TASKS, JSON.stringify(tasks))
 
-  const task = data.tasks.find(e => e.id === Number(taskData.id))
-  Object.assign(task, taskData)
-
-  return [200, { task }]
+  return [200, { task:taskData }]
 })
 
 // ------------------------------------------------
 // DELETE: Remove Task
 // ------------------------------------------------
 mock.onDelete('/apps/todo/delete-task').reply(config => {
+  let tasks = JSON.parse(localStorage.getItem(TASKS))
   // Get task id from URL
   let taskId = config.taskId
 
   // Convert Id to number
   taskId = Number(taskId)
-
-  const task = data.tasks.find(t => t.id === taskId)
-  Object.assign(task, { isDeleted: true })
+  tasks = tasks.map(task => task.id === taskId ? {...task, isDeleted: true} : task)
+  localStorage.setItem(TASKS, JSON.parse(tasks))
   return [200]
 })

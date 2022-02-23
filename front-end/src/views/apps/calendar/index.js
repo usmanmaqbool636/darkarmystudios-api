@@ -26,7 +26,7 @@ const calendarsColor = {
   Holiday: 'success',
   Personal: 'danger',
   Family: 'warning',
-  ETC: 'info'
+  Task: 'info'
 }
 
 const CalendarComponent = () => {

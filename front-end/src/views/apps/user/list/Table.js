@@ -203,11 +203,12 @@ const UsersList = () => {
   // ** User filter options
   const roleOptions = [
     { value: '', label: 'Select Role' },
-    { value: 'admin', label: 'Admin' },
-    { value: 'author', label: 'Author' },
-    { value: 'editor', label: 'Editor' },
-    { value: 'maintainer', label: 'Maintainer' },
-    { value: 'subscriber', label: 'Subscriber' }
+    { value: 'Sudo Admin', label: 'Sudo Admin' },
+    { value: 'Super admin', label: 'Super Admin' },
+    { value: 'Account Admin', label: 'Account Admin' },
+    { value: 'Admin', label: 'Admin' },
+    { value: 'Worker', label: 'Worker' },
+    { value: 'Customer', label: 'Customer' }
   ]
 
   const planOptions = [
@@ -373,7 +374,7 @@ const UsersList = () => {
                 }}
               />
             </Col>
-            <Col className='my-md-0 my-1' md='4'>
+            {/* <Col className='my-md-0 my-1' md='4'>
               <Label for='plan-select'>Plan</Label>
               <Select
                 theme={selectThemeColors}
@@ -398,7 +399,7 @@ const UsersList = () => {
                   )
                 }}
               />
-            </Col>
+            </Col> */}
             <Col md='4'>
               <Label for='status-select'>Status</Label>
               <Select

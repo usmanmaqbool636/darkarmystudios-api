@@ -87,7 +87,7 @@ const AddEventSidebar = props => {
     { value: 'Personal', label: 'Personal', color: 'danger' },
     { value: 'Family', label: 'Family', color: 'warning' },
     { value: 'Holiday', label: 'Holiday', color: 'success' },
-    { value: 'ETC', label: 'ETC', color: 'info' }
+    { value: 'Task', label: 'Task', color: 'info' }
   ]
 
   const guestsOptions = [
