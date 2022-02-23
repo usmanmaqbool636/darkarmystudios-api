@@ -28,7 +28,7 @@ module.exports = {
     // Variable
     // 'init-declarations': 'error',
     'no-use-before-define': 'error',
-    'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z]' }],
+    // 'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z]' }],
 
     // Stylistic Issues
     'array-bracket-newline': ['error', { multiline: true, minItems: null }],
@@ -66,8 +66,8 @@ module.exports = {
     'space-unary-ops': 'error',
 
     // ES6
-    'arrow-spacing': 'error',
-    'no-confusing-arrow': 'error',
+    // 'arrow-spacing': 'error',
+    // 'no-confusing-arrow': 'error',
     'no-duplicate-imports': 'error',
     'no-var': 'error',
     'object-shorthand': 'error',

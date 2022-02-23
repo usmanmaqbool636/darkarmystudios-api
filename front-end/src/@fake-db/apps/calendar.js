@@ -11,6 +11,7 @@ const nextMonth = date.getMonth() === 11 ? new Date(date.getFullYear() + 1, 0, 1
 const prevMonth = date.getMonth() === 11 ? new Date(date.getFullYear() - 1, 0, 1) : new Date(date.getFullYear(), date.getMonth() - 1, 1)
 
 const data = {
+  // TODO update events with local storage
   events: [
     {
       id: 1,
@@ -64,7 +65,7 @@ const data = {
       end: new Date(date.getFullYear(), date.getMonth() + 1, -12),
       allDay: true,
       extendedProps: {
-        calendar: 'ETC'
+        calendar: 'Task'
       }
     },
     {

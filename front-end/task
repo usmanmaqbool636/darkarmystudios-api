@@ -1,0 +1,9 @@
+Lets create the first Module (menu option/plugin) called project more information at ---> https://www.odoo.com/app/project
+Each project will have multiple tasks. And Project and Tasks can have billing, workers and time sheets and other modules attached to them. Lets use the above concept but develop our on UI. Something very fancy with a very good calendar system that can be hosted and exported.
+
+1.Allow user to create multiple projects
+2.Allow users to create multiple tasks on a project.
+3.Task can be assigned to a user and can have deadlines and due dates. We want to cound how many days,hours and minutes were spent on a task.
+4.Each task should appear on the calendar. You will need to make one calender menu and implement the calendar there. The task will appear as clickable labels on the calendar which will open the task page for that task.
+
+Also are some attach flow charts and ERD that the client provided. This is just for the UI development only.

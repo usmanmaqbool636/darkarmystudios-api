@@ -32,24 +32,9 @@ import illustration from '@src/assets/images/illustration/faq-illustrations.svg'
 // ** Vars
 const data = [
   {
-    totalUsers: 4,
-    title: 'Administrator',
+    totalUsers: 1,
+    title: 'Sudo Admin',
     users: [
-      {
-        size: 'sm',
-        title: 'Vinnie Mostowy',
-        img: require('@src/assets/images/avatars/2.png').default
-      },
-      {
-        size: 'sm',
-        title: 'Allen Rieske',
-        img: require('@src/assets/images/avatars/12.png').default
-      },
-      {
-        size: 'sm',
-        title: 'Julee Rossignol',
-        img: require('@src/assets/images/avatars/6.png').default
-      },
       {
         size: 'sm',
         title: 'Kaith Dsouza',
@@ -59,7 +44,7 @@ const data = [
   },
   {
     totalUsers: 7,
-    title: 'Manager',
+    title: 'Super Admin',
     users: [
       {
         size: 'sm',
@@ -90,7 +75,7 @@ const data = [
   },
   {
     totalUsers: 5,
-    title: 'Users',
+    title: 'Account Admin',
     users: [
       {
         size: 'sm',
@@ -121,7 +106,7 @@ const data = [
   },
   {
     totalUsers: 3,
-    title: 'Support',
+    title: 'Admin',
     users: [
       {
         size: 'sm',
@@ -152,7 +137,38 @@ const data = [
   },
   {
     totalUsers: 2,
-    title: 'Restricted User',
+    title: 'Worker',
+    users: [
+      {
+        size: 'sm',
+        title: 'Kim Merchent',
+        img: require('@src/assets/images/avatars/10.png').default
+      },
+      {
+        size: 'sm',
+        title: 'Sam Dsouza',
+        img: require('@src/assets/images/avatars/6.png').default
+      },
+      {
+        size: 'sm',
+        title: 'Nurvi Karlos',
+        img: require('@src/assets/images/avatars/3.png').default
+      },
+      {
+        size: 'sm',
+        title: 'Andrew Tye',
+        img: require('@src/assets/images/avatars/8.png').default
+      },
+      {
+        size: 'sm',
+        title: 'Rossie Kim',
+        img: require('@src/assets/images/avatars/9.png').default
+      }
+    ]
+  },
+  {
+    totalUsers: 2,
+    title: 'Customer',
     users: [
       {
         size: 'sm',
