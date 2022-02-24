@@ -1,9 +1,16 @@
-Lets create the first Module (menu option/plugin) called project more information at ---> https://www.odoo.com/app/project
-Each project will have multiple tasks. And Project and Tasks can have billing, workers and time sheets and other modules attached to them. Lets use the above concept but develop our on UI. Something very fancy with a very good calendar system that can be hosted and exported.
+<!-- """My Remaing Task""" -->
+- Allow user to create multiple projects.
+    ref Layout : https://gitlab.darkarmylabs.com/dark-army-dev-team/profitrack/-/issues/2
+- Allow users to create multiple tasks on a project.
+- Task can be assigned to a user and can have deadlines and due dates. We want to cound how many days,hours and minutes were spent on a task.
+- Each task should appear on the calendar. 
+    You will need to make one calender menu and implement the calendar there. 
+    The task will appear as clickable labels on the calendar which will open the task page for that task.
+- add searchable drop down top of add task button named Projects
+- add searchable drop down top of add task button named Users
+- Task should appear as a new label on calendar which can open a task pop up or slide screen and use the edit button to redirect to task edit screen/page.
 
-1.Allow user to create multiple projects
-2.Allow users to create multiple tasks on a project.
-3.Task can be assigned to a user and can have deadlines and due dates. We want to cound how many days,hours and minutes were spent on a task.
-4.Each task should appear on the calendar. You will need to make one calender menu and implement the calendar there. The task will appear as clickable labels on the calendar which will open the task page for that task.
 
-Also are some attach flow charts and ERD that the client provided. This is just for the UI development only.
+<!-- functionality -->
+You can borrow some functionalities from task that came with the theme --> https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/demo-1/apps/todo . Actually just use that page and link all task to a project, like a project drop down under the add task button. This will save you alot of development time. Click opening a project auto selects that project and opens the task for that project.
+Also link these tasks in to the Calendar that came with theme as clickable labels --> https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/demo-1/apps/calendar . Calendar will have its own menu.

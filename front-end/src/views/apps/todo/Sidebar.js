@@ -1,5 +1,7 @@
 // ** React Imports
 import { Link } from 'react-router-dom'
+import Select, { components } from 'react-select'
+import { selectThemeColors } from '@utils'
 
 // ** Third Party Components
 import classnames from 'classnames'
@@ -7,7 +9,17 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import { Mail, Star, Check, Trash, Plus } from 'react-feather'
 
 // ** Reactstrap Imports
-import { Button, ListGroup, ListGroupItem } from 'reactstrap'
+import { Button, ListGroup, ListGroupItem, Label, Container } from 'reactstrap'
+
+
+const colorOptions = [
+  { value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
+  { value: 'blue', label: 'Blue', color: '#0052CC', isFixed: true },
+  { value: 'purple', label: 'Purple', color: '#5243AA', isFixed: true },
+  { value: 'red', label: 'Red', color: '#FF5630', isFixed: false },
+  { value: 'orange', label: 'Orange', color: '#FF8B00', isFixed: false },
+  { value: 'yellow', label: 'Yellow', color: '#FFC400', isFixed: false }
+]
 
 const TodoSidebar = props => {
   // ** Props
@@ -46,6 +58,40 @@ const TodoSidebar = props => {
       <div className='sidebar'>
         <div className='sidebar-content todo-sidebar'>
           <div className='todo-app-menu'>
+
+            {/* project */}
+            <Container>
+              
+              <Label className='form-label'>Select Project</Label>
+              <Select
+                // menuIsOpen={true}
+                isClearable={false}
+                theme={selectThemeColors}
+                // defaultValue={[colorOptions[2], colorOptions[3]]}
+                // isMulti={false}
+                name='project'
+                options={colorOptions}
+                className='react-select'
+                classNamePrefix='select'
+                />
+                <br/>
+              <Label className='form-label'>Select User</Label>
+                <Select
+                  // menuIsOpen={true}
+                  isClearable={false}
+                  theme={selectThemeColors}
+                  // defaultValue={[colorOptions[2], colorOptions[3]]}
+                  // isMulti={false}
+                  name='user'
+                  options={colorOptions}
+                  className='react-select'
+                  classNamePrefix='select'
+                />
+                
+              </Container>
+            
+            {/*  */}
+
             <div className='add-task'>
               <Button color='primary' onClick={handleAddClick} block>
                 Add Task
