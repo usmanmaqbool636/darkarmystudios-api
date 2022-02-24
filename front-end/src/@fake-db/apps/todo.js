@@ -1,5 +1,6 @@
 import mock from '../mock'
-const TASKS = "TASKS"
+import { TASKS } from "./constant"
+
 const data = {
   tasks: [
     {
@@ -278,7 +279,7 @@ const data = {
 // ------------------------------------------------
 // GET: Return Tasks
 // ------------------------------------------------
-// with local storage
+// with localstorage
 mock.onGet('/apps/todo/tasks').reply(config => {
   let tasks = []
   if (!localStorage.getItem(TASKS)) {
@@ -403,13 +404,8 @@ mock.onGet('/apps/todo/tasks').reply(config => {
 // with local storage
 mock.onPost('/apps/todo/add-tasks').reply(config => {
   // Get event from post data
-  let tasks = []
-  if (!localStorage.getItem(TASKS)) {
-    localStorage.setItem(TASKS, JSON.stringify(data.tasks))
-    tasks = data.tasks
-  } else {
-    tasks = JSON.parse(localStorage.getItem(TASKS))
-  }
+  const tasks = JSON.parse(localStorage.getItem(TASKS)) || data.tasks
+
   const { task } = JSON.parse(config.data)
 
   const { length } = tasks
@@ -430,8 +426,8 @@ mock.onPost('/apps/todo/add-tasks').reply(config => {
 // ------------------------------------------------
 // update tasks with local storage
 mock.onPost('/apps/todo/update-task').reply(config => {
+  let tasks = JSON.parse(localStorage.getItem(TASKS)) || data.tasks
   const taskData = JSON.parse(config.data).task
-  let tasks = JSON.parse(localStorage.getItem(TASKS))
   // Convert Id to number
   taskData.id = Number(taskData.id)
   tasks = tasks.map(task => task.id === taskData.id ? taskData : task)
@@ -446,14 +442,15 @@ mock.onPost('/apps/todo/update-task').reply(config => {
 // ------------------------------------------------
 // DELETE: Remove Task
 // ------------------------------------------------
+// with localstorage
 mock.onDelete('/apps/todo/delete-task').reply(config => {
-  let tasks = JSON.parse(localStorage.getItem(TASKS))
+  let tasks = JSON.parse(localStorage.getItem(TASKS)) || data.tasks
   // Get task id from URL
   let taskId = config.taskId
 
   // Convert Id to number
   taskId = Number(taskId)
-  tasks = tasks.map(task => task.id === taskId ? {...task, isDeleted: true} : task)
-  localStorage.setItem(TASKS, JSON.parse(tasks))
+  tasks = tasks.filter(task => task.id !== taskId)
+  localStorage.setItem(TASKS, JSON.stringify(tasks))
   return [200]
 })
