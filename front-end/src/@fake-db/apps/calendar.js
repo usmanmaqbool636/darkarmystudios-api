@@ -136,20 +136,6 @@ mock.onGet('/apps/calendar/events').reply(config => {
   let tasks = JSON.parse(localStorage.getItem(TASKS)) || [];
   let events = JSON.parse(localStorage.getItem(EVENTS)) || data.events;
 
-
-  // if(!localStorage.getItem(EVENTS)){
-  // Example Calendar Event
-  // {
-  //   id: 5,
-  //   url: '',
-  //   title: 'Dart Game?',
-  //   start: new Date(date.getFullYear(), date.getMonth() + 1, -13),
-  //   end: new Date(date.getFullYear(), date.getMonth() + 1, -12),
-  //   allDay: true,
-  //   extendedProps: {
-  //     calendar: 'Task'
-  //   }
-  // },
     const taskEvents = tasks.map(task=>{
       const date = new Date(task.dueDate);
       console.log(date);
@@ -160,9 +146,9 @@ mock.onGet('/apps/calendar/events').reply(config => {
         id : task.id+Date.now(),
         tid: task.id,
         url : "",
-        start: new Date(date.getFullYear(), date.getMonth()+1,date.getDay()),
         // start is not defined in tasks
         // we need to some how manage start date
+        start: new Date(date.getFullYear(), date.getMonth()+1,date.getDay()),
         end : task.dueDate,
         allDay : true,
         extendedProps : {
@@ -170,32 +156,8 @@ mock.onGet('/apps/calendar/events').reply(config => {
         }
       }
     })
-  // const eventsWithTasks = [...events, ...taskEvents]
-  // localStorage.setItem(EVENTS,JSON.stringify(events))
     events = [...events, ...taskEvents]
-  // } 
-  // else {
-  //   events = JSON.parse(localStorage.getItem(EVENTS))
-  // }
 
-  // const taskEvents = tasks.map(task=>{
-  //   const date = new Date(task.dueDate);
-  //   return {
-  //     ...task,
-  //     id : task.id+Date.now(),
-  //     url : "",
-  //     start: new Date(date.getFullYear(), date.getMonth() + 1, -13),
-  //     // start is not defined in tasks
-  //     // we need to some how manage start date
-  //     end : task.dueDate,
-  //     allDay : true,
-  //     extendedProps : {
-  //       calendar: 'Task'
-  //     }
-  //   }
-  // })
-
-  // const eventsWithTasks = [...events, ...taskEvents]
   const calendars = config.calendars
   
   return [200, events.filter(event => calendars.includes(event.extendedProps.calendar))]

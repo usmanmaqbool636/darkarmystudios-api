@@ -396,7 +396,7 @@ mock.onGet('/apps/todo/tasks').reply(config => {
   // Sort Data
   const sortedData = filteredData.sort(sortTasks(sortBy))
   if (sortDesc) sortedData.reverse()
-  // working but somehow  "q" is overwrites
+  // working but somehow  "q" is overwrites with empty string q = ''
   // const queryTask = sortedData.filter(task => {
   //   const regex = new RegExp(`${q}`, "gi")
   //   return task.assignee.fullName.match(regex)
@@ -437,8 +437,6 @@ mock.onPost('/apps/todo/update-task').reply(config => {
   // Convert Id to number
   taskData.id = Number(taskData.id)
   tasks = tasks.map(task => task.id === taskData.id ? taskData : task)
-  // const task = tasks.find(e => e.id === Number(taskData.id))
-  // Object.assign(task, taskData)
   
   localStorage.setItem(TASKS, JSON.stringify(tasks))
 
