@@ -1,5 +1,6 @@
 /*eslint-disable */
 import mock from '../mock'
+import { EVENTS, TASKS } from './constant'
 
 const date = new Date()
 const prevDay = new Date().getDate() - 1
@@ -11,7 +12,7 @@ const nextMonth = date.getMonth() === 11 ? new Date(date.getFullYear() + 1, 0, 1
 const prevMonth = date.getMonth() === 11 ? new Date(date.getFullYear() - 1, 0, 1) : new Date(date.getFullYear(), date.getMonth() - 1, 1)
 
 const data = {
-  // TODO update events with local storage
+  // TODO updated events with localstorage
   events: [
     {
       id: 1,
@@ -129,28 +130,94 @@ const data = {
 // ------------------------------------------------
 // GET: Return calendar events
 // ------------------------------------------------
+// with localstorage
 mock.onGet('/apps/calendar/events').reply(config => {
   // Get requested calendars as Array
-  const calendars = config.calendars
+  let tasks = JSON.parse(localStorage.getItem(TASKS)) || [];
+  let events = JSON.parse(localStorage.getItem(EVENTS)) || data.events;
 
-  return [200, data.events.filter(event => calendars.includes(event.extendedProps.calendar))]
+
+  // if(!localStorage.getItem(EVENTS)){
+  // Example Calendar Event
+  // {
+  //   id: 5,
+  //   url: '',
+  //   title: 'Dart Game?',
+  //   start: new Date(date.getFullYear(), date.getMonth() + 1, -13),
+  //   end: new Date(date.getFullYear(), date.getMonth() + 1, -12),
+  //   allDay: true,
+  //   extendedProps: {
+  //     calendar: 'Task'
+  //   }
+  // },
+    const taskEvents = tasks.map(task=>{
+      const date = new Date(task.dueDate);
+      console.log(date);
+      console.log(date.getMonth());
+      console.log(date.getDay());
+      return {
+        ...task,
+        id : task.id+Date.now(),
+        tid: task.id,
+        url : "",
+        start: new Date(date.getFullYear(), date.getMonth()+1,date.getDay()),
+        // start is not defined in tasks
+        // we need to some how manage start date
+        end : task.dueDate,
+        allDay : true,
+        extendedProps : {
+          calendar: 'Task'
+        }
+      }
+    })
+  // const eventsWithTasks = [...events, ...taskEvents]
+  // localStorage.setItem(EVENTS,JSON.stringify(events))
+    events = [...events, ...taskEvents]
+  // } 
+  // else {
+  //   events = JSON.parse(localStorage.getItem(EVENTS))
+  // }
+
+  // const taskEvents = tasks.map(task=>{
+  //   const date = new Date(task.dueDate);
+  //   return {
+  //     ...task,
+  //     id : task.id+Date.now(),
+  //     url : "",
+  //     start: new Date(date.getFullYear(), date.getMonth() + 1, -13),
+  //     // start is not defined in tasks
+  //     // we need to some how manage start date
+  //     end : task.dueDate,
+  //     allDay : true,
+  //     extendedProps : {
+  //       calendar: 'Task'
+  //     }
+  //   }
+  // })
+
+  // const eventsWithTasks = [...events, ...taskEvents]
+  const calendars = config.calendars
+  
+  return [200, events.filter(event => calendars.includes(event.extendedProps.calendar))]
 })
 
 // ------------------------------------------------
 // POST: Add new event
 // ------------------------------------------------
+// with localstorage
 mock.onPost('/apps/calendar/add-event').reply(config => {
   // Get event from post data
   const { event } = JSON.parse(config.data)
-
-  const { length } = data.events
+  const events = JSON.parse(localStorage.getItem(EVENTS)) || data.events
+  const { length } = events
   let lastIndex = 0
   if (length) {
-    lastIndex = data.events[length - 1].id
+    lastIndex = events[length - 1].id
   }
   event.id = lastIndex + 1
 
-  data.events.push(event)
+  events.push(event)
+  localStorage.setItem(EVENTS,JSON.stringify(events))
 
   return [201, { event }]
 })
@@ -158,29 +225,38 @@ mock.onPost('/apps/calendar/add-event').reply(config => {
 // ------------------------------------------------
 // POST: Update Event
 // ------------------------------------------------
+// with localstorage
 mock.onPost('/apps/calendar/update-event').reply(config => {
+
+  let events = JSON.parse(localStorage.getItem(EVENTS)) || data.events
   const { event: eventData } = JSON.parse(config.data)
 
   // Convert Id to number
   eventData.id = Number(eventData.id)
 
-  const event = data.events.find(ev => ev.id === Number(eventData.id))
-  Object.assign(event, eventData)
-
-  return [200, { event }]
+  events = events.map(ev => ev.id === Number(eventData.id)?eventData:ev)
+  localStorage.setItem(EVENTS,JSON.stringify(events))
+  
+  return [200, { event:eventData }]
 })
 
 // ------------------------------------------------
 // DELETE: Remove Event
 // ------------------------------------------------
+// with localstorage
 mock.onDelete('/apps/calendar/remove-event').reply(config => {
   // Get event id from URL
+  let events = JSON.parse(localStorage.getItem(EVENTS)) || data.events
+
   let { id } = config
+  
 
   // Convert Id to number
   const eventId = Number(id)
 
-  const eventIndex = data.events.findIndex(ev => ev.id === eventId)
-  data.events.splice(eventIndex, 1)
+  const eventIndex = events.findIndex(ev => ev.id === eventId)
+  events.splice(eventIndex, 1);
+  localStorage.setItem(EVENTS,JSON.stringify(events))
+
   return [200]
 })
