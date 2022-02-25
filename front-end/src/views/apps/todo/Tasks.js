@@ -1,5 +1,5 @@
 // ** React Imports
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useHistory } from 'react-router-dom'
 
 // ** Custom Components
 import Avatar from '@components/avatar'
@@ -24,9 +24,12 @@ import {
   DropdownToggle,
   UncontrolledDropdown
 } from 'reactstrap'
+import React, { useEffect } from 'react'
 
 const Tasks = props => {
-  // ** Props
+  const location = useLocation()
+  const history = useHistory()
+
   const {
     query,
     tasks,
@@ -42,11 +45,31 @@ const Tasks = props => {
     handleMainSidebar
   } = props
 
-  // ** Function to selectTask on click
-  const handleTaskClick = obj => {
-    dispatch(selectTask(obj))
-    handleTaskSidebar()
-  }
+    // ** Function to selectTask on click
+    const handleTaskClick = obj => {
+      dispatch(selectTask(obj))
+      handleTaskSidebar()
+      const queryParams = new URLSearchParams(location.search)
+      if (queryParams.has('taskid')) {
+        queryParams.delete('taskid')
+        history.replace({
+          search: queryParams.toString()
+        })
+      }
+    }
+
+    useEffect(() => {
+      // const search = location.search // result: '?taskid=abc'
+      const queryParams = new URLSearchParams(location.search)
+      const taskid = queryParams.get('taskid')
+      const task = tasks.find(t => t.id === Number(taskid))
+      console.log(task)
+      if (task) {
+        handleTaskClick(task)
+      }
+    }, [location, tasks])
+  
+  // ** Props
 
   // ** Returns avatar color based on task tag
   const resolveAvatarVariant = tags => {

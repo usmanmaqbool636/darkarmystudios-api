@@ -15,6 +15,7 @@ import Avatar from '@components/avatar'
 import { toast } from 'react-toastify'
 import { Card, CardBody } from 'reactstrap'
 import { Menu, Check } from 'react-feather'
+import { useHistory } from "react-router-dom"
 
 // ** Toast Component
 const ToastComponent = ({ title, icon, color }) => (
@@ -31,6 +32,7 @@ const ToastComponent = ({ title, icon, color }) => (
 const Calendar = props => {
   // ** Refs
   const calendarRef = useRef(null)
+  const history = useHistory()
 
   // ** Props
   const {
@@ -104,6 +106,16 @@ const Calendar = props => {
     },
 
     eventClick({ event: clickedEvent }) {
+      console.log(clickedEvent)
+      if (clickedEvent._def.extendedProps.calendar === "Task") {
+        // return  history.push({
+        //   pathname: '/apps/todos'
+          // state:{
+          //   taskid : clickedEvent._def.publicId
+          // }
+        // })
+        return history.push(`/apps/todo?taskid=${clickedEvent._def.extendedProps.tid}`)
+      }
       dispatch(selectEvent(clickedEvent))
       handleAddEventSidebar()
 

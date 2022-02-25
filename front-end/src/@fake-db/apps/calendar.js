@@ -158,6 +158,7 @@ mock.onGet('/apps/calendar/events').reply(config => {
       return {
         ...task,
         id : task.id+Date.now(),
+        tid: task.id,
         url : "",
         start: new Date(date.getFullYear(), date.getMonth()+1,date.getDay()),
         // start is not defined in tasks

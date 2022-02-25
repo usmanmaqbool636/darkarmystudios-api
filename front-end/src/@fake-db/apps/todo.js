@@ -289,7 +289,7 @@ mock.onGet('/apps/todo/tasks').reply(config => {
     tasks = JSON.parse(localStorage.getItem(TASKS))
   }
   // eslint-disable-next-line object-curly-newline
-  const { q = '', filter, tag, sortBy: sortByParam = 'latest' } = config.params
+  const { q, filter, tag, sortBy: sortByParam = 'latest' } = config.params
   /* eslint-enable */
   // ------------------------------------------------
   // Get Sort by and Sort Direction
@@ -396,6 +396,12 @@ mock.onGet('/apps/todo/tasks').reply(config => {
   // Sort Data
   const sortedData = filteredData.sort(sortTasks(sortBy))
   if (sortDesc) sortedData.reverse()
+  // working but somehow  "q" is overwrites
+  // const queryTask = sortedData.filter(task => {
+  //   const regex = new RegExp(`${q}`, "gi")
+  //   return task.assignee.fullName.match(regex)
+  // })
+  // const queryTask = sortedData.filter(task => task.assignee.fullName === RegExp(q))
   return [200, sortedData]
 })
 // ------------------------------------------------
