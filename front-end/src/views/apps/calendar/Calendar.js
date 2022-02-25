@@ -108,12 +108,6 @@ const Calendar = props => {
     eventClick({ event: clickedEvent }) {
       console.log(clickedEvent)
       if (clickedEvent._def.extendedProps.calendar === "Task") {
-        // return  history.push({
-        //   pathname: '/apps/todos'
-          // state:{
-          //   taskid : clickedEvent._def.publicId
-          // }
-        // })
         return history.push(`/apps/todo?taskid=${clickedEvent._def.extendedProps.tid}`)
       }
       dispatch(selectEvent(clickedEvent))

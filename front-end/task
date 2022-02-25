@@ -3,13 +3,19 @@
     ref Layout : https://gitlab.darkarmylabs.com/dark-army-dev-team/profitrack/-/issues/2
 - Allow users to create multiple tasks on a project (related to project).
 - Task can be assigned to a user and can have deadlines and due dates. 
-    We want to count how many days,hours and minutes were spent on a task.
+    We want to count how many days,hours and minutes were spent on a task (info).
+
+
 - Each task should appear on the calendar. 
     You will need to make one calender menu and implement the calendar there (done). 
-    The task will appear as clickable labels on the calendar which will open the task page for that task.
-- add searchable drop down top of add task button named Projects (done but not functional)
-- add searchable drop down top of add task button named Users (done but not functional)
-- Task should appear as a new label on calendar which can open a task pop up or slide screen and use the edit button to redirect to task edit screen/page.
+    The task will appear as clickable labels on the calendar which will open the task page for that task (done).
+
+- add searchable drop down top of add task button named Projects 
+    (done but not functional) 
+    (related to project)
+
+- add searchable drop down top of add task button named Users (have some error)
+- Task should appear as a new label on calendar which can open a task pop up or slide screen and use the edit button to redirect to task edit screen/page (done).
 
 
 <!-- functionality -->

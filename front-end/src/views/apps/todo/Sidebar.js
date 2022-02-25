@@ -1,6 +1,6 @@
 // ** React Imports
 import { Link } from 'react-router-dom'
-import React, { useState } from 'react'
+import React from 'react'
 import Select from 'react-select'
 import { selectThemeColors } from '@utils'
 
@@ -9,13 +9,6 @@ import classnames from 'classnames'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { Mail, Star, Check, Trash, Plus } from 'react-feather'
 
-// no need of images
-// import img1 from '@src/assets/images/portrait/small/avatar-s-3.jpg'
-// import img2 from '@src/assets/images/portrait/small/avatar-s-1.jpg'
-// import img3 from '@src/assets/images/portrait/small/avatar-s-4.jpg'
-// import img4 from '@src/assets/images/portrait/small/avatar-s-6.jpg'
-// import img5 from '@src/assets/images/portrait/small/avatar-s-2.jpg'
-// import img6 from '@src/assets/images/portrait/small/avatar-s-11.jpg'
 
 // ** Reactstrap Imports
 import { Button, ListGroup, ListGroupItem, Label, Container } from 'reactstrap'
@@ -30,14 +23,6 @@ const assigneeOptions = [
   { value: 'Rachel', label: 'Rachel Green' }
 ]
 
-// const colorOptions = [
-//   { value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
-//   { value: 'blue', label: 'Blue', color: '#0052CC', isFixed: true },
-//   { value: 'purple', label: 'Purple', color: '#5243AA', isFixed: true },
-//   { value: 'red', label: 'Red', color: '#FF5630', isFixed: false },
-//   { value: 'orange', label: 'Orange', color: '#FF8B00', isFixed: false },
-//   { value: 'yellow', label: 'Yellow', color: '#FFC400', isFixed: false }
-// ]
 const projects = [
   { value: 'p1', label: 'p1', isFixed: true },
   { value: 'p2', label: 'p2', isFixed: true },
@@ -46,8 +31,6 @@ const projects = [
 ]
 
 const TodoSidebar = props => {
-
-  const [user, selectUser] = useState("")
   
   // ** Props
   const { handleTaskSidebar, setMainSidebar, mainSidebar, dispatch, getTasks, params } = props
@@ -77,9 +60,7 @@ const TodoSidebar = props => {
     setMainSidebar()
   }
   const changeUser = (e) => {
-    console.log(params)
     dispatch(getTasks({ ...params, q:e.label }))
-    // selectUser(e.label)
   }
 
   return (
