@@ -135,14 +135,13 @@ const Tasks = props => {
 
     {tasks.length ? (
       <Container>
-
-      <Row className='match-height'>
-        {tasks.map(item => {
-          return  (
-            <Col lg='4' md='6'>
-                <ProjectCard item={item} />
-              </Col>
-            )
+        <Row className='match-height'>
+          {tasks.map(item => {
+            return  (
+              <Col lg='4' md='6'>
+                  <ProjectCard key={`project-${item.id}`} item={item} />
+                </Col>
+              )
           })}
       </Row>
     </Container>
@@ -151,62 +150,6 @@ const Tasks = props => {
             <h5>No Items Found</h5>
           </div>
         )}
-
-        {/* {tasks.length ? (
-          <ReactSortable
-            tag='div'
-            list={tasks}
-            handle='.drag-icon'
-            className='todo-task-list media-list'
-            setList={newState => dispatch(reOrderTasks(newState))}
-          >
-            {tasks.map(item => {
-              return <ProjectCard />
-              return (
-                <li
-                  key={item.id}
-                  onClick={() => handleTaskClick(item)}
-                  className={classnames('todo-item', {
-                    completed: item.isCompleted
-                  })}
-                >
-                  <div className='todo-title-wrapper'>
-                    <div className='todo-title-area'>
-                      <MoreVertical className='drag-icon' />
-                      <div className='form-check'>
-                        <Input
-                          type='checkbox'
-                          id={item.title}
-                          checked={item.isCompleted}
-                          onClick={e => e.stopPropagation()}
-                          onChange={e => {
-                            e.stopPropagation()
-                            dispatch(updateTask({ ...item, isCompleted: e.target.checked }))
-                          }}
-                        />
-                      </div>
-                      <span className='todo-title'>{item.title}</span>
-                    </div>
-                    <div className='todo-item-action mt-lg-0 mt-50'>
-                      {item.tags.length ? <div className='badge-wrapper me-1'>{renderTags(item.tags)}</div> : null}
-                      {item.dueDate ? (
-                        <small className='text-nowrap text-muted me-1'>
-                          {new Date(item.dueDate).toLocaleString('default', { month: 'short' })}{' '}
-                          {new Date(item.dueDate).getDate().toString().padStart(2, '0')}
-                        </small>
-                      ) : null}
-                      {item.assignee ? renderAvatar(item) : null}
-                    </div>
-                  </div>
-                </li>
-              )
-            })}
-          </ReactSortable>
-        ) : (
-          <div className='no-results show'>
-            <h5>No Items Found</h5>
-          </div>
-        )} */}
       </PerfectScrollbar>
     )
   }

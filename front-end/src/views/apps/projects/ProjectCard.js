@@ -1,13 +1,14 @@
 // ** Third Party Components
 import classnames from 'classnames'
-
+import moment from "moment"
 // ** Custom Components
 import Avatar from '@components/avatar'
 
 // ** Reactstrap Imports
 import { Card, CardTitle, CardBody, CardText, Badge, Button } from 'reactstrap'
 
-const CardAppDesign = () => {
+const CardAppDesign = ({ item }) => {
+  // this should come from parent
   const avatarArr = [
     {
       img: require('@src/assets/images/portrait/small/avatar-s-9.jpg').default,
@@ -33,7 +34,7 @@ const CardAppDesign = () => {
       color: 'light-secondary'
     }
   ]
-
+  // this should come from parent
   const designPlanningArr = [
     {
       title: 'Due Date',
@@ -50,22 +51,25 @@ const CardAppDesign = () => {
   ]
 
   return (
-    <Card className='card-app-design'>
+    <Card className='card-app-design card-app-design-custom'  >
       <CardBody>
-        <Badge color='light-primary'>03 Sep, 20</Badge>
-        <CardTitle className='mt-1 mb-75'>App design</CardTitle>
+        <Badge color='light-primary'>{moment().format('DD MMM, YYYY')}</Badge>
+        <CardTitle className='mt-1 mb-75'>{item.title}</CardTitle>
         <CardText className='font-small-2 mb-2'>
           You can Find Only Post and Quotes Related to IOS like ipad app design, iphone app design
         </CardText>
         <div className='design-group mb-2 pt-50'>
           <h6 className='section-label'>Team</h6>
-          <Badge className='me-1' color='light-warning'>
-            Figma
-          </Badge>
-          <Badge color='light-primary'>Wireframe</Badge>
+          {item.tags.map(tag=>(
+            <Badge key={`tag-${tag}-${item.id}`} className='me-1' color='light-warning'>
+
+              {tag}
+            </Badge>
+          ))}
         </div>
         <div className='design-group pt-25'>
           <h6 className='section-label'>Members</h6>
+          {/* members come from parent [avatar] */}
           {avatarArr.map((obj, index) => {
             return <Avatar key={index} className={classnames({ 'me-75': index !== avatarArr.length - 1 })} {...obj} />
           })}
@@ -78,8 +82,9 @@ const CardAppDesign = () => {
             </div>
           ))}
         </div>
-        <div className='d-grid'>
+        <div className='d-flex justify-content-around'>
           <Button color='primary'>Join Team</Button>
+          <Button color='secondary'>Add Taks</Button>
         </div>
       </CardBody>
     </Card>

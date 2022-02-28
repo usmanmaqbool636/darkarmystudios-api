@@ -187,7 +187,12 @@
     margin-top: 0.25rem;
   }
 }
-
+.card-app-design-custom{
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 3px 10px 0 #ebe9f1;
+  }
+}
 // while dragging task
 .gu-mirror {
   list-style-type: none;
