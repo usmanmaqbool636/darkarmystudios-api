@@ -81,16 +81,16 @@ const TodoSidebar = props => {
                 <ListGroupItem
                   action
                   tag={Link}
-                  to={'/apps/todo/'}
+                  to={'/apps/project/'}
                   active={params.filter === '' && params.tag === ''}
                   onClick={() => handleFilter('')}
                 >
                   <Mail className='me-75' size={18} />
-                  <span className='align-middle'>My Tasks</span>
+                  <span className='align-middle'>My Project</span>
                 </ListGroupItem>
                 <ListGroupItem
                   tag={Link}
-                  to={'/apps/todo/important'}
+                  to={'/apps/project/important'}
                   active={handleActiveItem('important')}
                   onClick={() => handleFilter('important')}
                   action
@@ -100,7 +100,7 @@ const TodoSidebar = props => {
                 </ListGroupItem>
                 <ListGroupItem
                   tag={Link}
-                  to={'/apps/todo/completed'}
+                  to={'/apps/project/completed'}
                   active={handleActiveItem('completed')}
                   onClick={() => handleFilter('completed')}
                   action
@@ -110,7 +110,7 @@ const TodoSidebar = props => {
                 </ListGroupItem>
                 <ListGroupItem
                   tag={Link}
-                  to={'/apps/todo/deleted'}
+                  to={'/apps/project/deleted'}
                   active={handleActiveItem('deleted')}
                   onClick={() => handleFilter('deleted')}
                   action
@@ -119,7 +119,8 @@ const TodoSidebar = props => {
                   <span className='align-middle'>Deleted</span>
                 </ListGroupItem>
               </ListGroup>
-              <div className='mt-3 px-2 d-flex justify-content-between'>
+              {/* may be used in future so don't remove just uncomment */}
+              {/* <div className='mt-3 px-2 d-flex justify-content-between'>
                 <h6 className='section-label mb-1'>Tags</h6>
                 <Plus className='cursor-pointer' size={14} />
               </div>
@@ -179,7 +180,7 @@ const TodoSidebar = props => {
                   <span className='bullet bullet-sm bullet-info me-1'></span>
                   <span className='align-middle'>Update</span>
                 </ListGroupItem>
-              </ListGroup>
+              </ListGroup> */}
             </PerfectScrollbar>
           </div>
         </div>

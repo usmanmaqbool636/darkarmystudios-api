@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getTasks, updateTask, selectTask, addTask, deleteTask, reOrderTasks } from './store'
 
 // ** Styles
-// import '@styles/react/apps/app-todo.scss'
+import '@styles/react/apps/app-project.scss'
 
 const TODO = () => {
   // ** States
