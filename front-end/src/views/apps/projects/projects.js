@@ -13,6 +13,7 @@ import { ReactSortable } from 'react-sortablejs'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { Menu, Search, MoreVertical } from 'react-feather'
 
+import ProjectCard from "./ProjectCard"
 // ** Reactstrap Imports
 import {
   Input,
@@ -22,7 +23,10 @@ import {
   DropdownItem,
   InputGroupText,
   DropdownToggle,
-  UncontrolledDropdown
+  UncontrolledDropdown,
+  Row,
+  Col,
+  Container
 } from 'reactstrap'
 import React, { useEffect } from 'react'
 
@@ -128,15 +132,36 @@ const Tasks = props => {
           }
         }}
       >
-        {tasks.length ? (
+
+    {tasks.length ? (
+      <Container>
+
+      <Row className='match-height'>
+        {tasks.map(item => {
+          return  (
+            <Col lg='4' md='6'>
+                <ProjectCard item={item} />
+              </Col>
+            )
+          })}
+      </Row>
+    </Container>
+        ) : (
+          <div className='no-results show'>
+            <h5>No Items Found</h5>
+          </div>
+        )}
+
+        {/* {tasks.length ? (
           <ReactSortable
-            tag='ul'
+            tag='div'
             list={tasks}
             handle='.drag-icon'
             className='todo-task-list media-list'
             setList={newState => dispatch(reOrderTasks(newState))}
           >
             {tasks.map(item => {
+              return <ProjectCard />
               return (
                 <li
                   key={item.id}
@@ -181,7 +206,7 @@ const Tasks = props => {
           <div className='no-results show'>
             <h5>No Items Found</h5>
           </div>
-        )}
+        )} */}
       </PerfectScrollbar>
     )
   }

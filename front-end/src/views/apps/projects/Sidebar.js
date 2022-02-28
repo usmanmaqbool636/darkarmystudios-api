@@ -89,6 +89,7 @@ const TodoSidebar = props => {
                   <span className='align-middle'>My Project</span>
                 </ListGroupItem>
                 <ListGroupItem
+                  disabled={true}
                   tag={Link}
                   to={'/apps/project/important'}
                   active={handleActiveItem('important')}
@@ -99,6 +100,7 @@ const TodoSidebar = props => {
                   <span className='align-middle'>Important</span>
                 </ListGroupItem>
                 <ListGroupItem
+                  disabled={true}
                   tag={Link}
                   to={'/apps/project/completed'}
                   active={handleActiveItem('completed')}
@@ -109,6 +111,7 @@ const TodoSidebar = props => {
                   <span className='align-middle'>Completed</span>
                 </ListGroupItem>
                 <ListGroupItem
+                  disabled={true}
                   tag={Link}
                   to={'/apps/project/deleted'}
                   active={handleActiveItem('deleted')}

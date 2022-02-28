@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom'
 import classnames from 'classnames'
 
 // ** Todo App Components
-import Tasks from './Tasks'
+import Projects from './projects'
 import Sidebar from './Sidebar'
 import TaskSidebar from './TaskSidebar'
 
@@ -41,7 +41,7 @@ const TODO = () => {
   const handleMainSidebar = () => setMainSidebar(!mainSidebar)
   const handleTaskSidebar = () => setOpenTaskSidebar(!openTaskSidebar)
 
-  // ** Get Tasks on mount & based on dependency change
+  // ** Get Projects on mount & based on dependency change
   useEffect(() => {
     dispatch(
       getTasks({
@@ -76,7 +76,7 @@ const TODO = () => {
             ></div>
 
             {store ? (
-              <Tasks
+              <Projects
                 store={store}
                 tasks={store.tasks}
                 sort={sort}
