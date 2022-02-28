@@ -1,5 +1,5 @@
 <!-- """My Remaing Task""" -->
-- Allow user to create multiple projects (long task).
+- Allow user to create multiple projects (long task) (working).
     ref Layout : https://gitlab.darkarmylabs.com/dark-army-dev-team/profitrack/-/issues/2
 - Allow users to create multiple tasks on a project (related to project).
 - Task can be assigned to a user and can have deadlines and due dates. 

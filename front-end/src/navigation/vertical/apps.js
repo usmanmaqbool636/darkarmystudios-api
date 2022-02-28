@@ -1,5 +1,5 @@
 // ** Icons Import
-import { Mail, MessageSquare, CheckSquare, Calendar, FileText, Circle, ShoppingCart, User, Shield } from 'react-feather'
+import { Mail, MessageSquare, CheckSquare, Calendar, FileText, Circle, ShoppingCart, User, Shield, Trello } from 'react-feather'
 
 export default [
   {
@@ -30,6 +30,12 @@ export default [
     title: 'Calendar',
     icon: <Calendar size={20} />,
     navLink: '/apps/calendar'
+  },
+  {
+    id: 'Project',
+    title: 'Project',
+    icon: <Trello size={20} />,
+    navLink: '/apps/project'
   },
   {
     id: 'invoiceApp',

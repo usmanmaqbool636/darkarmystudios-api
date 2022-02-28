@@ -70,6 +70,14 @@ const AppRoutes = [
     }
   },
   {
+    path: '/apps/project',
+    exact: true,
+    appLayout: true,
+    // className should be changed in when ever needed
+    className: 'todo-application',
+    component: lazy(() => import('../../views/apps/projects'))
+  },
+  {
     path: '/apps/calendar',
     component: lazy(() => import('../../views/apps/calendar'))
   },
