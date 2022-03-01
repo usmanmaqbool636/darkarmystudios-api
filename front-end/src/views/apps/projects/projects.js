@@ -36,14 +36,14 @@ const Tasks = props => {
 
   const {
     query,
-    tasks,
+    projects,
     params,
     setSort,
     dispatch,
-    getTasks,
+    getProjects,
     setQuery,
-    updateTask,
-    selectTask,
+    updateProject,
+    selectProject,
     reOrderTasks,
     handleTaskSidebar,
     handleMainSidebar
@@ -51,7 +51,7 @@ const Tasks = props => {
 
     // ** Function to selectTask on click
     const handleTaskClick = obj => {
-      dispatch(selectTask(obj))
+      dispatch(selectProject(obj))
       handleTaskSidebar()
       const queryParams = new URLSearchParams(location.search)
       if (queryParams.has('taskid')) {
@@ -66,12 +66,11 @@ const Tasks = props => {
       // const search = location.search // result: '?taskid=abc'
       const queryParams = new URLSearchParams(location.search)
       const taskid = queryParams.get('taskid')
-      const task = tasks.find(t => t.id === Number(taskid))
-      console.log(task)
+      const task = projects.find(t => t.id === Number(taskid))
       if (task) {
         handleTaskClick(task)
       }
-    }, [location, tasks])
+    }, [location, projects])
   
   // ** Props
 
@@ -133,10 +132,10 @@ const Tasks = props => {
         }}
       >
 
-    {tasks.length ? (
+    {projects.length ? (
       <Container>
         <Row className='match-height'>
-          {tasks.map(item => {
+          {projects.map(item => {
             return  (
               <Col lg='4' md='6'>
                   <ProjectCard key={`project-${item.id}`} item={item} />
@@ -157,14 +156,14 @@ const Tasks = props => {
   // ** Function to getTasks based on search query
   const handleFilter = e => {
     setQuery(e.target.value)
-    dispatch(getTasks(params))
+    dispatch(getProjects(params))
   }
 
   // ** Function to getTasks based on sort
   const handleSort = (e, val) => {
     e.preventDefault()
     setSort(val)
-    dispatch(getTasks({ ...params }))
+    dispatch(getProjects({ ...params }))
   }
 
   return (

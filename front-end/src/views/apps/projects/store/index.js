@@ -4,37 +4,52 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 // ** Axios Imports
 import axios from 'axios'
 
-export const getTasks = createAsyncThunk('appTodo/getTasks', async params => {
-  const response = await axios.get('/apps/todo/tasks', { params })
 
-  return {
-    params,
-    data: response.data
+// ref tutorial 
+// simple https://redux-toolkit.js.org/tutorials/quick-start
+
+
+export const getProjects = createAsyncThunk('appProject/getProjects', async params => {
+  try {
+    const response = await axios.get('/apps/projects', { params })
+    console.log(response)
+    return {
+      params,
+      data: response.data
+    }
+    
+  } catch (error) {
+    console.log(error)
   }
 })
 
-export const addTask = createAsyncThunk('appTodo/addTask', async (task, { dispatch, getState }) => {
-  const response = await axios.post('/apps/todo/add-tasks', { task })
-  await dispatch(getTasks(getState().todo.params))
+export const addProject = createAsyncThunk('appProject/addProject', async (project, { dispatch, getState }) => {
+  try {
+    const response = await axios.post('/apps/project/add', { project })
+    console.log(getState().todo.params)
+    await dispatch(getProjects(getState().todo.params))
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+export const updateProject = createAsyncThunk('appProject/updateProject', async (task, { dispatch, getState }) => {
+  const response = await axios.post('/apps/project/update', { task })
+  await dispatch(getProjects(getState().todo.params))
   return response.data
 })
 
-export const updateTask = createAsyncThunk('appTodo/updateTask', async (task, { dispatch, getState }) => {
-  const response = await axios.post('/apps/todo/update-task', { task })
-  await dispatch(getTasks(getState().todo.params))
-  return response.data
-})
-
-export const deleteTask = createAsyncThunk('appTodo/deleteTask', async (taskId, { dispatch, getState }) => {
-  const response = await axios.delete('/apps/todo/delete-task', { taskId })
-  await dispatch(getTasks(getState().todo.params))
+export const deleteProject = createAsyncThunk('appProject/deleteProject', async (taskId, { dispatch, getState }) => {
+  const response = await axios.delete('/apps/project/delete', { taskId })
+  await dispatch(getProjects(getState().todo.params))
   return response.data
 })
 
 export const appTodoSlice = createSlice({
-  name: 'appTodo',
+  name: 'appProject',
   initialState: {
-    tasks: [],
+    projects: [],
     selectedTask: {},
     params: {
       filter: '',
@@ -44,21 +59,22 @@ export const appTodoSlice = createSlice({
     }
   },
   reducers: {
-    reOrderTasks: (state, action) => {
-      state.tasks = action.payload
-    },
-    selectTask: (state, action) => {
+    // not required
+    // reOrderTasks: (state, action) => {
+    //   state.tasks = action.payload
+    // },
+    selectProject: (state, action) => {
       state.selectedTask = action.payload
     }
   },
   extraReducers: builder => {
-    builder.addCase(getTasks.fulfilled, (state, action) => {
-      state.tasks = action.payload.data
+    builder.addCase(getProjects.fulfilled, (state, action) => {
+      state.projects = action.payload.data
       state.params = action.payload.params
     })
   }
 })
 
-export const { reOrderTasks, selectTask } = appTodoSlice.actions
+export const { reOrderTasks, selectProject } = appTodoSlice.actions
 
 export default appTodoSlice.reducer

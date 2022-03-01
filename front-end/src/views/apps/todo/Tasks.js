@@ -92,7 +92,7 @@ const Tasks = props => {
     }
 
     return arr.map(item => (
-      <Badge className='text-capitalize' key={item} color={badgeColor[item]} pill>
+      <Badge className='text-capitalize' key={`badge-${item}`} color={badgeColor[item]} pill>
         {item}
       </Badge>
     ))
@@ -139,7 +139,7 @@ const Tasks = props => {
             {tasks.map(item => {
               return (
                 <li
-                  key={item.id}
+                  key={`task-${item.id}`}
                   onClick={() => handleTaskClick(item)}
                   className={classnames('todo-item', {
                     completed: item.isCompleted

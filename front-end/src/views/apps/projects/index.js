@@ -8,11 +8,11 @@ import classnames from 'classnames'
 // ** Todo App Components
 import Projects from './projects'
 import Sidebar from './Sidebar'
-import TaskSidebar from './TaskSidebar'
+import ProjectSidebar from './ProjectSidebar'
 
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
-import { getTasks, updateTask, selectTask, addTask, deleteTask, reOrderTasks } from './store'
+import { getProjects, updateProject, selectProject, addProject, deleteProject } from './store'
 
 // ** Styles
 import '@styles/react/apps/app-project.scss'
@@ -26,7 +26,7 @@ const TODO = () => {
 
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.todo)
+  const store = useSelector(state => state.projects)
 
   // ** URL Params
   const paramsURL = useParams()
@@ -44,21 +44,21 @@ const TODO = () => {
   // ** Get Projects on mount & based on dependency change
   useEffect(() => {
     dispatch(
-      getTasks({
+      getProjects({
         filter: paramsURL.filter || '',
         q: query || '',
         sortBy: sort || '',
         tag: paramsURL.tag || ''
       })
     )
-  }, [store.tasks.length, paramsURL.filter, paramsURL.tag, query, sort])
+  }, [store.projects.length, paramsURL.filter, paramsURL.tag, query, sort])
 
   return (
     <Fragment>
       <Sidebar
         store={store}
         params={params}
-        getTasks={getTasks}
+        getProjects={getProjects}
         dispatch={dispatch}
         mainSidebar={mainSidebar}
         urlFilter={paramsURL.filter}
@@ -78,32 +78,32 @@ const TODO = () => {
             {store ? (
               <Projects
                 store={store}
-                tasks={store.tasks}
+                projects={store.projects}
                 sort={sort}
                 query={query}
                 params={params}
                 setSort={setSort}
                 setQuery={setQuery}
                 dispatch={dispatch}
-                getTasks={getTasks}
+                getProjects={getProjects}
                 paramsURL={paramsURL}
-                updateTask={updateTask}
-                selectTask={selectTask}
-                reOrderTasks={reOrderTasks}
+                updateProject={updateProject}
+                selectProject={selectProject}
+                // reOrderTasks={reOrderTasks}
                 handleMainSidebar={handleMainSidebar}
                 handleTaskSidebar={handleTaskSidebar}
               />
             ) : null}
 
-            <TaskSidebar
+            <ProjectSidebar
               store={store}
               params={params}
-              addTask={addTask}
+              addProject={addProject}
               dispatch={dispatch}
               open={openTaskSidebar}
-              updateTask={updateTask}
-              selectTask={selectTask}
-              deleteTask={deleteTask}
+              updateProject={updateProject}
+              selectProject={selectProject}
+              deleteProject={deleteProject}
               handleTaskSidebar={handleTaskSidebar}
             />
           </div>
