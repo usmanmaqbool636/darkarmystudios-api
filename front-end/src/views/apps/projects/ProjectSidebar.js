@@ -69,10 +69,10 @@ const ModalHeader = props => {
 
 const TaskSidebar = props => {
   // ** Props
-  const { open, handleTaskSidebar, store, dispatch, updateTask, selectTask, addTask, deleteTask } = props
+  const { open, handleTaskSidebar, store, dispatch, updateTask, selectProject, addProject, deleteTask } = props
 
   // ** States
-  const [assignee, setAssignee] = useState({ value: 'pheobe', label: 'Pheobe Buffay', img: img1 })
+  const [assignee, setAssignee] = useState([{ value: 'pheobe', label: 'Pheobe Buffay', img: img1 }])
   const [tags, setTags] = useState([])
   const [desc, setDesc] = useState(EditorState.createEmpty())
   const [completed, setCompleted] = useState(false)
@@ -135,7 +135,7 @@ const TaskSidebar = props => {
         </Button>
       )
     } else {
-      return 'Add Task'
+      return 'Create New Project'
     }
   }
 
@@ -146,13 +146,15 @@ const TaskSidebar = props => {
       setValue('title', selectedTask.title)
       setCompleted(selectedTask.isCompleted)
       setImportant(selectedTask.isImportant)
-      setAssignee([
-        {
+      setAssignee(
+        [
+          {
           value: selectedTask.assignee.fullName,
           label: selectedTask.assignee.fullName,
           img: selectedTask.assignee.avatar
-        }
-      ])
+          }
+      ]
+      )
       setDueDate(selectedTask.dueDate)
       if (typeof selectedTask.description === 'string') {
         setDesc(EditorState.createWithContent(ContentState.createFromText(selectedTask.description)))
@@ -178,11 +180,11 @@ const TaskSidebar = props => {
     setTags([])
     setDesc('')
     setValue('title', '')
-    setAssignee({ value: 'pheobe', label: 'Pheobe Buffay', img: img1 })
+    setAssignee([{ value: 'pheobe', label: 'Pheobe Buffay', img: img1 }])
     setCompleted(false)
     setImportant(false)
     setDueDate(new Date())
-    dispatch(selectTask({}))
+    dispatch(selectProject({}))
   }
 
   // ** Function to reset fileds
@@ -196,11 +198,14 @@ const TaskSidebar = props => {
     setDeleted(store.selectedTask.isDeleted)
     setDueDate(store.selectedTask.dueDate)
     if (store.selectedTask.assignee.fullName !== assignee.label) {
-      setAssignee({
+      setAssignee([
+        {
         value: store.selectedTask.assignee.fullName,
         label: store.selectedTask.assignee.fullName,
         img: store.selectedTask.assignee.avatar
-      })
+      }
+    ]
+    )
     }
     if (store.selectedTask.tags.length) {
       const tags = []
@@ -227,8 +232,8 @@ const TaskSidebar = props => {
     } else {
       return (
         <Fragment>
-          <Button color='primary' className='add-todo-item me-1'>
-            Add
+          <Button type='submit' color='primary' className='add-todo-item me-1'>
+            Create Project
           </Button>
           <Button color='secondary' onClick={handleTaskSidebar} outline>
             Cancel
@@ -241,16 +246,16 @@ const TaskSidebar = props => {
   const onSubmit = data => {
     const newTaskTag = []
 
-    const doesInclude = !isObjEmpty(store.selectedTask) && assignee.label === store.selectedTask.assignee.fullName
+    // const doesInclude = !isObjEmpty(store.selectedTask) && assignee.label === store.selectedTask.assignee.fullName
 
     if (tags.length) {
       tags.map(tag => newTaskTag.push(tag.value))
     }
 
-    const newAssignee = {
-      fullName: assignee.label,
-      avatar: assignee.img
-    }
+    // const newAssignee = {
+    //   fullName: assignee.label,
+    //   avatar: assignee.img
+    // }
     const state = {
       dueDate,
       title: data.title,
@@ -259,13 +264,14 @@ const TaskSidebar = props => {
       isCompleted: completed,
       isDeleted: deleted,
       isImportant: important,
-      assignee: doesInclude || assignee.label === undefined ? store.selectedTask.assignee : newAssignee
+      assignee,
+      createdAt:new Date()
     }
 
     if (data.title.length) {
       if (isObjEmpty(errors)) {
         if (isObjEmpty(store.selectedTask) || (!isObjEmpty(store.selectedTask) && !store.selectedTask.title.length)) {
-          dispatch(addTask(state))
+          dispatch(addProject(state))
         } else {
           dispatch(updateTask({ ...state, id: store.selectedTask.id }))
         }
@@ -303,7 +309,7 @@ const TaskSidebar = props => {
         <ModalBody className='flex-grow-1 pb-sm-0 pb-3'>
           <div className='mb-1'>
             <Label className='form-label' for='task-title'>
-              Title <span className='text-danger'>*</span>
+              Project Name <span className='text-danger'>*</span>
             </Label>
             <Controller
               name='title'
@@ -311,7 +317,7 @@ const TaskSidebar = props => {
               render={({ field }) => (
                 <Input
                   id='task-title'
-                  placeholder='Title'
+                  placeholder='Project Name'
                   className='new-todo-item-title'
                   invalid={errors.title && true}
                   {...field}
@@ -321,22 +327,26 @@ const TaskSidebar = props => {
             {errors.title && <FormFeedback>Please enter a valid task title</FormFeedback>}
           </div>
           <div className='mb-1'>
-            <Label className='form-label' for='task-assignee'>
+            <Label className='form-label' for='project-assignee'>
               Assignee
             </Label>
             <Select
-              id='task-assignee'
+              id='project-assignee'
               className='react-select'
               classNamePrefix='select'
               isClearable={false}
+              isMulti={true}
               options={assigneeOptions}
               theme={selectThemeColors}
               value={assignee}
-              onChange={data => setAssignee(data)}
+              onChange={data => {
+                setAssignee(data)
+              }}
+
               components={{ Option: AssigneeComponent }}
             />
           </div>
-          <div className='mb-1'>
+          {/* <div className='mb-1'>
             <Label className='form-label' for='due-date'>
               Due Date
             </Label>
@@ -348,14 +358,14 @@ const TaskSidebar = props => {
               value={dueDate}
               options={{ dateFormat: 'Y-m-d' }}
             />
-          </div>
+          </div> */}
           <div className='mb-1'>
-            <Label className='form-label' for='task-tags'>
+            <Label className='form-label' for='project-team'>
               Tags
             </Label>
             <Select
               isMulti
-              id='task-tags'
+              id='project-team'
               className='react-select'
               classNamePrefix='select'
               isClearable={false}

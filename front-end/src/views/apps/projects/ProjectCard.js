@@ -53,7 +53,7 @@ const CardAppDesign = ({ item }) => {
   return (
     <Card className='card-app-design card-app-design-custom'  >
       <CardBody>
-        <Badge color='light-primary'>{moment().format('DD MMM, YYYY')}</Badge>
+        <Badge color='light-primary'>{moment(item.createdAt).format('DD MMM, YYYY')}</Badge>
         <CardTitle className='mt-1 mb-75'>{item.title}</CardTitle>
         <CardText className='font-small-2 mb-2'>
           You can Find Only Post and Quotes Related to IOS like ipad app design, iphone app design
