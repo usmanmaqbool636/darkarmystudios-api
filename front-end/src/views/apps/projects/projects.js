@@ -67,7 +67,6 @@ const Tasks = props => {
       const queryParams = new URLSearchParams(location.search)
       const taskid = queryParams.get('taskid')
       const task = tasks.find(t => t.id === Number(taskid))
-      console.log(task)
       if (task) {
         handleTaskClick(task)
       }

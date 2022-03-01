@@ -4,8 +4,13 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 // ** Axios Imports
 import axios from 'axios'
 
+
+// ref tutorial 
+// simple https://redux-toolkit.js.org/tutorials/quick-start
+
+
 export const getTasks = createAsyncThunk('appTodo/getTasks', async params => {
-  const response = await axios.get('/apps/todo/tasks', { params })
+  const response = await axios.get('/apps/todo/projects', { params })
 
   return {
     params,

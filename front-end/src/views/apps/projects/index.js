@@ -8,7 +8,7 @@ import classnames from 'classnames'
 // ** Todo App Components
 import Projects from './projects'
 import Sidebar from './Sidebar'
-import TaskSidebar from './TaskSidebar'
+import ProjectSidebar from './ProjectSidebar'
 
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
@@ -95,7 +95,7 @@ const TODO = () => {
               />
             ) : null}
 
-            <TaskSidebar
+            <ProjectSidebar
               store={store}
               params={params}
               addTask={addTask}
