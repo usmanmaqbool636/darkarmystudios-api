@@ -75,7 +75,7 @@ const TodoSidebar = props => {
 
             {/* project */}
             <Container>
-              
+              {/* this list come from backend when we select a project all of his relevent task list is filtered  */}
               <Label className='form-label'>Select Project</Label>
               <Select
                 // menuIsOpen={true}

@@ -47,6 +47,7 @@
 // Select Menu
 .select__menu,
 .react-select__menu {
+  z-index: 10 !important;
   .select__menu-list,
   .react-select__menu-list {
     .select__option,
@@ -173,6 +174,7 @@
   }
   .select__menu {
     background-color: $theme-dark-card-bg;
+    z-index: 10 !important;
   }
 }
 
