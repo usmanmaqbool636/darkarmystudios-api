@@ -1,10 +1,11 @@
 import mock from '../mock'
 import { PROJECTS } from "./constant"
+import { nanoid } from '@reduxjs/toolkit'
 
 const data = {
   projects: [
     {
-      id: 18,
+      id: nanoid(),
       title: 'Fix Responsiveness for new structure 💻',
       dueDate: '2020-11-18',
       createdAt: '2020-11-18',
@@ -19,7 +20,7 @@ const data = {
       completedTask:5
     },
     {
-      id: 10,
+      id: nanoid(),
       title: 'Fix Responsiveness for new structure 💻',
       dueDate: '2020-11-18',
       createdAt: '2020-11-18',
@@ -179,7 +180,7 @@ mock.onPost('/apps/project/add').reply(config => {
   if (length) {
     lastIndex = projects[length - 1].id
   }
-  project.id = lastIndex + 1
+  project.id = nanoid()
 
   projects.push(project)
   localStorage.setItem(PROJECTS, JSON.stringify(projects))
@@ -195,7 +196,7 @@ mock.onPost('/apps/todo/update').reply(config => {
   let projects = JSON.parse(localStorage.getItem(PROJECTS)) || data.projects
   const projectData = JSON.parse(config.data).project
   // Convert Id to number
-  projectData.id = Number(projectData.id)
+  projectData.id = projectData.id
   projects = projects.map(project => project.id === projectData.id ? projectData : project)
   
   localStorage.setItem(PROJECTS, JSON.stringify(projects))
@@ -213,7 +214,7 @@ mock.onDelete('/apps/todo/delete-project').reply(config => {
   let taskId = config.taskId
 
   // Convert Id to number
-  taskId = Number(taskId)
+  taskId = taskId
   projects = projects.filter(task => task.id !== taskId)
   localStorage.setItem(PROJECTS, JSON.stringify(projects))
   return [200]

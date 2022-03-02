@@ -94,11 +94,15 @@ const Tasks = props => {
       update: 'light-info'
     }
 
-    return arr.map(item => (
-      <Badge className='text-capitalize' key={item} color={badgeColor[item]} pill>
-        {item}
-      </Badge>
-    ))
+    return arr.map((item, index) => {
+      debugger
+      return (
+        <Badge className='text-capitalize' key={`renderTags-${item}-${index}`} color={badgeColor[item]} pill>
+          {item}
+        </Badge>
+      )
+    } 
+    )
   }
 
   // ** Renders Avatar
@@ -137,8 +141,8 @@ const Tasks = props => {
         <Row className='match-height'>
           {projects.map(item => {
             return  (
-              <Col lg='4' md='6'>
-                  <ProjectCard handleProjectClick={handleProjectClick} key={`project-${item.id}`} item={item} />
+              <Col  key={`project-${item.id}`} lg='4' md='6'>
+                  <ProjectCard handleProjectClick={handleProjectClick} item={item} />
                 </Col>
               )
           })}

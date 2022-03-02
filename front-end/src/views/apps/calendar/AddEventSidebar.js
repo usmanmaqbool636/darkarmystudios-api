@@ -7,7 +7,7 @@ import Avatar from '@components/avatar'
 // ** Third Party Components
 import { toast } from 'react-toastify'
 import Flatpickr from 'react-flatpickr'
-import { X, Check } from 'react-feather'
+import { X, Check, Trash } from 'react-feather'
 import Select, { components } from 'react-select'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { useForm, Controller } from 'react-hook-form'

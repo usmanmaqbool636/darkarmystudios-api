@@ -15,6 +15,7 @@ import { Button, ListGroup, ListGroupItem, Label, Container } from 'reactstrap'
 
 
 const assigneeOptions = [
+  { value: '', label: 'All' },
   { value: 'pheobe', label: 'Pheobe Buffay' },
   { value: 'chandler', label: 'Chandler Bing' },
   { value: 'ross', label: 'Ross Geller' },
@@ -33,7 +34,7 @@ const projects = [
 const TodoSidebar = props => {
   
   // ** Props
-  const { handleTaskSidebar, setMainSidebar, mainSidebar, dispatch, getTasks, params } = props
+  const { handleTaskSidebar, setMainSidebar, mainSidebar, dispatch, getTasks, params, setAssignee } = props
 
   // ** Functions To Handle List Item Filter
   const handleFilter = filter => {
@@ -60,7 +61,8 @@ const TodoSidebar = props => {
     setMainSidebar()
   }
   const changeUser = (e) => {
-    dispatch(getTasks({ ...params, q:e.label }))
+    setAssignee(e.label)
+    // dispatch(getTasks({ ...params, q:e.label }))
   }
 
   return (

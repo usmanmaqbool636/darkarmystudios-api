@@ -1,4 +1,5 @@
 /*eslint-disable */
+import { nanoid } from '@reduxjs/toolkit'
 import mock from '../mock'
 import { EVENTS, TASKS } from './constant'
 
@@ -12,10 +13,9 @@ const nextMonth = date.getMonth() === 11 ? new Date(date.getFullYear() + 1, 0, 1
 const prevMonth = date.getMonth() === 11 ? new Date(date.getFullYear() - 1, 0, 1) : new Date(date.getFullYear(), date.getMonth() - 1, 1)
 
 const data = {
-  // TODO updated events with localstorage
   events: [
     {
-      id: 1,
+      id: nanoid(),
       url: '',
       title: 'Design Review',
       start: date,
@@ -26,7 +26,7 @@ const data = {
       }
     },
     {
-      id: 2,
+      id: nanoid(),
       url: '',
       title: 'Meeting With Client',
       start: new Date(date.getFullYear(), date.getMonth() + 1, -11),
@@ -37,7 +37,7 @@ const data = {
       }
     },
     {
-      id: 3,
+      id: nanoid(),
       url: '',
       title: 'Family Trip',
       allDay: true,
@@ -48,7 +48,7 @@ const data = {
       }
     },
     {
-      id: 4,
+      id: nanoid(),
       url: '',
       title: "Doctor's Appointment",
       start: new Date(date.getFullYear(), date.getMonth() + 1, -11),
@@ -59,7 +59,7 @@ const data = {
       }
     },
     {
-      id: 5,
+      id: nanoid(),
       url: '',
       title: 'Dart Game?',
       start: new Date(date.getFullYear(), date.getMonth() + 1, -13),
@@ -70,7 +70,7 @@ const data = {
       }
     },
     {
-      id: 6,
+      id: nanoid(),
       url: '',
       title: 'Meditation',
       start: new Date(date.getFullYear(), date.getMonth() + 1, -13),
@@ -81,7 +81,7 @@ const data = {
       }
     },
     {
-      id: 7,
+      id: nanoid(),
       url: '',
       title: 'Dinner',
       start: new Date(date.getFullYear(), date.getMonth() + 1, -13),
@@ -92,7 +92,7 @@ const data = {
       }
     },
     {
-      id: 8,
+      id: nanoid(),
       url: '',
       title: 'Product Review',
       start: new Date(date.getFullYear(), date.getMonth() + 1, -13),
@@ -103,7 +103,7 @@ const data = {
       }
     },
     {
-      id: 9,
+      id: nanoid(),
       url: '',
       title: 'Monthly Meeting',
       start: nextMonth,
@@ -114,7 +114,7 @@ const data = {
       }
     },
     {
-      id: 10,
+      id: nanoid(),
       url: '',
       title: 'Monthly Checkup',
       start: prevMonth,
@@ -171,12 +171,13 @@ mock.onPost('/apps/calendar/add-event').reply(config => {
   // Get event from post data
   const { event } = JSON.parse(config.data)
   const events = JSON.parse(localStorage.getItem(EVENTS)) || data.events
-  const { length } = events
-  let lastIndex = 0
-  if (length) {
-    lastIndex = events[length - 1].id
-  }
-  event.id = lastIndex + 1
+  // const { length } = events
+  // let lastIndex = 0
+  // if (length) {
+  //   lastIndex = events[length - 1].id
+  // }
+  // event.id = lastIndex + 1
+  event.id = nanoid()
 
   events.push(event)
   localStorage.setItem(EVENTS,JSON.stringify(events))
@@ -194,9 +195,9 @@ mock.onPost('/apps/calendar/update-event').reply(config => {
   const { event: eventData } = JSON.parse(config.data)
 
   // Convert Id to number
-  eventData.id = Number(eventData.id)
+  eventData.id = eventData.id
 
-  events = events.map(ev => ev.id === Number(eventData.id)?eventData:ev)
+  events = events.map(ev => ev.id === eventData.id?eventData:ev)
   localStorage.setItem(EVENTS,JSON.stringify(events))
   
   return [200, { event:eventData }]
@@ -214,7 +215,7 @@ mock.onDelete('/apps/calendar/remove-event').reply(config => {
   
 
   // Convert Id to number
-  const eventId = Number(id)
+  const eventId = id
 
   const eventIndex = events.findIndex(ev => ev.id === eventId)
   events.splice(eventIndex, 1);

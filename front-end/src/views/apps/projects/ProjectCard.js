@@ -73,12 +73,12 @@ const CardAppDesign = ({ item, handleProjectClick }) => {
           <h6 className='section-label'>Members</h6>
           {/* members come from parent [avatar] */}
           {item.assignee.map((obj, index) => {
-            return <Avatar key={index} className={classnames({ 'me-75': index !== avatarArr.length - 1 })} {...obj} />
+            return <Avatar key={`ProjectCard-assignee-${obj.label}-${index}`} className={classnames({ 'me-75': index !== avatarArr.length - 1 })} {...obj} />
           })}
         </div>
         <div className='design-planning-wrapper mb-2 py-75'>
-          {designPlanningArr.map(item => (
-            <div key={item.title} className='design-planning'>
+          {designPlanningArr.map((item, index) => (
+            <div key={`designPlanningArr-${item.title}-${index}`} className='design-planning'>
               <CardText className='mb-25'>{item.title}</CardText>
               <h6 className='mb-0'>{item.subtitle}</h6>
             </div>
