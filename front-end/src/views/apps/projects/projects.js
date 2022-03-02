@@ -50,7 +50,7 @@ const Tasks = props => {
   } = props
 
     // ** Function to selectTask on click
-    const handleTaskClick = obj => {
+    const handleProjectClick = obj => {
       dispatch(selectProject(obj))
       handleTaskSidebar()
       const queryParams = new URLSearchParams(location.search)
@@ -68,7 +68,7 @@ const Tasks = props => {
       const taskid = queryParams.get('taskid')
       const task = projects.find(t => t.id === Number(taskid))
       if (task) {
-        handleTaskClick(task)
+        handleProjectClick(task)
       }
     }, [location, projects])
   
@@ -138,7 +138,7 @@ const Tasks = props => {
           {projects.map(item => {
             return  (
               <Col lg='4' md='6'>
-                  <ProjectCard key={`project-${item.id}`} item={item} />
+                  <ProjectCard handleProjectClick={handleProjectClick} key={`project-${item.id}`} item={item} />
                 </Col>
               )
           })}

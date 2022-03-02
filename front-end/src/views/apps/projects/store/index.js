@@ -26,7 +26,6 @@ export const getProjects = createAsyncThunk('appProject/getProjects', async para
 export const addProject = createAsyncThunk('appProject/addProject', async (project, { dispatch, getState }) => {
   try {
     const response = await axios.post('/apps/project/add', { project })
-    console.log(getState().todo.params)
     await dispatch(getProjects(getState().todo.params))
     return response.data
   } catch (error) {
@@ -34,10 +33,15 @@ export const addProject = createAsyncThunk('appProject/addProject', async (proje
   }
 })
 
-export const updateProject = createAsyncThunk('appProject/updateProject', async (task, { dispatch, getState }) => {
-  const response = await axios.post('/apps/project/update', { task })
-  await dispatch(getProjects(getState().todo.params))
-  return response.data
+export const updateProject = createAsyncThunk('appProject/updateProject', async (project, { dispatch, getState }) => {
+  // /apps/project/update this request fakedb projects
+  try {
+    const response = await axios.post('/apps/todo/update', { project })
+    await dispatch(getProjects(getState().todo.params))
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 export const deleteProject = createAsyncThunk('appProject/deleteProject', async (taskId, { dispatch, getState }) => {
@@ -50,7 +54,7 @@ export const appTodoSlice = createSlice({
   name: 'appProject',
   initialState: {
     projects: [],
-    selectedTask: {},
+    selectedProject: {},
     params: {
       filter: '',
       q: '',
@@ -64,7 +68,7 @@ export const appTodoSlice = createSlice({
     //   state.tasks = action.payload
     // },
     selectProject: (state, action) => {
-      state.selectedTask = action.payload
+      state.selectedProject = action.payload
     }
   },
   extraReducers: builder => {

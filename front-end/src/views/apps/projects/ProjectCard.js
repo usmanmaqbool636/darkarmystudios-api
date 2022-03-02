@@ -7,7 +7,7 @@ import Avatar from '@components/avatar'
 // ** Reactstrap Imports
 import { Card, CardTitle, CardBody, CardText, Badge, Button } from 'reactstrap'
 
-const CardAppDesign = ({ item }) => {
+const CardAppDesign = ({ item, handleProjectClick }) => {
   // this should come from parent
   const avatarArr = [
     {
@@ -51,7 +51,9 @@ const CardAppDesign = ({ item }) => {
   ]
 
   return (
-    <Card className='card-app-design card-app-design-custom'  >
+    <Card
+     onClick={() => handleProjectClick(item)}
+     className='card-app-design card-app-design-custom'  >
       <CardBody>
         <Badge color='light-primary'>{moment(item.createdAt).format('DD MMM, YYYY')}</Badge>
         <CardTitle className='mt-1 mb-75'>{item.title}</CardTitle>
@@ -70,7 +72,7 @@ const CardAppDesign = ({ item }) => {
         <div className='design-group pt-25'>
           <h6 className='section-label'>Members</h6>
           {/* members come from parent [avatar] */}
-          {avatarArr.map((obj, index) => {
+          {item.assignee.map((obj, index) => {
             return <Avatar key={index} className={classnames({ 'me-75': index !== avatarArr.length - 1 })} {...obj} />
           })}
         </div>

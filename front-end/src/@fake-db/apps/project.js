@@ -10,14 +10,13 @@ const data = {
       createdAt: '2020-11-18',
       description:
         'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      assignee: {
-        fullName: 'Danielle Anderson',
-        avatar: require('@src/assets/images/portrait/small/avatar-s-9.jpg').default
-      },
+      assignee: [],
       tags: ['low'],
       isCompleted: false,
       isDeleted: false,
-      isImportant: true
+      isImportant: true,
+      totalTask:10,
+      completedTask:5
     },
     {
       id: 10,
@@ -26,14 +25,13 @@ const data = {
       createdAt: '2020-11-18',
       description:
         'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      assignee: {
-        fullName: 'Danielle Anderson',
-        avatar: require('@src/assets/images/portrait/small/avatar-s-9.jpg').default
-      },
+      assignee: [],
       tags: ['low'],
       isCompleted: false,
       isDeleted: false,
-      isImportant: true
+      isImportant: true,
+      totalTask:10,
+      completedTask:5
     }
   ]
 }
@@ -193,16 +191,16 @@ mock.onPost('/apps/project/add').reply(config => {
 // POST: Update Project
 // ------------------------------------------------
 // update projects with local storage
-mock.onPost('/apps/todo/update-project').reply(config => {
+mock.onPost('/apps/todo/update').reply(config => {
   let projects = JSON.parse(localStorage.getItem(PROJECTS)) || data.projects
-  const taskData = JSON.parse(config.data).task
+  const projectData = JSON.parse(config.data).project
   // Convert Id to number
-  taskData.id = Number(taskData.id)
-  projects = projects.map(task => task.id === taskData.id ? taskData : task)
+  projectData.id = Number(projectData.id)
+  projects = projects.map(project => project.id === projectData.id ? projectData : project)
   
   localStorage.setItem(PROJECTS, JSON.stringify(projects))
 
-  return [200, { task:taskData }]
+  return [200, { project:projectData }]
 })
 
 // ------------------------------------------------

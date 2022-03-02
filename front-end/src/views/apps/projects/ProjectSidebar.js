@@ -35,13 +35,13 @@ const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1)
 // ** Modal Header
 const ModalHeader = props => {
   // ** Props
-  const { children, store, handleTaskSidebar, setDeleted, deleted, important, setImportant, deleteTask, dispatch } =
+  const { children, store, handleTaskSidebar, setDeleted, deleted, important, setImportant, deleteTask, dispatch, updateProject } =
     props
 
   // ** Function to delete task
   const handleDeleteTask = () => {
     setDeleted(!deleted)
-    dispatch(deleteTask(store.selectedTask.id))
+    dispatch(deleteTask(store.selectedProject.id))
     handleTaskSidebar()
   }
 
@@ -49,7 +49,7 @@ const ModalHeader = props => {
     <div className='modal-header d-flex align-items-center justify-content-between mb-1'>
       <h5 className='modal-title'>{children}</h5>
       <div className='todo-item-action d-flex align-items-center'>
-        {store && !isObjEmpty(store.selectedTask) ? (
+        {store && !isObjEmpty(store.selectedProject) ? (
           <Trash className='cursor-pointer mt-25' size={16} onClick={() => handleDeleteTask()} />
         ) : null}
         <span className='todo-item-favorite cursor-pointer mx-75'>
@@ -69,7 +69,7 @@ const ModalHeader = props => {
 
 const TaskSidebar = props => {
   // ** Props
-  const { open, handleTaskSidebar, store, dispatch, updateTask, selectProject, addProject, deleteTask } = props
+  const { open, handleTaskSidebar, store, dispatch, updateProject, selectProject, addProject, deleteTask } = props
 
   // ** States
   const [assignee, setAssignee] = useState([{ value: 'pheobe', label: 'Pheobe Buffay', img: img1 }])
@@ -79,6 +79,7 @@ const TaskSidebar = props => {
   const [important, setImportant] = useState(false)
   const [deleted, setDeleted] = useState(false)
   const [dueDate, setDueDate] = useState(new Date())
+  const [createdAt, setCreatedAt] = useState(new Date())
 
   const {
     control,
@@ -123,7 +124,7 @@ const TaskSidebar = props => {
 
   // ** Returns sidebar title
   const handleSidebarTitle = () => {
-    if (store && !isObjEmpty(store.selectedTask)) {
+    if (store && !isObjEmpty(store.selectedProject)) {
       return (
         <Button
           outline
@@ -141,33 +142,28 @@ const TaskSidebar = props => {
 
   // ** Function to run when sidebar opens
   const handleSidebarOpened = () => {
-    const { selectedTask } = store
-    if (!isObjEmpty(selectedTask)) {
-      setValue('title', selectedTask.title)
-      setCompleted(selectedTask.isCompleted)
-      setImportant(selectedTask.isImportant)
+    const { selectedProject } = store
+    if (!isObjEmpty(selectedProject)) {
+      setValue('title', selectedProject.title)
+      setCompleted(selectedProject.isCompleted)
+      setImportant(selectedProject.isImportant)
       setAssignee(
-        [
-          {
-          value: selectedTask.assignee.fullName,
-          label: selectedTask.assignee.fullName,
-          img: selectedTask.assignee.avatar
-          }
-      ]
+        [...selectedProject.assignee]
       )
-      setDueDate(selectedTask.dueDate)
-      if (typeof selectedTask.description === 'string') {
-        setDesc(EditorState.createWithContent(ContentState.createFromText(selectedTask.description)))
+      setDueDate(selectedProject.dueDate)
+      setCreatedAt(selectedProject.createdAt)
+      if (typeof selectedProject.description === 'string') {
+        setDesc(EditorState.createWithContent(ContentState.createFromText(selectedProject.description)))
       } else {
-        const obj = selectedTask.description._immutable.currentContent.blockMap
+        const obj = selectedProject.description._immutable.currentContent.blockMap
         const property = Object.keys(obj).map(val => val)
 
         setDesc(EditorState.createWithContent(ContentState.createFromText(obj[property].text)))
       }
 
-      if (selectedTask.tags.length) {
+      if (selectedProject.tags.length) {
         const tags = []
-        selectedTask.tags.map(tag => {
+        selectedProject.tags.map(tag => {
           tags.push({ value: tag, label: capitalize(tag) })
         })
         setTags(tags)
@@ -184,32 +180,33 @@ const TaskSidebar = props => {
     setCompleted(false)
     setImportant(false)
     setDueDate(new Date())
+    setCreatedAt(new Date())
     dispatch(selectProject({}))
   }
 
   // ** Function to reset fileds
   const handleResetFields = () => {
-    const descValue = EditorState.createWithContent(ContentState.createFromText(store.selectedTask.description))
+    const descValue = EditorState.createWithContent(ContentState.createFromText(store.selectedProject.description))
 
-    setValue('title', store.selectedTask.title)
+    setValue('title', store.selectedProject.title)
     setDesc(descValue)
-    setCompleted(store.selectedTask.isCompleted)
-    setImportant(store.selectedTask.isImportant)
-    setDeleted(store.selectedTask.isDeleted)
-    setDueDate(store.selectedTask.dueDate)
-    if (store.selectedTask.assignee.fullName !== assignee.label) {
+    setCompleted(store.selectedProject.isCompleted)
+    setImportant(store.selectedProject.isImportant)
+    setDeleted(store.selectedProject.isDeleted)
+    setDueDate(store.selectedProject.dueDate)
+    if (store.selectedProject.assignee.fullName !== assignee.label) {
       setAssignee([
         {
-        value: store.selectedTask.assignee.fullName,
-        label: store.selectedTask.assignee.fullName,
-        img: store.selectedTask.assignee.avatar
+        value: store.selectedProject.assignee.fullName,
+        label: store.selectedProject.assignee.fullName,
+        img: store.selectedProject.assignee.avatar
       }
     ]
     )
     }
-    if (store.selectedTask.tags.length) {
+    if (store.selectedProject.tags.length) {
       const tags = []
-      store.selectedTask.tags.map(tag => {
+      store.selectedProject.tags.map(tag => {
         tags.push({ value: tag, label: capitalize(tag) })
       })
       setTags(tags)
@@ -218,7 +215,7 @@ const TaskSidebar = props => {
 
   // ** Renders Footer Buttons
   const renderFooterButtons = () => {
-    if (store && !isObjEmpty(store.selectedTask)) {
+    if (store && !isObjEmpty(store.selectedProject)) {
       return (
         <Fragment>
           <Button color='primary' className='update-btn update-todo-item me-1'>
@@ -246,7 +243,7 @@ const TaskSidebar = props => {
   const onSubmit = data => {
     const newTaskTag = []
 
-    // const doesInclude = !isObjEmpty(store.selectedTask) && assignee.label === store.selectedTask.assignee.fullName
+    // const doesInclude = !isObjEmpty(store.selectedProject) && assignee.label === store.selectedProject.assignee.fullName
 
     if (tags.length) {
       tags.map(tag => newTaskTag.push(tag.value))
@@ -265,15 +262,15 @@ const TaskSidebar = props => {
       isDeleted: deleted,
       isImportant: important,
       assignee,
-      createdAt:new Date()
+      createdAt
     }
 
     if (data.title.length) {
       if (isObjEmpty(errors)) {
-        if (isObjEmpty(store.selectedTask) || (!isObjEmpty(store.selectedTask) && !store.selectedTask.title.length)) {
+        if (isObjEmpty(store.selectedProject) || (!isObjEmpty(store.selectedProject) && !store.selectedProject.title.length)) {
           dispatch(addProject(state))
         } else {
-          dispatch(updateTask({ ...state, id: store.selectedTask.id }))
+          dispatch(updateProject({ ...state, id: store.selectedProject.id }))
         }
         handleTaskSidebar()
       }
