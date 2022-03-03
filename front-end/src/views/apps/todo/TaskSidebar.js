@@ -74,6 +74,7 @@ const TaskSidebar = props => {
   // ** States
   const [assignee, setAssignee] = useState({ value: 'pheobe', label: 'Pheobe Buffay', img: img1 })
   const [tags, setTags] = useState([])
+  const [project, setProject] = useState({})
   const [desc, setDesc] = useState(EditorState.createEmpty())
   const [completed, setCompleted] = useState(false)
   const [important, setImportant] = useState(false)
@@ -107,6 +108,12 @@ const TaskSidebar = props => {
     { value: 'medium', label: 'Medium' },
     { value: 'high', label: 'High' },
     { value: 'update', label: 'Update' }
+  ]
+  const projectOptions = [
+    { value: 'p1', label: 'p1', isFixed: true },
+    { value: 'p2', label: 'p2', isFixed: true },
+    { value: 'p3', label: 'p3', isFixed: true },
+    { value: 'p4', label: 'p4', isFixed: false }
   ]
 
   // ** Custom Assignee Component
@@ -254,6 +261,7 @@ const TaskSidebar = props => {
     const state = {
       dueDate,
       title: data.title,
+      project:project.label,
       tags: newTaskTag,
       description: desc,
       isCompleted: completed,
@@ -364,6 +372,23 @@ const TaskSidebar = props => {
               value={tags}
               onChange={data => {
                 setTags(data !== null ? [...data] : [])
+              }}
+            />
+          </div>
+          <div className='mb-1'>
+            <Label className='form-label' for='task-tags'>
+              Select Project
+            </Label>
+            <Select
+              id='task-tags'
+              className='react-select'
+              classNamePrefix='select'
+              // isClearable={false}
+              options={projectOptions}
+              theme={selectThemeColors}
+              value={project}
+              onChange={data => {
+                setProject(data)
               }}
             />
           </div>

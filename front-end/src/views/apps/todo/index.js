@@ -22,6 +22,7 @@ const TODO = () => {
   const [sort, setSort] = useState('')
   const [query, setQuery] = useState('')
   const [assignee, setAssignee] = useState('')
+  const [project, setProject] = useState('')
   const [mainSidebar, setMainSidebar] = useState(false)
   const [openTaskSidebar, setOpenTaskSidebar] = useState(false)
 
@@ -52,17 +53,19 @@ const TODO = () => {
         q: query || '',
         sortBy: sort || '',
         assignee: assignee || '',
+        project: project || '',
         tag: paramsURL.tag || ''
 
       })
     )
-  }, [store.tasks.length, paramsURL.filter, paramsURL.tag, query, assignee, sort])
+  }, [store.tasks.length, paramsURL.filter, paramsURL.tag, query, assignee, project, sort])
 
   return (
     <Fragment>
       <Sidebar
         store={store}
         setAssignee={setAssignee}
+        setProject={setProject}
         params={params}
         getTasks={getTasks}
         dispatch={dispatch}

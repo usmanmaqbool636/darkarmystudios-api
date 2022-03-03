@@ -14,6 +14,7 @@ const data = {
         fullName: 'Jacob Ramirez',
         avatar: require('@src/assets/images/avatars/12.png').default
       },
+      project:"p1",
       tags: ['update'],
       isCompleted: false,
       isDeleted: false,
@@ -27,7 +28,8 @@ const data = {
 // ------------------------------------------------
 // with localstorage
 mock.onGet('/apps/todo/tasks').reply(config => {
-  // TODO filter task according to assignee
+  try {
+   // TODO filter task according to assignee
   let tasks = []
   if (!localStorage.getItem(TASKS)) {
     localStorage.setItem(TASKS, JSON.stringify(data.tasks))
@@ -36,7 +38,7 @@ mock.onGet('/apps/todo/tasks').reply(config => {
     tasks = JSON.parse(localStorage.getItem(TASKS))
   }
   // eslint-disable-next-line object-curly-newline
-  const { q, filter, tag, sortBy: sortByParam = 'latest' } = config.params
+  const { q, filter, tag, sortBy: sortByParam = 'latest', assignee, project } = config.params
   /* eslint-enable */
   // ------------------------------------------------
   // Get Sort by and Sort Direction
@@ -144,12 +146,21 @@ mock.onGet('/apps/todo/tasks').reply(config => {
   const sortedData = filteredData.sort(sortTasks(sortBy))
   if (sortDesc) sortedData.reverse()
   // working but somehow  "q" is overwrites with empty string q = ''
-  // const queryTask = sortedData.filter(task => {
-  //   const regex = new RegExp(`${q}`, "gi")
-  //   return task.assignee.fullName.match(regex)
-  // })
+  const projectregex = new RegExp(`${project}`, "gi")
+  const projectFilter = sortedData.filter(task => {
+    return (task.project || "" ).match(projectregex)
+  }) 
+
+  const assigneeFilter = projectFilter.filter(task => {
+    const regex = new RegExp(`${assignee}`, "gi")
+    return task.assignee.fullName.match(regex)
+  })
   // const queryTask = sortedData.filter(task => task.assignee.fullName === RegExp(q))
-  return [200, sortedData]
+  return [200, assigneeFilter] 
+
+  } catch (error) {
+    console.log(error)  
+  }
 })
 // ------------------------------------------------
 // POST: Add new task
