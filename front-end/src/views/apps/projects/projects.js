@@ -95,7 +95,6 @@ const Tasks = props => {
     }
 
     return arr.map((item, index) => {
-      debugger
       return (
         <Badge className='text-capitalize' key={`renderTags-${item}-${index}`} color={badgeColor[item]} pill>
           {item}
