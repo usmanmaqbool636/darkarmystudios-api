@@ -5,6 +5,7 @@ import { useEffect, useState, createContext } from 'react'
 const ThemeColors = createContext()
 
 const ThemeContext = ({ children }) => {
+
   // ** State
   const [colors, setColors] = useState({})
 
@@ -47,6 +48,11 @@ const ThemeContext = ({ children }) => {
       }
 
       setColors({ ...obj })
+      const load = localStorage.getItem("LOADDATA")
+      if (!load) {
+        localStorage.clear()
+        localStorage.setItem("LOADDATA", false)
+      }
     }
   }, [])
 

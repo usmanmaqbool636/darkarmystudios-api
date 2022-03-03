@@ -122,7 +122,7 @@ const TodoSidebar = props => {
                   <span className='align-middle'>Deleted</span>
                 </ListGroupItem>
               </ListGroup>
-              {/* may be used in future so don't remove just uncomment */}
+              {/* may be used in future so don't remove just commented */}
               {/* <div className='mt-3 px-2 d-flex justify-content-between'>
                 <h6 className='section-label mb-1'>Tags</h6>
                 <Plus className='cursor-pointer' size={14} />

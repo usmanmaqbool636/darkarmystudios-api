@@ -29,7 +29,6 @@ const data = {
 // with localstorage
 mock.onGet('/apps/todo/tasks').reply(config => {
   try {
-   // TODO filter task according to assignee
   let tasks = []
   if (!localStorage.getItem(TASKS)) {
     localStorage.setItem(TASKS, JSON.stringify(data.tasks))
@@ -145,7 +144,6 @@ mock.onGet('/apps/todo/tasks').reply(config => {
   // Sort Data
   const sortedData = filteredData.sort(sortTasks(sortBy))
   if (sortDesc) sortedData.reverse()
-  // working but somehow  "q" is overwrites with empty string q = ''
   const projectregex = new RegExp(`${project}`, "gi")
   const projectFilter = sortedData.filter(task => {
     return (task.project || "" ).match(projectregex)
@@ -209,8 +207,6 @@ mock.onDelete('/apps/todo/delete-task').reply(config => {
   let tasks = JSON.parse(localStorage.getItem(TASKS)) || data.tasks
   // Get task id from URL
   let taskId = config.taskId
-
-  // Convert Id to number
   taskId = taskId
   tasks = tasks.filter(task => task.id !== taskId)
   localStorage.setItem(TASKS, JSON.stringify(tasks))

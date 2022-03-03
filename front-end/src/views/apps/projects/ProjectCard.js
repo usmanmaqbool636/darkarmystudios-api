@@ -85,6 +85,7 @@ const CardAppDesign = ({ item, handleProjectClick }) => {
           ))}
         </div>
         <div className='d-flex justify-content-around'>
+          {/* TODO propagation*/}
           {/* get help from this stackoverflow Question */}
         {/* https://stackoverflow.com/questions/63411940/how-to-create-two-onclick-events-on-a-clickable-cards-in-react */}
           <Button color='primary'>Join Team</Button>

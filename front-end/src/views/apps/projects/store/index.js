@@ -34,7 +34,6 @@ export const addProject = createAsyncThunk('appProject/addProject', async (proje
 })
 
 export const updateProject = createAsyncThunk('appProject/updateProject', async (project, { dispatch, getState }) => {
-  // /apps/project/update this request fakedb projects
   try {
     const response = await axios.post('/apps/todo/update', { project })
     await dispatch(getProjects(getState().todo.params))

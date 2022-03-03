@@ -171,12 +171,6 @@ mock.onPost('/apps/calendar/add-event').reply(config => {
   // Get event from post data
   const { event } = JSON.parse(config.data)
   const events = JSON.parse(localStorage.getItem(EVENTS)) || data.events
-  // const { length } = events
-  // let lastIndex = 0
-  // if (length) {
-  //   lastIndex = events[length - 1].id
-  // }
-  // event.id = lastIndex + 1
   event.id = nanoid()
 
   events.push(event)

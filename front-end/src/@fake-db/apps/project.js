@@ -102,16 +102,6 @@ mock.onGet('/apps/projects').reply(config => {
     )
   }
 
-  /* eslint-disable */
-  // const filteredData = projects.filter(project => {
-  //   if (filter || tag) {
-  //     return (
-  //       project.title.toLowerCase().includes(queryLowered) && hasFilter(project) && (tag ? project.tags.includes(tag) : true)
-  //     )
-  //   } else {
-  //     return project.title.toLowerCase().includes(queryLowered) || includesFilter(project) || includesDueDate(project)
-  //   }
-  // })
   /* eslint-enable  */
 
   // ------------------------------------------------
@@ -157,12 +147,6 @@ mock.onGet('/apps/projects').reply(config => {
   // Sort Data
   const sortedData = projects.sort(sortTasks(sortBy))
   if (sortDesc) sortedData.reverse()
-  // working but somehow  "q" is overwrites with empty string q = ''
-  // const queryTask = sortedData.filter(task => {
-  //   const regex = new RegExp(`${q}`, "gi")
-  //   return task.assignee.fullName.match(regex)
-  // })
-  // const queryTask = sortedData.filter(task => task.assignee.fullName === RegExp(q))
   return [200, sortedData]
 })
 // ------------------------------------------------
@@ -170,7 +154,6 @@ mock.onGet('/apps/projects').reply(config => {
 // ------------------------------------------------
 // with local storage
 mock.onPost('/apps/project/add').reply(config => {
-  // Get event from post data
   const projects = JSON.parse(localStorage.getItem(PROJECTS)) || data.projects
 
   const { project } = JSON.parse(config.data)
@@ -213,7 +196,6 @@ mock.onDelete('/apps/todo/delete-project').reply(config => {
   // Get task id from URL
   let taskId = config.taskId
 
-  // Convert Id to number
   taskId = taskId
   projects = projects.filter(task => task.id !== taskId)
   localStorage.setItem(PROJECTS, JSON.stringify(projects))
