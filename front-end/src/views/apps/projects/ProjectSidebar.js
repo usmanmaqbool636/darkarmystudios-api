@@ -76,6 +76,7 @@ const TaskSidebar = props => {
   const [tags, setTags] = useState([])
   const [desc, setDesc] = useState(EditorState.createEmpty())
   const [completed, setCompleted] = useState(false)
+  const [visibility, setVisibility] = useState("private")
   const [important, setImportant] = useState(false)
   const [deleted, setDeleted] = useState(false)
   const [dueDate, setDueDate] = useState(new Date())
@@ -146,6 +147,7 @@ const TaskSidebar = props => {
     if (!isObjEmpty(selectedProject)) {
       setValue('title', selectedProject.title)
       setCompleted(selectedProject.isCompleted)
+      setVisibility(selectedProject.visibility)
       setImportant(selectedProject.isImportant)
       setAssignee(
         [...selectedProject.assignee]
@@ -262,7 +264,8 @@ const TaskSidebar = props => {
       isDeleted: deleted,
       isImportant: important,
       assignee,
-      createdAt
+      createdAt,
+      visibility
     }
 
     if (data.title.length) {
@@ -373,6 +376,31 @@ const TaskSidebar = props => {
                 setTags(data !== null ? [...data] : [])
               }}
             />
+          </div>
+          <div className='mb-1'>
+          <Label className='form-label' for='Visibility'>
+          Visibility
+          </Label>
+          <div onChange={(evt)=>setVisibility(evt.target.value)} className='demo-inline-spacing'>
+            <div className='form-check' id="Visibility">
+              <Input type='radio' value="private" id='ex1-active' name='visibility' defaultChecked checked={visibility === "private"} />
+              <Label className='form-check-label' for='ex1-active'>
+                Private
+              </Label>
+            </div>
+            <div className='form-check'>
+              <Input type='radio' value="public" name='visibility' id='ex1-inactive' checked={visibility === "public"} />
+              <Label className='form-check-label' for='ex1-inactive'>
+                Public
+              </Label>
+            </div>
+            <div className='form-check'>
+              <Input type='radio' value="multiple teams" name='visibility' id='ex2-active' checked={visibility === "multiple teams"} />
+              <Label className='form-check-label' for='ex2-active'>
+              multiple teams
+              </Label>
+            </div>
+          </div>
           </div>
           <div className='mb-1'>
             <Label for='task-desc' className='form-label'>

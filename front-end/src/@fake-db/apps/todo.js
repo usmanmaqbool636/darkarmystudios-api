@@ -1,7 +1,7 @@
 import mock from '../mock'
 import { TASKS } from "./constant"
 import { nanoid } from '@reduxjs/toolkit'
-
+// TODO Wrap Mock API handler with "try catch"
 const data = {
   tasks: [
     {
@@ -191,6 +191,11 @@ mock.onPost('/apps/todo/update-task').reply(config => {
   let tasks = JSON.parse(localStorage.getItem(TASKS)) || data.tasks
   const taskData = JSON.parse(config.data).task
   // Convert Id to number
+  if (taskData.isCompleted && !taskData.completedAt) {
+    taskData.completedAt = new Date()
+  } else {
+    taskData.completedAt = undefined
+  }
   taskData.id = taskData.id
   tasks = tasks.map(task => task.id === taskData.id ? taskData : task)
   

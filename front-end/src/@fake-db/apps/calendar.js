@@ -2,6 +2,7 @@
 import { nanoid } from '@reduxjs/toolkit'
 import mock from '../mock'
 import { EVENTS, TASKS } from './constant'
+// TODO Wrap Mock API handler with "try catch"
 
 const date = new Date()
 const prevDay = new Date().getDate() - 1

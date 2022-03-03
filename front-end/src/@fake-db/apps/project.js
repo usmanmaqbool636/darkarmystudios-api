@@ -1,7 +1,7 @@
 import mock from '../mock'
 import { PROJECTS } from "./constant"
 import { nanoid } from '@reduxjs/toolkit'
-
+// TODO Wrap Mock API handler with "try catch"
 const data = {
   projects: [
     {
@@ -17,7 +17,8 @@ const data = {
       isDeleted: false,
       isImportant: true,
       totalTask:10,
-      completedTask:5
+      completedTask:5,
+      visibility:"public"
     },
     {
       id: nanoid(),
@@ -32,7 +33,8 @@ const data = {
       isDeleted: false,
       isImportant: true,
       totalTask:10,
-      completedTask:5
+      completedTask:5,
+      visibility:"private"
     }
   ]
 }

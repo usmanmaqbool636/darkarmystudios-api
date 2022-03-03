@@ -1,5 +1,6 @@
 // ** Redux Imports
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+// TODO api request with "try catch"
 
 // ** Axios Imports
 import axios from 'axios'
