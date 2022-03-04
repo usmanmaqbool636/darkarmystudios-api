@@ -15,6 +15,7 @@ import { Button, ListGroup, ListGroupItem, Label, Container } from 'reactstrap'
 
 
 const assigneeOptions = [
+  { value: '', label: 'All' },
   { value: 'pheobe', label: 'Pheobe Buffay' },
   { value: 'chandler', label: 'Chandler Bing' },
   { value: 'ross', label: 'Ross Geller' },
@@ -33,7 +34,7 @@ const projects = [
 const TodoSidebar = props => {
   
   // ** Props
-  const { handleTaskSidebar, setMainSidebar, mainSidebar, dispatch, getTasks, params } = props
+  const { handleTaskSidebar, setMainSidebar, mainSidebar, dispatch, getTasks, params, setAssignee, setProject } = props
 
   // ** Functions To Handle List Item Filter
   const handleFilter = filter => {
@@ -59,9 +60,10 @@ const TodoSidebar = props => {
     handleTaskSidebar()
     setMainSidebar()
   }
-  const changeUser = (e) => {
-    dispatch(getTasks({ ...params, q:e.label }))
-  }
+  // const changeUser = (e) => {
+  //   setAssignee(e.label)
+  //   // dispatch(getTasks({ ...params, q:e.label }))
+  // }
 
   return (
     <div
@@ -75,13 +77,14 @@ const TodoSidebar = props => {
 
             {/* project */}
             <Container>
-              
+              {/* this list come from backend when we select a project all of his relevent task list is filtered  */}
               <Label className='form-label'>Select Project</Label>
               <Select
                 // menuIsOpen={true}
+                onChange={(e)=>setProject(e.label)}
                 isClearable={false}
                 theme={selectThemeColors}
-                // defaultValue={[colorOptions[2], colorOptions[3]]}
+                // defaultValue={}
                 // isMulti={false}
                 name='project'
                 options={projects}
@@ -91,11 +94,12 @@ const TodoSidebar = props => {
                 <br/>
               <Label className='form-label'>Select User</Label>
                 <Select
-                onChange={changeUser}
+                onChange={(e)=>setAssignee(e.label)}
                   // menuIsOpen={true}
                   isClearable={false}
                   theme={selectThemeColors}
-                  // defaultValue={[colorOptions[2], colorOptions[3]]}
+                  defaultValue={assigneeOptions[0]}
+                  // if set to true then also change Regex according to multiple assignee
                   // isMulti={false}
                   name='user'
                   options={assigneeOptions}

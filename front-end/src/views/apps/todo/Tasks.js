@@ -1,6 +1,7 @@
 // ** React Imports
 import { Link, useLocation, useHistory } from 'react-router-dom'
 
+import moment from "moment"
 // ** Custom Components
 import Avatar from '@components/avatar'
 
@@ -63,7 +64,6 @@ const Tasks = props => {
       const queryParams = new URLSearchParams(location.search)
       const taskid = queryParams.get('taskid')
       const task = tasks.find(t => t.id === Number(taskid))
-      console.log(task)
       if (task) {
         handleTaskClick(task)
       }
@@ -110,6 +110,17 @@ const Tasks = props => {
       return <Avatar color={resolveAvatarVariant(obj.tags)} content={item.fullName} initials />
     }
   }
+  const returnTimeTakenString = (completedAt) =>{
+    if (!completedAt) return ""
+    const currentDate = new moment()
+    const duration = moment.duration(currentDate.diff(completedAt))
+    let time = ""
+    if (duration._data.years) time += duration._data.years + " years"
+    if (duration._data.months) time += duration._data.months + " months"
+    if (duration._data.days) time += duration._data.days + " days"
+    if (duration._data.hours) time += duration._data.hours + " hours"
+    return time
+  }
 
   const renderTasks = () => {
     return (
@@ -137,6 +148,7 @@ const Tasks = props => {
             setList={newState => dispatch(reOrderTasks(newState))}
           >
             {tasks.map(item => {
+              const timeTaken = returnTimeTakenString(item.completedAt)
               return (
                 <li
                   key={`task-${item.id}`}
@@ -163,6 +175,12 @@ const Tasks = props => {
                       <span className='todo-title'>{item.title}</span>
                     </div>
                     <div className='todo-item-action mt-lg-0 mt-50'>
+                    {item.completedAt ? (
+                        <small className='text-nowrap text-success me-1'>
+                          time taken {" "}
+                          {timeTaken || "0 min"}
+                        </small>
+                      ) : null}
                       {item.tags.length ? <div className='badge-wrapper me-1'>{renderTags(item.tags)}</div> : null}
                       {item.dueDate ? (
                         <small className='text-nowrap text-muted me-1'>

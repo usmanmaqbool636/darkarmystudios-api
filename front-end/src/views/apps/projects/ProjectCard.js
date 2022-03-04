@@ -7,7 +7,7 @@ import Avatar from '@components/avatar'
 // ** Reactstrap Imports
 import { Card, CardTitle, CardBody, CardText, Badge, Button } from 'reactstrap'
 
-const CardAppDesign = ({ item }) => {
+const CardAppDesign = ({ item, handleProjectClick }) => {
   // this should come from parent
   const avatarArr = [
     {
@@ -51,7 +51,9 @@ const CardAppDesign = ({ item }) => {
   ]
 
   return (
-    <Card className='card-app-design card-app-design-custom'  >
+    <Card
+     onClick={() => handleProjectClick(item)}
+     className='card-app-design card-app-design-custom'  >
       <CardBody>
         <Badge color='light-primary'>{moment(item.createdAt).format('DD MMM, YYYY')}</Badge>
         <CardTitle className='mt-1 mb-75'>{item.title}</CardTitle>
@@ -70,19 +72,22 @@ const CardAppDesign = ({ item }) => {
         <div className='design-group pt-25'>
           <h6 className='section-label'>Members</h6>
           {/* members come from parent [avatar] */}
-          {avatarArr.map((obj, index) => {
-            return <Avatar key={index} className={classnames({ 'me-75': index !== avatarArr.length - 1 })} {...obj} />
+          {item.assignee.map((obj, index) => {
+            return <Avatar key={`ProjectCard-assignee-${obj.label}-${index}`} className={classnames({ 'me-75': index !== avatarArr.length - 1 })} {...obj} />
           })}
         </div>
         <div className='design-planning-wrapper mb-2 py-75'>
-          {designPlanningArr.map(item => (
-            <div key={item.title} className='design-planning'>
+          {designPlanningArr.map((item, index) => (
+            <div key={`designPlanningArr-${item.title}-${index}`} className='design-planning'>
               <CardText className='mb-25'>{item.title}</CardText>
               <h6 className='mb-0'>{item.subtitle}</h6>
             </div>
           ))}
         </div>
         <div className='d-flex justify-content-around'>
+          {/* TODO propagation*/}
+          {/* get help from this stackoverflow Question */}
+        {/* https://stackoverflow.com/questions/63411940/how-to-create-two-onclick-events-on-a-clickable-cards-in-react */}
           <Button color='primary'>Join Team</Button>
           <Button color='secondary'>Add Taks</Button>
         </div>

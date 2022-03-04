@@ -1,5 +1,5 @@
 // ** React Imports
-import { Suspense, useContext, lazy, Fragment } from 'react'
+import { Suspense, useContext, lazy, Fragment, useEffect } from 'react'
 
 // ** Utils
 import { isUserLoggedIn } from '@utils'
@@ -22,6 +22,9 @@ import VerticalLayout from '@src/layouts/VerticalLayout'
 import HorizontalLayout from '@src/layouts/HorizontalLayout'
 
 const Router = () => {
+  useEffect(()=>{
+    console.log("App [router]")
+  }, [])
   // ** Hooks
   const { layout, setLayout, setLastLayout } = useLayout()
   const { transition, setTransition } = useRouterTransition()

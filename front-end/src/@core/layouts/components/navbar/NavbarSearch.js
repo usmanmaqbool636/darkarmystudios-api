@@ -26,9 +26,12 @@ const NavbarSearch = () => {
 
   // ** ComponentDidMount
   useEffect(() => {
-    axios.get('/api/main-search/data').then(({ data }) => {
-      setSuggestions(data.searchArr)
-    })
+    // if main search is not working then remove condition and directly send request
+    // if (navbarSearch) {
+      axios.get('/api/main-search/data').then(({ data }) => {
+        setSuggestions(data.searchArr)
+      })
+    // }
   }, [])
 
   // ** Removes query in store

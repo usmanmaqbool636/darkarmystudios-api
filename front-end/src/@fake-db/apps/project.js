@@ -1,39 +1,40 @@
 import mock from '../mock'
 import { PROJECTS } from "./constant"
-
+import { nanoid } from '@reduxjs/toolkit'
+// TODO Wrap Mock API handler with "try catch"
 const data = {
   projects: [
     {
-      id: 18,
+      id: nanoid(),
       title: 'Fix Responsiveness for new structure 💻',
       dueDate: '2020-11-18',
       createdAt: '2020-11-18',
       description:
         'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      assignee: {
-        fullName: 'Danielle Anderson',
-        avatar: require('@src/assets/images/portrait/small/avatar-s-9.jpg').default
-      },
+      assignee: [],
       tags: ['low'],
       isCompleted: false,
       isDeleted: false,
-      isImportant: true
+      isImportant: true,
+      totalTask:10,
+      completedTask:5,
+      visibility:"public"
     },
     {
-      id: 10,
+      id: nanoid(),
       title: 'Fix Responsiveness for new structure 💻',
       dueDate: '2020-11-18',
       createdAt: '2020-11-18',
       description:
         'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      assignee: {
-        fullName: 'Danielle Anderson',
-        avatar: require('@src/assets/images/portrait/small/avatar-s-9.jpg').default
-      },
+      assignee: [],
       tags: ['low'],
       isCompleted: false,
       isDeleted: false,
-      isImportant: true
+      isImportant: true,
+      totalTask:10,
+      completedTask:5,
+      visibility:"private"
     }
   ]
 }
@@ -103,16 +104,6 @@ mock.onGet('/apps/projects').reply(config => {
     )
   }
 
-  /* eslint-disable */
-  // const filteredData = projects.filter(project => {
-  //   if (filter || tag) {
-  //     return (
-  //       project.title.toLowerCase().includes(queryLowered) && hasFilter(project) && (tag ? project.tags.includes(tag) : true)
-  //     )
-  //   } else {
-  //     return project.title.toLowerCase().includes(queryLowered) || includesFilter(project) || includesDueDate(project)
-  //   }
-  // })
   /* eslint-enable  */
 
   // ------------------------------------------------
@@ -158,12 +149,6 @@ mock.onGet('/apps/projects').reply(config => {
   // Sort Data
   const sortedData = projects.sort(sortTasks(sortBy))
   if (sortDesc) sortedData.reverse()
-  // working but somehow  "q" is overwrites with empty string q = ''
-  // const queryTask = sortedData.filter(task => {
-  //   const regex = new RegExp(`${q}`, "gi")
-  //   return task.assignee.fullName.match(regex)
-  // })
-  // const queryTask = sortedData.filter(task => task.assignee.fullName === RegExp(q))
   return [200, sortedData]
 })
 // ------------------------------------------------
@@ -171,7 +156,6 @@ mock.onGet('/apps/projects').reply(config => {
 // ------------------------------------------------
 // with local storage
 mock.onPost('/apps/project/add').reply(config => {
-  // Get event from post data
   const projects = JSON.parse(localStorage.getItem(PROJECTS)) || data.projects
 
   const { project } = JSON.parse(config.data)
@@ -181,7 +165,7 @@ mock.onPost('/apps/project/add').reply(config => {
   if (length) {
     lastIndex = projects[length - 1].id
   }
-  project.id = lastIndex + 1
+  project.id = nanoid()
 
   projects.push(project)
   localStorage.setItem(PROJECTS, JSON.stringify(projects))
@@ -193,16 +177,16 @@ mock.onPost('/apps/project/add').reply(config => {
 // POST: Update Project
 // ------------------------------------------------
 // update projects with local storage
-mock.onPost('/apps/todo/update-project').reply(config => {
+mock.onPost('/apps/todo/update').reply(config => {
   let projects = JSON.parse(localStorage.getItem(PROJECTS)) || data.projects
-  const taskData = JSON.parse(config.data).task
+  const projectData = JSON.parse(config.data).project
   // Convert Id to number
-  taskData.id = Number(taskData.id)
-  projects = projects.map(task => task.id === taskData.id ? taskData : task)
+  projectData.id = projectData.id
+  projects = projects.map(project => project.id === projectData.id ? projectData : project)
   
   localStorage.setItem(PROJECTS, JSON.stringify(projects))
 
-  return [200, { task:taskData }]
+  return [200, { project:projectData }]
 })
 
 // ------------------------------------------------
@@ -214,8 +198,7 @@ mock.onDelete('/apps/todo/delete-project').reply(config => {
   // Get task id from URL
   let taskId = config.taskId
 
-  // Convert Id to number
-  taskId = Number(taskId)
+  taskId = taskId
   projects = projects.filter(task => task.id !== taskId)
   localStorage.setItem(PROJECTS, JSON.stringify(projects))
   return [200]
