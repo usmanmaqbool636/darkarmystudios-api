@@ -148,7 +148,6 @@ const Tasks = props => {
             setList={newState => dispatch(reOrderTasks(newState))}
           >
             {tasks.map(item => {
-              console.log(item)
               const timeTaken = returnTimeTakenString(item.createdAt, item.completedAt)
               return (
                 <li
