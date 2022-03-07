@@ -354,7 +354,7 @@ const TaskSidebar = props => {
               className='form-control'
               onChange={date => setDueDate(date[0])}
               value={dueDate}
-              options={{ dateFormat: 'Y-m-d' }}
+              options={{ dateFormat: 'Y-m-d', minDate:"today" }}
             />
           </div>
           <div className='mb-1'>

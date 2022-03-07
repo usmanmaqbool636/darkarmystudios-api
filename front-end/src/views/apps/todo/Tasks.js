@@ -110,10 +110,10 @@ const Tasks = props => {
       return <Avatar color={resolveAvatarVariant(obj.tags)} content={item.fullName} initials />
     }
   }
-  const returnTimeTakenString = (completedAt) =>{
-    if (!completedAt) return ""
-    const currentDate = new moment()
-    const duration = moment.duration(currentDate.diff(completedAt))
+  const returnTimeTakenString = (start, end) =>{
+    if (!end) return ""
+    start = moment(start)
+    const duration = moment.duration(start.diff(end))
     let time = ""
     if (duration._data.years) time += duration._data.years + " years"
     if (duration._data.months) time += duration._data.months + " months"
@@ -148,7 +148,8 @@ const Tasks = props => {
             setList={newState => dispatch(reOrderTasks(newState))}
           >
             {tasks.map(item => {
-              const timeTaken = returnTimeTakenString(item.completedAt)
+              console.log(item)
+              const timeTaken = returnTimeTakenString(item.createdAt, item.completedAt)
               return (
                 <li
                   key={`task-${item.id}`}

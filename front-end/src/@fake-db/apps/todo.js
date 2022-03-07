@@ -1,13 +1,15 @@
 import mock from '../mock'
 import { TASKS } from "./constant"
 import { nanoid } from '@reduxjs/toolkit'
+import moment from 'moment'
 // TODO Wrap Mock API handler with "try catch"
+const d_moment = moment().format()
 const data = {
   tasks: [
     {
       id: nanoid(),
       title: 'Entire change break our wife wide it daughter mention member.',
-      dueDate: '2020-11-25',
+      dueDate: moment(d_moment).clone().add(5, 'days').format(),
       description:
         'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
       assignee: {
@@ -18,7 +20,8 @@ const data = {
       tags: ['update'],
       isCompleted: false,
       isDeleted: false,
-      isImportant: false
+      isImportant: false,
+      createdAt:moment(d_moment).clone().subtract(2, 'days').format()
     }
   ]
 }
@@ -176,6 +179,7 @@ mock.onPost('/apps/todo/add-tasks').reply(config => {
   //   lastIndex = tasks[length - 1].id
   // }
   task.id = nanoid()
+  task.createdAt = moment().format()
 
   tasks.push(task)
   localStorage.setItem(TASKS, JSON.stringify(tasks))
