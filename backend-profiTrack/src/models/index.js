@@ -1,6 +1,6 @@
-const Projects = require("./project");
+const ProjectsModel = require("./project");
 const Todos = require("./todo");
 module.exports = {
-    Projects,
+    ProjectsModel,
     Todos
 } 

@@ -6,14 +6,12 @@ const projectSchema = new mongoose.Schema(
       type:String,
       default:""
     },
-    // dueDate: {
-    //   type:Date
-    // },
     description:{
       type:String,
       default:""
     },
     // list of assignees
+    // Change the name if required from assignees to members
     assignees: [
       // ref to user model who is assignee 
       // discuss with @syedAbass
@@ -41,7 +39,13 @@ const projectSchema = new mongoose.Schema(
     // completedTask:5,
     visibility:{
       type:String,
-      enum:["public","private","multiple teams"]
+      enum:["public","private","multiple teams"],
+      // TODO set default visibilty according to frontend
+      // default:"public"
+    },
+    createdBy:{
+      type:mongoose.Types.ObjectId,
+      ref:"admins"
     }
   },
   {
