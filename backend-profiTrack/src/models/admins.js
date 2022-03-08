@@ -47,6 +47,9 @@ const adminSchema= new mongoose.Schema({
     role: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "roles",
+        permssions:{
+            
+        }
     },
     approvedBy:{
         type:mongoose.Schema.Types.ObjectId,

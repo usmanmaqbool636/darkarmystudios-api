@@ -30,8 +30,17 @@ mongoose
   .catch((err) => console.log("Cannot connect to database", err.message));
 
 // TODO I think should be start from /api 
-app.use("/", require('./src/routes/api/index.js'));
+app.use("/api", require('./src/routes/api/index.js'));
 
+app.use((err,req,res,next)=>{
+  console.log(err);
+  return res.status(200).json({
+    success: false,
+    data: {},
+    message: err.message,
+    status: err.code || 500,
+  });
+})
 app.listen(port, () => {
     console.log('Server is listening on:', port);
 })

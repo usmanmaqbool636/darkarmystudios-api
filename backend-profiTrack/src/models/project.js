@@ -17,10 +17,11 @@ const projectSchema = new mongoose.Schema(
       // discuss with @syedAbass
     ],
     tags: [String],
-    isCompleted: {
-      type:Boolean,
-      default:false
-    },
+    // no need
+    // isCompleted: {
+    //   type:Boolean,
+    //   default:false
+    // },
     isDeleted: {
       type:Boolean,
       default:false,
@@ -44,6 +45,10 @@ const projectSchema = new mongoose.Schema(
       // default:"public"
     },
     createdBy:{
+      type:mongoose.Types.ObjectId,
+      ref:"admins"
+    },
+    deletedBy:{
       type:mongoose.Types.ObjectId,
       ref:"admins"
     }

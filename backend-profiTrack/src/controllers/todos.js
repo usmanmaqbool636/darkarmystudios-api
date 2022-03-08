@@ -3,7 +3,7 @@ exports.addTodo = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       data: {},
-      msg: "ok",
+      message: "ok",
       status: 200,
     });
   } catch (error) {
@@ -15,7 +15,7 @@ exports.getAllTodos = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       data: {},
-      msg: "ok",
+      message: "ok",
       status: 200,
     });
   } catch (error) {
@@ -28,7 +28,7 @@ exports.getSingleTodo = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       data: {},
-      msg: "ok",
+      message: "ok",
       status: 200,
     });
   } catch (error) {
@@ -41,7 +41,7 @@ exports.updateTodo = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       data: {},
-      msg: "ok",
+      message: "ok",
       status: 200,
     });
   } catch (error) {
@@ -55,7 +55,7 @@ exports.delTodo = async (req, res, next) => {
       return res.status(200).json({
         success: true,
         data: {},
-        msg: "ok",
+        message: "ok",
         status: 200,
       });
     } catch (error) {

@@ -4,6 +4,7 @@ exports.addProject = async (req, res, next) => {
   try {
     const { body } = req;
     const project = ProjectService.newProject(body);
+    // TODO discuss with @abdulmohiz
     // req.user._id from middleware
     // project.createdBy = req.user._id;
     await project.save();
@@ -13,7 +14,7 @@ exports.addProject = async (req, res, next) => {
       data: {
         project
       },
-      msg: "project Created Successfully",
+      message: "project Created Successfully",
       status: 200,
     });
   } catch (error) {
@@ -22,10 +23,13 @@ exports.addProject = async (req, res, next) => {
 };
 exports.getAllProjects = async (req, res, next) => {
   try {
+    const projects =await  ProjectService.getProjects({});
     return res.status(200).json({
       success: true,
-      data: {},
-      msg: "ok",
+      data: {
+        projects
+      },
+      message: "ok",
       status: 200,
     });
   } catch (error) {
@@ -35,10 +39,14 @@ exports.getAllProjects = async (req, res, next) => {
 
 exports.getSingleProject = async (req, res, next) => {
   try {
+    const project = await ProjectService.getProject({_id:req.params.id});
+    console.log(project)
     return res.status(200).json({
       success: true,
-      data: {},
-      msg: "ok",
+      data: {
+        project
+      },
+      message: "ok",
       status: 200,
     });
   } catch (error) {
@@ -48,10 +56,13 @@ exports.getSingleProject = async (req, res, next) => {
 
 exports.updateProject = async (req, res, next) => {
   try {
+    const project = await ProjectService.updateProject({_id:req.params.id},req.body);
     return res.status(200).json({
       success: true,
-      data: {},
-      msg: "ok",
+      data: {
+        project
+      },
+      message: "ok",
       status: 200,
     });
   } catch (error) {
@@ -61,10 +72,19 @@ exports.updateProject = async (req, res, next) => {
 
 exports.delProject = async (req, res, next) => {
   try {
+    const project = await ProjectService.updateProject({_id:req.params.id},{$set:{
+      deletedAt:Date.now(),
+      // deletedBy:
+      isDeleted:true
+
+    }})
+    
     return res.status(200).json({
       success: true,
-      data: {},
-      msg: "ok",
+      data: {
+        project
+      },
+      message: "ok",
       status: 200,
     });
   } catch (error) {
