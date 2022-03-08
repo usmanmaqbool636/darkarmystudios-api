@@ -55,6 +55,14 @@ const todoSchema = new mongoose.Schema(
     isImportant: {
       type:Boolean,
       default:false
+    },
+    createdBy:{
+      type:mongoose.Types.ObjectId,
+      ref:"admins"
+    },
+    deletedBy:{
+      type:mongoose.Types.ObjectId,
+      ref:"admins"
     }
   },
   {

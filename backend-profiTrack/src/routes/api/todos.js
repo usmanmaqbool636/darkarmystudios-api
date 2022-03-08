@@ -1,9 +1,9 @@
 var router = require('express').Router();
-// var UserService = require('../../services/user') 
-router.get("/all",()=>{})
-router.post("/add",()=>{})
-router.put("/:id", ()=>{})
-router.delete("/:id", ()=>{})
-router.get("/:id", ()=>{})
+var TodoController = require('../../controllers/todos') 
+router.get("/all",TodoController.getAllTodos)
+router.post("/add",TodoController.addTodo)
+router.put("/:id", TodoController.updateTodo)
+router.delete("/:id", TodoController.delTodo)
+router.get("/:id", TodoController.getSingleTodo)
 
 module.exports = router;

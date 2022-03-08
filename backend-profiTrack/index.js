@@ -15,7 +15,6 @@ const port = Number(process.env.PORT || 3000);
 
 //Middleware packages
 app.use(cors());
-app.use(require('morgan')('dev'));
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(bodyparser.urlencoded({extended: true}));
@@ -33,13 +32,14 @@ mongoose
 app.use("/api", require('./src/routes/api/index.js'));
 
 app.use((err,req,res,next)=>{
-  console.log(err);
-  return res.status(200).json({
+  const errorResponce= {
     success: false,
     data: {},
     message: err.message,
     status: err.code || 500,
-  });
+  }
+  console.error(errorResponce)
+  return res.status(200).json(errorResponce);
 })
 app.listen(port, () => {
     console.log('Server is listening on:', port);

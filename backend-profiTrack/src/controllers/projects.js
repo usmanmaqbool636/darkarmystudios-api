@@ -2,6 +2,7 @@ const ProjectService = require("../services/projects");
 
 exports.addProject = async (req, res, next) => {
   try {
+    // TODO add Validator here
     const { body } = req;
     const project = ProjectService.newProject(body);
     // TODO discuss with @abdulmohiz
