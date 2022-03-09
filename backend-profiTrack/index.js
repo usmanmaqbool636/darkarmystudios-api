@@ -32,14 +32,16 @@ mongoose
 app.use("/api", require('./src/routes/api/index.js'));
 
 app.use((err,req,res,next)=>{
+  // console.error(err);
+  const code = err.status || 500; 
   const errorResponce= {
     success: false,
     data: {},
-    message: err.message,
-    status: err.code || 500,
+    message: err.message || "Something happen",
+    status: code,
   }
   console.error(errorResponce)
-  return res.status(200).json(errorResponce);
+  return res.status(code).json(errorResponce);
 })
 app.listen(port, () => {
     console.log('Server is listening on:', port);

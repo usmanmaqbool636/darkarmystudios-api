@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const ProjectController = require('../../controllers/projects'); 
-const { addProjectValidation } = require('../../Validator/projects');
-// Created But not tested
-// Need Validator here
+const { addProjectValidation } = require('../../Validator');
+
+// TODO we need to add middleware so that we can handle permissions
 router.post("/add",addProjectValidation,ProjectController.addProject)
 router.get("/all",ProjectController.getAllProjects)
 router.put("/:id",ProjectController.updateProject)

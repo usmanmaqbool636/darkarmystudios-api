@@ -42,6 +42,12 @@ exports.getSingleProject = async (req, res, next) => {
   try {
     const project = await ProjectService.getProject({_id:req.params.id});
     console.log(project)
+    if(!project) return next({
+      success: false,
+      data: {},
+      message: "Project Not found",
+      status: 404,
+    })
     return res.status(200).json({
       success: true,
       data: {
@@ -58,6 +64,12 @@ exports.getSingleProject = async (req, res, next) => {
 exports.updateProject = async (req, res, next) => {
   try {
     const project = await ProjectService.updateProject({_id:req.params.id},req.body);
+    if(!project) return next({
+      success: false,
+      data: {},
+      message: "Project Not found",
+      status: 404,
+    })
     return res.status(200).json({
       success: true,
       data: {
@@ -79,6 +91,13 @@ exports.delProject = async (req, res, next) => {
       isDeleted:true
 
     }})
+    
+    if(!project) return next({
+      success: false,
+      data: {},
+      message: "Project Not found",
+      status: 404,
+    })
     
     return res.status(200).json({
       success: true,
