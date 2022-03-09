@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const crypto = require("crypto");
 
 const adminSchema= new mongoose.Schema({
+    adminId: {
+        type: String,
+    },
     fullname:{
         type:String,
         default:"",
@@ -47,9 +50,6 @@ const adminSchema= new mongoose.Schema({
     role: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "roles",
-        permssions:{
-            
-        }
     },
     approvedBy:{
         type:mongoose.Schema.Types.ObjectId,
