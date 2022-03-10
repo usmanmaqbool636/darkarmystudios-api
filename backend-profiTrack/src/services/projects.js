@@ -16,6 +16,7 @@ class ProjectService {
   getProjects(req) {
     return ProjectsModel.find(req);
   }
+  
 }
 
 module.exports = new ProjectService();

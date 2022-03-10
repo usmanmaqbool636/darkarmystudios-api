@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
-const AdminService = require("../services/admin");
+const AdminService = require("../services/admins");
+const RoleService = require("../services/roles");
 
 exports.RequireSigninAdmin = (
     req,
@@ -27,5 +28,20 @@ exports.RequireSigninAdmin = (
         }
       }
     );
-  };
-  
+};
+
+exports.getAuth = function (req, res, next) {
+  if(req) { 
+    const role = await RoleService.getRole({ _id: req.role_id });
+    var allow = false;
+
+    role.forEach(function(perm){
+      if (req.method == "POST" && perms.create) allow = true;
+      else if (req.method == "GET" && perms.read) allow = true;
+      else if (req.method == "PUT" && perms.write) allow = true;
+      else if (req.method == "DELETE" && perm.delete) allow = true;
+    })
+    if (allow) next();
+    else res.status(403).send({error: 'access denied'});
+   } else res.status(400).send({error: 'invalid token'})
+}
