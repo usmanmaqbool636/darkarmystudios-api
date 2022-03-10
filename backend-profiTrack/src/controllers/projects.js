@@ -1,5 +1,5 @@
 const ProjectService = require("../services/projects");
-
+// Change this below code this is just for testing purpose
 exports.addProject = async (req, res, next) => {
   try {
     // TODO add Validator here
@@ -9,16 +9,24 @@ exports.addProject = async (req, res, next) => {
     // req.user._id from middleware
     // project.createdBy = req.user._id;
     await project.save();
-
-    return res.status(200).json({
+    return 
+    // return res.status(200).json({
+    //   success: true,
+    //   data: {
+    //     project
+    //   },
+    //   message: "project Created Successfully",
+    //   status: 200,
+    // });
+  } catch (error) {
+    return res.status(401).json({
       success: true,
       data: {
-        project
+        // project
       },
       message: "project Created Successfully",
       status: 200,
     });
-  } catch (error) {
     return next(error);
   }
 };

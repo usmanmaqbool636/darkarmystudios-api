@@ -10,7 +10,7 @@ var express = require('express'),
 const app = express();
 dotenv.config();   
 
-const db = process.env.MONGO_URI;
+const db = process.env.MONGO_URI_DEV;
 const port = Number(process.env.PORT || 3000);
 
 //Middleware packages

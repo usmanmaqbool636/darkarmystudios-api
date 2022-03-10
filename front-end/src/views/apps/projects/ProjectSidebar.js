@@ -9,6 +9,7 @@ import { X, Star, Trash } from 'react-feather'
 import Select, { components } from 'react-select'
 import { useForm, Controller } from 'react-hook-form'
 import { EditorState, ContentState } from 'draft-js'
+import { convertToHTML } from 'draft-convert'
 
 // ** Reactstrap Imports
 import { Modal, ModalBody, Button, Form, Input, Label, FormFeedback } from 'reactstrap'
@@ -255,11 +256,14 @@ const TaskSidebar = props => {
     //   fullName: assignee.label,
     //   avatar: assignee.img
     // }
+    console.log(desc.getCurrentContent())
+    const currentContentAsHTML = convertToHTML(desc.getCurrentContent())
+    console.log(currentContentAsHTML)
     const state = {
       dueDate,
       title: data.title,
       tags: newTaskTag,
-      description: desc,
+      description: currentContentAsHTML,
       isCompleted: completed,
       isDeleted: deleted,
       isImportant: important,
@@ -416,7 +420,9 @@ const TaskSidebar = props => {
                   options: ['bold', 'italic', 'underline']
                 }
               }}
-              onEditorStateChange={data => setDesc(data)}
+              onEditorStateChange={data => {
+                setDesc(data)
+              }}
             />
           </div>
           <div>{renderFooterButtons()}</div>

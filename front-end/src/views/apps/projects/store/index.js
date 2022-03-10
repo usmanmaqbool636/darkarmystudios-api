@@ -1,11 +1,13 @@
 // ** Redux Imports
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
 // TODO api request with "try catch"
 
 // ** Axios Imports
 import axios from 'axios'
+import axiosClient from '../../../../axios'
 
-
+const route = "/projects"
 // ref tutorial 
 // simple https://redux-toolkit.js.org/tutorials/quick-start
 
@@ -26,7 +28,8 @@ export const getProjects = createAsyncThunk('appProject/getProjects', async para
 
 export const addProject = createAsyncThunk('appProject/addProject', async (project, { dispatch, getState }) => {
   try {
-    const response = await axios.post('/apps/project/add', { project })
+    // const response = await axios.post(`${route}/add`, { project })
+    const response = await axiosClient.post(`${route}/add`, { ...project })
     await dispatch(getProjects(getState().todo.params))
     return response.data
   } catch (error) {

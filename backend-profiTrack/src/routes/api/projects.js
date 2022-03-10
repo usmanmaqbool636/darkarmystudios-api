@@ -10,3 +10,18 @@ router.delete("/:id", ProjectController.delProject)
 router.get("/:id",ProjectController.getSingleProject)
 
 module.exports = router;
+
+// [{ role: 'readWrite', db: 'config' },
+// { role: 'clusterAdmin', db: 'admin' },
+// { role: 'readWrite', db: 'profitrack' }]
+
+// db.updateUser( "usman_maqbool",
+//                {
+
+//                  roles : [
+//                     { role: 'readWrite', db: 'config' },
+//                     { role: 'clusterAdmin', db: 'admin' },
+//                     { role: 'readWrite', db: 'profitrack' }
+//                          ]
+//                 }
+//              )
