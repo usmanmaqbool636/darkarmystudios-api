@@ -26,7 +26,9 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => console.log("DataBase has been connected!"))
-  .catch((err) => console.log("Cannot connect to database", err.message));
+  .catch((err) => {
+    console.log("Cannot connect to database", err.message)
+  });
 
 // TODO I think should be start from /api 
 app.use("/api", require('./src/routes/api/index.js'));

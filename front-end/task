@@ -1,24 +1,5 @@
-<!-- """My Remaing Task""" -->
-- Allow user to create multiple projects (long task) (working).
-    ref Layout : https://gitlab.darkarmylabs.com/dark-army-dev-team/profitrack/-/issues/2
-- Allow users to create multiple tasks on a project (related to project).
-- Task can be assigned to a user and can have deadlines and due dates. 
-    We want to count how many days,hours and minutes were spent on a task (info).
 
 
-- Each task should appear on the calendar. 
-    You will need to make one calender menu and implement the calendar there (done). 
-    The task will appear as clickable labels on the calendar which will open the task page for that task (done).
-
-- add searchable drop down top of add task button named Projects 
-    (done but not functional) 
-    (related to project)
-
-- add searchable drop down top of add task button named Users (have some error)
-- Task should appear as a new label on calendar which can open a task pop up or slide screen and use the edit button to redirect to task edit screen/page (done).
-
-
-<!-- functionality -->
-You can borrow some functionalities from task that came with the theme --> https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/demo-1/apps/todo . Actually just use that page and link all task to a project, like a project drop down under the add task button. This will save you alot of development time. Click opening a project auto selects that project and opens the task for that project.
+https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/demo-1/apps/todo . Actually just use that page and link all task to a project, like a project drop down under the add task button. This will save you alot of development time. Click opening a project auto selects that project and opens the task for that project.
 Also link these tasks in to the Calendar that came with theme as clickable labels --> https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/demo-1/apps/calendar . Calendar will have its own menu.
 

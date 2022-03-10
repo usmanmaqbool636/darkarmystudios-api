@@ -1,10 +1,10 @@
-var AdminService = require('../services/admin.js') 
-import { nanoid } from 'nanoid'
+var AdminService = require('../services/admins.js') 
+// import { nanoid } from 'nanoid'
 
 exports.addAdmin = async (req, res, next) => {
     try {
       const { body } = req;
-      body.adminId = nanoid()
+      // body.adminId = nanoid()
       const Admin = AdminService.newAdmin(body);
 
       await Admin.save();

@@ -3,6 +3,8 @@ import classnames from 'classnames'
 import moment from "moment"
 // ** Custom Components
 import Avatar from '@components/avatar'
+import { Editor, convertFromHTML, EditorState, ContentState } from 'draft-js'
+
 
 // ** Reactstrap Imports
 import { Card, CardTitle, CardBody, CardText, Badge, Button } from 'reactstrap'
@@ -49,6 +51,21 @@ const CardAppDesign = ({ item, handleProjectClick }) => {
       subtitle: '$840.99'
     }
   ]
+  // have errors
+  // const contentState = convertFromHTML(item.description)
+  // const editorState = EditorState.createWithContent(contentState)
+  // console.log(editorState)
+
+  // const sampleMarkup =
+  // '<b>Bold text</b>, <i>Italic text</i><br/ ><br />' +
+  // '<a href="http://www.facebook.com">Example link</a>'
+
+  const blocksFromHTML = convertFromHTML(item.description)
+  const content = ContentState.createFromBlockArray(
+  blocksFromHTML.contentBlocks,
+  blocksFromHTML.entityMap
+  )
+  const editorState = EditorState.createWithContent(content)
 
   return (
     <Card
@@ -58,12 +75,13 @@ const CardAppDesign = ({ item, handleProjectClick }) => {
         <Badge color='light-primary'>{moment(item.createdAt).format('DD MMM, YYYY')}</Badge>
         <CardTitle className='mt-1 mb-75'>{item.title}</CardTitle>
         <CardText className='font-small-2 mb-2'>
-          You can Find Only Post and Quotes Related to IOS like ipad app design, iphone app design
+        <Editor  editorState={editorState} readOnly={true} />
+          {item.description}
         </CardText>
         <div className='design-group mb-2 pt-50'>
           <h6 className='section-label'>Team</h6>
           {item.tags.map(tag=>(
-            <Badge key={`tag-${tag}-${item.id}`} className='me-1' color='light-warning'>
+            <Badge key={`tag-${tag}-${item._id}`} className='me-1' color='light-warning'>
 
               {tag}
             </Badge>
@@ -72,7 +90,7 @@ const CardAppDesign = ({ item, handleProjectClick }) => {
         <div className='design-group pt-25'>
           <h6 className='section-label'>Members</h6>
           {/* members come from parent [avatar] */}
-          {item.assignee.map((obj, index) => {
+          {item.assignees.map((obj, index) => {
             return <Avatar key={`ProjectCard-assignee-${obj.label}-${index}`} className={classnames({ 'me-75': index !== avatarArr.length - 1 })} {...obj} />
           })}
         </div>

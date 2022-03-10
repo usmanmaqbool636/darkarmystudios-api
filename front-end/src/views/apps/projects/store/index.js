@@ -14,11 +14,10 @@ const route = "/projects"
 
 export const getProjects = createAsyncThunk('appProject/getProjects', async params => {
   try {
-    const response = await axios.get('/apps/projects', { params })
-    console.log(response)
+    const response = await axiosClient.get(`${route}/all`, { params })
     return {
       params,
-      data: response.data
+      data: response.data.projects
     }
     
   } catch (error) {
@@ -26,16 +25,6 @@ export const getProjects = createAsyncThunk('appProject/getProjects', async para
   }
 })
 
-export const addProject = createAsyncThunk('appProject/addProject', async (project, { dispatch, getState }) => {
-  try {
-    // const response = await axios.post(`${route}/add`, { project })
-    const response = await axiosClient.post(`${route}/add`, { ...project })
-    await dispatch(getProjects(getState().todo.params))
-    return response.data
-  } catch (error) {
-    console.log(error)
-  }
-})
 
 export const updateProject = createAsyncThunk('appProject/updateProject', async (project, { dispatch, getState }) => {
   try {
@@ -63,7 +52,9 @@ export const appTodoSlice = createSlice({
       q: '',
       sort: '',
       tag: ''
-    }
+    },
+    loading:false,
+    error:""
   },
   reducers: {
     // not required
@@ -72,7 +63,12 @@ export const appTodoSlice = createSlice({
     // },
     selectProject: (state, action) => {
       state.selectedProject = action.payload
+    },
+    setError:(state, action) =>{
+      state.loading = action.payload.loading
+      state.error = action.payload.error || ""
     }
+
   },
   extraReducers: builder => {
     builder.addCase(getProjects.fulfilled, (state, action) => {
@@ -82,6 +78,20 @@ export const appTodoSlice = createSlice({
   }
 })
 
-export const { reOrderTasks, selectProject } = appTodoSlice.actions
+export const { reOrderTasks, selectProject, setError } = appTodoSlice.actions
 
 export default appTodoSlice.reducer
+
+// with realapi
+export const addProject = createAsyncThunk('appProject/addProject', async (project, { dispatch, getState }) => {
+  try {
+    // const response = await axios.post(`${route}/add`, { project })
+    dispatch(setError({loading:true}))
+    const response = await axiosClient.post(`${route}/add`, { ...project })
+    await dispatch(getProjects(getState().todo.params))
+    return response.data
+  } catch (error) {
+    dispatch(setError({loading:true, error: error.message}))
+    console.log(error)
+  }
+})

@@ -10,6 +10,8 @@ import Select, { components } from 'react-select'
 import { useForm, Controller } from 'react-hook-form'
 import { EditorState, ContentState } from 'draft-js'
 import { convertToHTML } from 'draft-convert'
+import { toast } from 'react-toastify'
+
 
 // ** Reactstrap Imports
 import { Modal, ModalBody, Button, Form, Input, Label, FormFeedback } from 'reactstrap'
@@ -232,7 +234,7 @@ const TaskSidebar = props => {
     } else {
       return (
         <Fragment>
-          <Button type='submit' color='primary' className='add-todo-item me-1'>
+          <Button disabled={store.loading} type='submit' color='primary' className='add-todo-item me-1'>
             Create Project
           </Button>
           <Button color='secondary' onClick={handleTaskSidebar} outline>
@@ -243,8 +245,9 @@ const TaskSidebar = props => {
     }
   }
 
-  const onSubmit = data => {
-    const newTaskTag = []
+  const onSubmit = async data => {
+    try {
+      const newTaskTag = []
 
     // const doesInclude = !isObjEmpty(store.selectedProject) && assignee.label === store.selectedProject.assignee.fullName
 
@@ -275,18 +278,44 @@ const TaskSidebar = props => {
     if (data.title.length) {
       if (isObjEmpty(errors)) {
         if (isObjEmpty(store.selectedProject) || (!isObjEmpty(store.selectedProject) && !store.selectedProject.title.length)) {
-          dispatch(addProject(state))
+         await dispatch(addProject(state))
         } else {
-          dispatch(updateProject({ ...state, id: store.selectedProject.id }))
+          await dispatch(updateProject({ ...state, id: store.selectedProject.id }))
         }
-        handleTaskSidebar()
+        // handleTaskSidebar()
       }
     } else {
       setError('title', {
         type: 'manual'
       })
     }
+    } catch (error) {
+      console.log(error)
+    }
+    
   }
+  const SuccessToast = () => (
+    // TODO not set yet
+    <Fragment>
+      <div className='toastify-header'>
+        <div className='title-wrapper'>
+          {/* <Avatar size='sm' color='success' icon={<Check size={12} />} /> */}
+          <h6 className='toast-title'>Success!</h6>
+        </div>
+        <small className='text-muted'>11 Min Ago</small>
+      </div>
+      <div className='toastify-body'>
+        <span role='img' aria-label='toast-text'>
+          👋 Jelly-o macaroon brownie tart ice cream croissant jelly-o apple pie.
+        </span>
+      </div>
+    </Fragment>
+  )
+
+  if (store.error) {
+    toast.success(<SuccessToast />, { icon: false, hideProgressBar: true })
+  }
+  console.log(store.error, store.loading)
   return (
     <Modal
       isOpen={open}

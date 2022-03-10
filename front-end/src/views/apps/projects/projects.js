@@ -140,7 +140,7 @@ const Tasks = props => {
         <Row className='match-height'>
           {projects.map(item => {
             return  (
-              <Col  key={`project-${item.id}`} lg='4' md='6'>
+              <Col  key={`project-${item._id}`} lg='4' md='6'>
                   <ProjectCard handleProjectClick={handleProjectClick} item={item} />
                 </Col>
               )

@@ -8,31 +8,22 @@ exports.addProject = async (req, res, next) => {
     // TODO discuss with @abdulmohiz
     // req.user._id from middleware
     // project.createdBy = req.user._id;
-    await project.save();
-    return 
-    // return res.status(200).json({
-    //   success: true,
-    //   data: {
-    //     project
-    //   },
-    //   message: "project Created Successfully",
-    //   status: 200,
-    // });
-  } catch (error) {
-    return res.status(401).json({
+    // await project.save(); 
+    return res.status(400).json({
       success: true,
       data: {
-        // project
+        project
       },
       message: "project Created Successfully",
       status: 200,
     });
+  } catch (error) {
     return next(error);
   }
 };
 exports.getAllProjects = async (req, res, next) => {
   try {
-    const projects =await  ProjectService.getProjects({});
+    const projects = await  ProjectService.getProjects({});
     return res.status(200).json({
       success: true,
       data: {

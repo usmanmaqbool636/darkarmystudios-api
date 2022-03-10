@@ -1,10 +1,10 @@
 var RoleService = require('../services/Role.js') 
-import { nanoid } from 'nanoid'
+// import { nanoid } from 'nanoid'
 
 exports.addRole = async (req, res, next) => {
     try {
       const { body } = req;
-      body.roleId = nanoid()
+      // body.roleId = nanoid()
       const Role = RoleService.newRole(body);
 
       await Role.save();
