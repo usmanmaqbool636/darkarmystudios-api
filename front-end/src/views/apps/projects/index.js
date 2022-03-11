@@ -51,7 +51,11 @@ const TODO = () => {
         tag: paramsURL.tag || ''
       })
     )
-  }, [store.projects.length, paramsURL.filter, paramsURL.tag, query, sort, store.loading, store.error])
+  }, [
+    store.projects.length, paramsURL.filter, paramsURL.tag, query, sort
+    // store.loading, store.error
+  ])
+
 
   return (
     <Fragment>
@@ -96,8 +100,6 @@ const TODO = () => {
             ) : null}
 
             <ProjectSidebar
-              error={store.error}
-              loading={store.loading}
               store={store}
               params={params}
               addProject={addProject}

@@ -8,8 +8,8 @@ exports.addProject = async (req, res, next) => {
     // TODO discuss with @abdulmohiz
     // req.user._id from middleware
     // project.createdBy = req.user._id;
-    // await project.save(); 
-    return res.status(400).json({
+    await project.save();
+    return res.status(200).json({
       success: true,
       data: {
         project
@@ -23,7 +23,9 @@ exports.addProject = async (req, res, next) => {
 };
 exports.getAllProjects = async (req, res, next) => {
   try {
-    const projects = await  ProjectService.getProjects({});
+    const projects = await  ProjectService.getProjects({
+      isDeleted:false
+    });
     return res.status(200).json({
       success: true,
       data: {
@@ -91,7 +93,8 @@ exports.delProject = async (req, res, next) => {
 
     }})
     
-    if(!project) return next({
+    if(!false) return next({
+      // if(!project) return next({
       success: false,
       data: {},
       message: "Project Not found",

@@ -25,6 +25,25 @@ export const getProjects = createAsyncThunk('appProject/getProjects', async para
   }
 })
 
+// Hint for update delete create
+// await for responce like this
+// from this file return only 'response' not response.data  but not in "getProjects"
+// responce = await dispatch(addProject(state))
+// in responce => responce.payload have success,message
+// success and message use for handling loading and msg display
+// make sure wrape with try catch
+// with realapi
+export const addProject = createAsyncThunk('appProject/addProject', async (project, { dispatch, getState }) => {
+  try {
+    // const response = await axios.post(`${route}/add`, { project })
+    const response = await axiosClient.post(`${route}/add`, { ...project })
+    await dispatch(getProjects(getState().todo.params))
+    return response
+  } catch (error) {
+    console.log(error)
+    return error
+  }
+})
 
 export const updateProject = createAsyncThunk('appProject/updateProject', async (project, { dispatch, getState }) => {
   try {
@@ -36,10 +55,15 @@ export const updateProject = createAsyncThunk('appProject/updateProject', async 
   }
 })
 
+// working with real api's
 export const deleteProject = createAsyncThunk('appProject/deleteProject', async (taskId, { dispatch, getState }) => {
-  const response = await axios.delete('/apps/project/delete', { taskId })
-  await dispatch(getProjects(getState().todo.params))
-  return response.data
+  try {
+    const response = await axiosClient.delete(`${route}/${taskId}`)
+    await dispatch(getProjects(getState().todo.params))
+    return response
+  } catch (error) {
+    return error
+  }
 })
 
 export const appTodoSlice = createSlice({
@@ -52,9 +76,7 @@ export const appTodoSlice = createSlice({
       q: '',
       sort: '',
       tag: ''
-    },
-    loading:false,
-    error:""
+    }
   },
   reducers: {
     // not required
@@ -63,12 +85,7 @@ export const appTodoSlice = createSlice({
     // },
     selectProject: (state, action) => {
       state.selectedProject = action.payload
-    },
-    setError:(state, action) =>{
-      state.loading = action.payload.loading
-      state.error = action.payload.error || ""
     }
-
   },
   extraReducers: builder => {
     builder.addCase(getProjects.fulfilled, (state, action) => {
@@ -78,20 +95,6 @@ export const appTodoSlice = createSlice({
   }
 })
 
-export const { reOrderTasks, selectProject, setError } = appTodoSlice.actions
+export const { reOrderTasks, selectProject } = appTodoSlice.actions
 
 export default appTodoSlice.reducer
-
-// with realapi
-export const addProject = createAsyncThunk('appProject/addProject', async (project, { dispatch, getState }) => {
-  try {
-    // const response = await axios.post(`${route}/add`, { project })
-    dispatch(setError({loading:true}))
-    const response = await axiosClient.post(`${route}/add`, { ...project })
-    await dispatch(getProjects(getState().todo.params))
-    return response.data
-  } catch (error) {
-    dispatch(setError({loading:true, error: error.message}))
-    console.log(error)
-  }
-})

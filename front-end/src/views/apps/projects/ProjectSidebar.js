@@ -11,6 +11,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { EditorState, ContentState } from 'draft-js'
 import { convertToHTML } from 'draft-convert'
 import { toast } from 'react-toastify'
+import Avatar from '@components/avatar'
 
 
 // ** Reactstrap Imports
@@ -38,14 +39,22 @@ const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1)
 // ** Modal Header
 const ModalHeader = props => {
   // ** Props
-  const { children, store, handleTaskSidebar, setDeleted, deleted, important, setImportant, deleteTask, dispatch, updateProject } =
+  const { children, store, handleTaskSidebar, setDeleted, deleted, important, setImportant, deleteProject, dispatch, updateProject } =
     props
 
   // ** Function to delete task
-  const handleDeleteTask = () => {
-    setDeleted(!deleted)
-    dispatch(deleteTask(store.selectedProject.id))
-    handleTaskSidebar()
+  const handledeleteProject = async () => {
+
+    // setDeleted(!deleted)
+    const responce = await dispatch(deleteProject(store.selectedProject._id))
+    if (!responce.payload.success) {
+      // TODO
+      // please check toast is not showing wheter it has error or not
+      toast.error(<ErrorToast error={responce.payload.message} />, { icon: false, hideProgressBar: true })
+    } else {
+      toast.success(<SuccessToast msg={responce.payload.message} />, { icon: false, hideProgressBar: true })
+      handleTaskSidebar()
+    }
   }
 
   return (
@@ -53,7 +62,7 @@ const ModalHeader = props => {
       <h5 className='modal-title'>{children}</h5>
       <div className='todo-item-action d-flex align-items-center'>
         {store && !isObjEmpty(store.selectedProject) ? (
-          <Trash className='cursor-pointer mt-25' size={16} onClick={() => handleDeleteTask()} />
+          <Trash className='cursor-pointer mt-25' size={16} onClick={() => handledeleteProject()} />
         ) : null}
         <span className='todo-item-favorite cursor-pointer mx-75'>
           <Star
@@ -72,7 +81,7 @@ const ModalHeader = props => {
 
 const TaskSidebar = props => {
   // ** Props
-  const { open, handleTaskSidebar, store, dispatch, updateProject, selectProject, addProject, deleteTask } = props
+  const { open, handleTaskSidebar, store, dispatch, updateProject, selectProject, addProject, deleteProject } = props
 
   // ** States
   const [assignee, setAssignee] = useState([{ value: 'pheobe', label: 'Pheobe Buffay', img: img1 }])
@@ -82,6 +91,8 @@ const TaskSidebar = props => {
   const [visibility, setVisibility] = useState("private")
   const [important, setImportant] = useState(false)
   const [deleted, setDeleted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [errMsg, setErrMsg] = useState("")
   const [dueDate, setDueDate] = useState(new Date())
   const [createdAt, setCreatedAt] = useState(new Date())
 
@@ -153,7 +164,7 @@ const TaskSidebar = props => {
       setVisibility(selectedProject.visibility)
       setImportant(selectedProject.isImportant)
       setAssignee(
-        [...selectedProject.assignee]
+        [...selectedProject.assignees]
       )
       setDueDate(selectedProject.dueDate)
       setCreatedAt(selectedProject.createdAt)
@@ -234,7 +245,7 @@ const TaskSidebar = props => {
     } else {
       return (
         <Fragment>
-          <Button disabled={store.loading} type='submit' color='primary' className='add-todo-item me-1'>
+          <Button disabled={loading} type='submit' color='primary' className='add-todo-item me-1'>
             Create Project
           </Button>
           <Button color='secondary' onClick={handleTaskSidebar} outline>
@@ -274,15 +285,25 @@ const TaskSidebar = props => {
       createdAt,
       visibility
     }
+    let responce
 
     if (data.title.length) {
       if (isObjEmpty(errors)) {
+        setLoading(true)
         if (isObjEmpty(store.selectedProject) || (!isObjEmpty(store.selectedProject) && !store.selectedProject.title.length)) {
-         await dispatch(addProject(state))
+        responce = await dispatch(addProject(state))
+        console.log(responce)
         } else {
-          await dispatch(updateProject({ ...state, id: store.selectedProject.id }))
+          await dispatch(updateProject({ ...state, _id: store.selectedProject._id }))
         }
-        // handleTaskSidebar()
+        setLoading(false)
+        if (responce.payload.success === false) {
+
+          toast.error(<ErrorToast error={responce.payload.message} />, { icon: false, hideProgressBar: true })
+        } else {
+          handleTaskSidebar()
+          toast.success(<SuccessToast msg={responce.payload.message} />, { icon: false, hideProgressBar: true })
+        }
       }
     } else {
       setError('title', {
@@ -294,7 +315,9 @@ const TaskSidebar = props => {
     }
     
   }
-  const SuccessToast = () => (
+    // TODO see this https://redux-toolkit.js.org/tutorials/rtk-query
+    
+  const SuccessToast = ({msg}) => (
     // TODO not set yet
     <Fragment>
       <div className='toastify-header'>
@@ -306,16 +329,28 @@ const TaskSidebar = props => {
       </div>
       <div className='toastify-body'>
         <span role='img' aria-label='toast-text'>
-          👋 Jelly-o macaroon brownie tart ice cream croissant jelly-o apple pie.
+        👋 {msg}
         </span>
       </div>
     </Fragment>
   )
 
-  if (store.error) {
-    toast.success(<SuccessToast />, { icon: false, hideProgressBar: true })
-  }
-  console.log(store.error, store.loading)
+  const ErrorToast = ({error}) => (
+    <Fragment>
+      <div className='toastify-header'>
+        <div className='title-wrapper'>
+          <Avatar size='sm' color='danger' icon={<X size={12} />} />
+          <h6 className='toast-title'>Error!</h6>
+        </div>
+        {/* <small className='text-muted'>11 Min Ago</small> */}
+      </div>
+      <div className='toastify-body'>
+        <span role='img' aria-label='toast-text'>
+        {error}
+        </span>
+      </div>
+    </Fragment>
+  )
   return (
     <Modal
       isOpen={open}
@@ -332,7 +367,7 @@ const TaskSidebar = props => {
           deleted={deleted}
           dispatch={dispatch}
           important={important}
-          deleteTask={deleteTask}
+          deleteProject={deleteProject}
           setDeleted={setDeleted}
           setImportant={setImportant}
           handleTaskSidebar={handleTaskSidebar}
