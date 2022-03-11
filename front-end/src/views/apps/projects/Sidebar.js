@@ -31,16 +31,16 @@ const projects = [
 const TodoSidebar = props => {
   
   // ** Props
-  const { handleTaskSidebar, setMainSidebar, mainSidebar, dispatch, getTasks, params } = props
+  const { handleTaskSidebar, setMainSidebar, mainSidebar, dispatch, getProjects, params } = props
 
   // ** Functions To Handle List Item Filter
   const handleFilter = filter => {
     console.log(params)
-    dispatch(getTasks({ ...params, filter }))
+    dispatch(getProjects({ ...params, filter }))
   }
 
   const handleTag = tag => {
-    dispatch(getTasks({ ...params, tag }))
+    dispatch(getProjects({ ...params, tag }))
   }
 
   // ** Functions To Active List Item
@@ -58,7 +58,7 @@ const TodoSidebar = props => {
     setMainSidebar()
   }
   const changeUser = (e) => {
-    dispatch(getTasks({ ...params, q:e.label }))
+    dispatch(getProjects({ ...params, q:e.label }))
   }
 
   return (
@@ -81,7 +81,7 @@ const TodoSidebar = props => {
                 <ListGroupItem
                   action
                   tag={Link}
-                  to={'/apps/project/'}
+                  to={`/apps/project/`}
                   active={params.filter === '' && params.tag === ''}
                   onClick={() => handleFilter('')}
                 >
@@ -89,7 +89,7 @@ const TodoSidebar = props => {
                   <span className='align-middle'>My Project</span>
                 </ListGroupItem>
                 <ListGroupItem
-                  disabled={true}
+                  // disabled={true}
                   tag={Link}
                   to={'/apps/project/important'}
                   active={handleActiveItem('important')}
@@ -99,7 +99,8 @@ const TodoSidebar = props => {
                   <Star className='me-75' size={18} />
                   <span className='align-middle'>Important</span>
                 </ListGroupItem>
-                <ListGroupItem
+                {/* No need of completed project  */}
+                {/* <ListGroupItem
                   disabled={true}
                   tag={Link}
                   to={'/apps/project/completed'}
@@ -109,9 +110,9 @@ const TodoSidebar = props => {
                 >
                   <Check className='me-75' size={18} />
                   <span className='align-middle'>Completed</span>
-                </ListGroupItem>
+                </ListGroupItem> */}
                 <ListGroupItem
-                  disabled={true}
+                  // disabled={true}
                   tag={Link}
                   to={'/apps/project/deleted'}
                   active={handleActiveItem('deleted')}

@@ -14,6 +14,7 @@ const route = "/projects"
 
 export const getProjects = createAsyncThunk('appProject/getProjects', async params => {
   try {
+    
     const response = await axiosClient.get(`${route}/all`, { params })
     return {
       params,
@@ -47,11 +48,23 @@ export const addProject = createAsyncThunk('appProject/addProject', async (proje
 
 export const updateProject = createAsyncThunk('appProject/updateProject', async (project, { dispatch, getState }) => {
   try {
-    const response = await axios.post('/apps/todo/update', { project })
+    const response = await axiosClient.put(`${route}/${project._id}`, { ...project, _id:undefined })
     await dispatch(getProjects(getState().todo.params))
-    return response.data
+    return response
   } catch (error) {
     console.log(error)
+    return error
+  }
+})
+
+export const setImportantApi = createAsyncThunk('appProject/updateProject', async (data, { dispatch, getState }) => {
+  try {
+    const response = await axiosClient.patch(`${route}/setImportant/${data.id}`, { isImportant:data.isImportant })
+    await dispatch(getProjects(getState().todo.params))
+    return response
+  } catch (error) {
+    console.log(error)
+    return error
   }
 })
 

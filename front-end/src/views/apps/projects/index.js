@@ -12,7 +12,7 @@ import ProjectSidebar from './ProjectSidebar'
 
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
-import { getProjects, updateProject, selectProject, addProject, deleteProject } from './store'
+import { getProjects, updateProject, selectProject, addProject, deleteProject, setImportantApi } from './store'
 
 // ** Styles
 import '@styles/react/apps/app-project.scss'
@@ -100,6 +100,7 @@ const TODO = () => {
             ) : null}
 
             <ProjectSidebar
+              setImportantApi={setImportantApi}
               store={store}
               params={params}
               addProject={addProject}

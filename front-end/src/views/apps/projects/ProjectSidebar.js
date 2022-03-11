@@ -32,6 +32,7 @@ import img6 from '@src/assets/images/portrait/small/avatar-s-11.jpg'
 import '@styles/react/libs/editor/editor.scss'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import '@styles/react/libs/react-select/_react-select.scss'
+import { ErrorToast, SuccessToast } from '../components/Toast'
 
 // ** Function to capitalize the first letter of string
 const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1)
@@ -39,17 +40,13 @@ const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1)
 // ** Modal Header
 const ModalHeader = props => {
   // ** Props
-  const { children, store, handleTaskSidebar, setDeleted, deleted, important, setImportant, deleteProject, dispatch, updateProject } =
+  const { children, store, handleTaskSidebar, setDeleted, deleted, important, setImportant, deleteProject, dispatch, updateProject, setImportantApi } =
     props
 
   // ** Function to delete task
   const handledeleteProject = async () => {
-
-    // setDeleted(!deleted)
     const responce = await dispatch(deleteProject(store.selectedProject._id))
     if (!responce.payload.success) {
-      // TODO
-      // please check toast is not showing wheter it has error or not
       toast.error(<ErrorToast error={responce.payload.message} />, { icon: false, hideProgressBar: true })
     } else {
       toast.success(<SuccessToast msg={responce.payload.message} />, { icon: false, hideProgressBar: true })
@@ -67,7 +64,11 @@ const ModalHeader = props => {
         <span className='todo-item-favorite cursor-pointer mx-75'>
           <Star
             size={16}
-            onClick={() => setImportant(!important)}
+            onClick={async () => {
+              console.log(store)
+              await dispatch(setImportantApi({ id:store.selectedProject._id, isImportant:!important}))
+              setImportant(!important)
+            }}
             className={classnames({
               'text-warning': important === true
             })}
@@ -81,10 +82,10 @@ const ModalHeader = props => {
 
 const TaskSidebar = props => {
   // ** Props
-  const { open, handleTaskSidebar, store, dispatch, updateProject, selectProject, addProject, deleteProject } = props
+  const { open, handleTaskSidebar, store, dispatch, updateProject, selectProject, addProject, deleteProject, setImportantApi } = props
 
   // ** States
-  const [assignee, setAssignee] = useState([{ value: 'pheobe', label: 'Pheobe Buffay', img: img1 }])
+  const [assignees, setAssignee] = useState([{ value: 'pheobe', label: 'Pheobe Buffay', img: img1 }])
   const [tags, setTags] = useState([])
   const [desc, setDesc] = useState(EditorState.createEmpty())
   const [completed, setCompleted] = useState(false)
@@ -140,16 +141,16 @@ const TaskSidebar = props => {
   // ** Returns sidebar title
   const handleSidebarTitle = () => {
     if (store && !isObjEmpty(store.selectedProject)) {
-      return (
-        <Button
-          outline
-          size='sm'
-          onClick={() => setCompleted(!completed)}
-          color={completed === true ? 'success' : 'secondary'}
-        >
-          {completed === true ? 'Completed' : 'Mark Complete'}
-        </Button>
-      )
+      // return (
+      //   <Button
+      //     outline
+      //     size='sm'
+      //     onClick={() => setCompleted(!completed)}
+      //     color={completed === true ? 'success' : 'secondary'}
+      //   >
+      //     {completed === true ? 'Completed' : 'Mark Complete'}
+      //   </Button>
+      // )
     } else {
       return 'Create New Project'
     }
@@ -210,7 +211,7 @@ const TaskSidebar = props => {
     setImportant(store.selectedProject.isImportant)
     setDeleted(store.selectedProject.isDeleted)
     setDueDate(store.selectedProject.dueDate)
-    if (store.selectedProject.assignee.fullName !== assignee.label) {
+    if (store.selectedProject.assignees.fullName !== assignees.label) {
       setAssignee([
         {
         value: store.selectedProject.assignee.fullName,
@@ -281,7 +282,7 @@ const TaskSidebar = props => {
       isCompleted: completed,
       isDeleted: deleted,
       isImportant: important,
-      assignee,
+      assignees,
       createdAt,
       visibility
     }
@@ -294,7 +295,7 @@ const TaskSidebar = props => {
         responce = await dispatch(addProject(state))
         console.log(responce)
         } else {
-          await dispatch(updateProject({ ...state, _id: store.selectedProject._id }))
+          responce = await dispatch(updateProject({ ...state, _id: store.selectedProject._id }))
         }
         setLoading(false)
         if (responce.payload.success === false) {
@@ -315,42 +316,8 @@ const TaskSidebar = props => {
     }
     
   }
-    // TODO see this https://redux-toolkit.js.org/tutorials/rtk-query
-    
-  const SuccessToast = ({msg}) => (
-    // TODO not set yet
-    <Fragment>
-      <div className='toastify-header'>
-        <div className='title-wrapper'>
-          {/* <Avatar size='sm' color='success' icon={<Check size={12} />} /> */}
-          <h6 className='toast-title'>Success!</h6>
-        </div>
-        <small className='text-muted'>11 Min Ago</small>
-      </div>
-      <div className='toastify-body'>
-        <span role='img' aria-label='toast-text'>
-        👋 {msg}
-        </span>
-      </div>
-    </Fragment>
-  )
 
-  const ErrorToast = ({error}) => (
-    <Fragment>
-      <div className='toastify-header'>
-        <div className='title-wrapper'>
-          <Avatar size='sm' color='danger' icon={<X size={12} />} />
-          <h6 className='toast-title'>Error!</h6>
-        </div>
-        {/* <small className='text-muted'>11 Min Ago</small> */}
-      </div>
-      <div className='toastify-body'>
-        <span role='img' aria-label='toast-text'>
-        {error}
-        </span>
-      </div>
-    </Fragment>
-  )
+
   return (
     <Modal
       isOpen={open}
@@ -363,6 +330,7 @@ const TaskSidebar = props => {
     >
       <Form id='form-modal-todo' className='todo-modal' onSubmit={handleSubmit(onSubmit)}>
         <ModalHeader
+          setImportantApi={setImportantApi}
           store={store}
           deleted={deleted}
           dispatch={dispatch}
@@ -406,7 +374,7 @@ const TaskSidebar = props => {
               isMulti={true}
               options={assigneeOptions}
               theme={selectThemeColors}
-              value={assignee}
+              value={assignees}
               onChange={data => {
                 setAssignee(data)
               }}

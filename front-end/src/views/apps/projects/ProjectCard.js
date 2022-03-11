@@ -76,7 +76,6 @@ const CardAppDesign = ({ item, handleProjectClick }) => {
         <CardTitle className='mt-1 mb-75'>{item.title}</CardTitle>
         <CardText className='font-small-2 mb-2'>
         <Editor  editorState={editorState} readOnly={true} />
-          {item.description}
         </CardText>
         <div className='design-group mb-2 pt-50'>
           <h6 className='section-label'>Team</h6>
