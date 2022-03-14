@@ -20,7 +20,8 @@ export const getProjects = createAsyncThunk('appProject/getProjects', async para
     }
     
   } catch (error) {
-    console.log(error)
+    //thorw will send controll to getProjects.rejected
+    throw error
   }
 })
 
@@ -107,6 +108,9 @@ export const appTodoSlice = createSlice({
     })
     builder.addCase(getProjects.pending, (state, action) => {
       state.isLoading = true
+    })
+    builder.addCase(getProjects.rejected, (state, action) => {
+      state.isLoading = false
     })
   }
 })

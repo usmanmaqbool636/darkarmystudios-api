@@ -3,3 +3,7 @@
 https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/demo-1/apps/todo . Actually just use that page and link all task to a project, like a project drop down under the add task button. This will save you alot of development time. Click opening a project auto selects that project and opens the task for that project.
 Also link these tasks in to the Calendar that came with theme as clickable labels --> https://pixinvent.com/demo/vuexy-react-admin-dashboard-template/demo-1/apps/calendar . Calendar will have its own menu.
 
+
+<!-- read this -->
+https://redux-toolkit.js.org/api/createAsyncThunk
+
