@@ -1,5 +1,5 @@
-var AdminService = require('../services/admin.js') 
-import { nanoid } from 'nanoid'
+var AdminService = require('../services/admins.js') 
+const { nanoid } = require('nanoid')
 
 exports.addAdmin = async (req, res, next) => {
     try {
