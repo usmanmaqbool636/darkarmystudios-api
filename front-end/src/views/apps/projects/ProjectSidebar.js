@@ -253,6 +253,7 @@ const ProjectSidebar = props => {
             Cancel
           </Button>
         </Fragment>
+        
       )
     }
   }
