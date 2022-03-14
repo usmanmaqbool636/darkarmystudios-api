@@ -1,11 +1,11 @@
 // ** Redux Imports
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 // TODO api request with "try catch"
-// ** Axios Imports
-import axios from 'axios'
+// ** axiosClient Imports
+import axiosClientClient from '../../../../axios'
 
 export const getTasks = createAsyncThunk('appTodo/getTasks', async params => {
-  const response = await axios.get('/apps/todo/tasks', { params })
+  const response = await axiosClient.get('/apps/todo/tasks', { params })
 
   return {
     params,
@@ -14,19 +14,19 @@ export const getTasks = createAsyncThunk('appTodo/getTasks', async params => {
 })
 
 export const addTask = createAsyncThunk('appTodo/addTask', async (task, { dispatch, getState }) => {
-  const response = await axios.post('/apps/todo/add-tasks', { task })
+  const response = await axiosClient.post('/apps/todo/add-tasks', { task })
   await dispatch(getTasks(getState().todo.params))
   return response.data
 })
 
 export const updateTask = createAsyncThunk('appTodo/updateTask', async (task, { dispatch, getState }) => {
-  const response = await axios.post('/apps/todo/update-task', { task })
+  const response = await axiosClient.post('/apps/todo/update-task', { task })
   await dispatch(getTasks(getState().todo.params))
   return response.data
 })
 
 export const deleteTask = createAsyncThunk('appTodo/deleteTask', async (taskId, { dispatch, getState }) => {
-  const response = await axios.delete('/apps/todo/delete-task', { taskId })
+  const response = await axiosClient.delete('/apps/todo/delete-task', { taskId })
   await dispatch(getTasks(getState().todo.params))
   return response.data
 })

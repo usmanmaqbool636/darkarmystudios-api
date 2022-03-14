@@ -8,7 +8,7 @@ import { Editor } from 'react-draft-wysiwyg'
 import { X, Star, Trash } from 'react-feather'
 import Select, { components } from 'react-select'
 import { useForm, Controller } from 'react-hook-form'
-import { EditorState, ContentState } from 'draft-js'
+import { EditorState, ContentState, convertFromHTML } from 'draft-js'
 import { convertToHTML } from 'draft-convert'
 import { toast } from 'react-toastify'
 import Avatar from '@components/avatar'
@@ -80,7 +80,7 @@ const ModalHeader = props => {
   )
 }
 
-const TaskSidebar = props => {
+const ProjectSidebar = props => {
   // ** Props
   const { open, handleTaskSidebar, store, dispatch, updateProject, selectProject, addProject, deleteProject, setImportantApi } = props
 
@@ -170,12 +170,12 @@ const TaskSidebar = props => {
       setDueDate(selectedProject.dueDate)
       setCreatedAt(selectedProject.createdAt)
       if (typeof selectedProject.description === 'string') {
-        setDesc(EditorState.createWithContent(ContentState.createFromText(selectedProject.description)))
+        setDesc(EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(selectedProject.description))))
       } else {
         const obj = selectedProject.description._immutable.currentContent.blockMap
         const property = Object.keys(obj).map(val => val)
 
-        setDesc(EditorState.createWithContent(ContentState.createFromText(obj[property].text)))
+        setDesc(EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(obj[property].text))))
       }
 
       if (selectedProject.tags.length) {
@@ -418,20 +418,20 @@ const TaskSidebar = props => {
           Visibility
           </Label>
           <div onChange={(evt)=>setVisibility(evt.target.value)} className='demo-inline-spacing'>
-            <div className='form-check' id="Visibility">
-              <Input type='radio' value="private" id='ex1-active' name='visibility' defaultChecked checked={visibility === "private"} />
+            <div className='form-check' id="Visibility" >
+              <Input type='radio' value="private" id='ex1-active' name='visibility' defaultChecked={visibility === "private"} />
               <Label className='form-check-label' for='ex1-active'>
                 Private
               </Label>
             </div>
             <div className='form-check'>
-              <Input type='radio' value="public" name='visibility' id='ex1-inactive' checked={visibility === "public"} />
+              <Input type='radio' value="public" name='visibility' id='ex1-inactive' defaultChecked={visibility === "public"} />
               <Label className='form-check-label' for='ex1-inactive'>
                 Public
               </Label>
             </div>
             <div className='form-check'>
-              <Input type='radio' value="multiple teams" name='visibility' id='ex2-active' checked={visibility === "multiple teams"} />
+              <Input type='radio' value="multiple teams" name='visibility' id='ex2-active' defaultChecked={visibility === "multiple teams"} />
               <Label className='form-check-label' for='ex2-active'>
               multiple teams
               </Label>
@@ -464,4 +464,4 @@ const TaskSidebar = props => {
   )
 }
 
-export default TaskSidebar
+export default ProjectSidebar

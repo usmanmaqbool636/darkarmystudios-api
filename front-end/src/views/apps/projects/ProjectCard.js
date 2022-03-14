@@ -74,9 +74,9 @@ const CardAppDesign = ({ item, handleProjectClick }) => {
       <CardBody>
         <Badge color='light-primary'>{moment(item.createdAt).format('DD MMM, YYYY')}</Badge>
         <CardTitle className='mt-1 mb-75'>{item.title}</CardTitle>
-        <CardText className='font-small-2 mb-2'>
-        <Editor  editorState={editorState} readOnly={true} />
-        </CardText>
+        {/* <CardText className='font-small-2 mb-2'> */}
+        <Editor  editorState={editorState} readOnly={true}  />
+        {/* </CardText> */}
         <div className='design-group mb-2 pt-50'>
           <h6 className='section-label'>Team</h6>
           {item.tags.map(tag=>(
