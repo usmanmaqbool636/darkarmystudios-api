@@ -11,7 +11,7 @@ const app = express();
 dotenv.config();   
 
 const db = process.env.MONGO_URI_DEV;
-const port = Number(process.env.PORT || 3000);
+const port = Number(process.env.PORT || 4050);
 
 //Middleware packages
 app.use(cors());
