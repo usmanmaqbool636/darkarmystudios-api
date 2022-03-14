@@ -30,7 +30,7 @@ import {
 } from 'reactstrap'
 import React, { useEffect } from 'react'
 
-const Tasks = props => {
+const Projects = props => {
   const location = useLocation()
   const history = useHistory()
 
@@ -46,7 +46,9 @@ const Tasks = props => {
     selectProject,
     reOrderTasks,
     handleTaskSidebar,
-    handleMainSidebar
+    handleMainSidebar,
+    setLoading,
+    store
   } = props
 
     // ** Function to selectTask on click
@@ -117,7 +119,10 @@ const Tasks = props => {
     }
   }
 
-  const renderTasks = () => {
+  const renderProjects = () => {
+    if (store.isLoading) {
+      return <h2 className='m-auto'>loading</h2>
+    }
     return (
       <PerfectScrollbar
         className='list-group todo-task-list-wrapper'
@@ -159,6 +164,7 @@ const Tasks = props => {
   // ** Function to getTasks based on search query
   const handleFilter = e => {
     setQuery(e.target.value)
+    dispatch(setLoading(true))
     dispatch(getProjects(params))
   }
 
@@ -206,9 +212,9 @@ const Tasks = props => {
           </DropdownMenu>
         </UncontrolledDropdown>
       </div>
-      {renderTasks()}
+      {renderProjects()}
     </div>
   )
 }
 
-export default Tasks
+export default Projects

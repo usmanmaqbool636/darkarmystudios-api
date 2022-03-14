@@ -6,6 +6,7 @@ const { addProjectValidation } = require('../../Validator');
 router.post("/add",addProjectValidation,ProjectController.addProject)
 router.get("/all",ProjectController.getAllProjects)
 router.put("/:id",ProjectController.updateProject)
+router.patch("/setImportant/:id",ProjectController.setProjectImportant)
 router.delete("/:id", ProjectController.delProject)
 router.get("/:id",ProjectController.getSingleProject)
 

@@ -12,7 +12,7 @@ import ProjectSidebar from './ProjectSidebar'
 
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
-import { getProjects, updateProject, selectProject, addProject, deleteProject, setImportantApi } from './store'
+import { getProjects, updateProject, selectProject, addProject, deleteProject, setImportantApi, setLoading } from './store'
 
 // ** Styles
 import '@styles/react/apps/app-project.scss'
@@ -43,6 +43,7 @@ const TODO = () => {
 
   // ** Get Projects on mount & based on dependency change
   useEffect(() => {
+    dispatch(setLoading(true))
     dispatch(
       getProjects({
         filter: paramsURL.filter || '',
@@ -52,8 +53,15 @@ const TODO = () => {
       })
     )
   }, [
-    store.projects.length, paramsURL.filter, paramsURL.tag, query, sort
-    // store.loading, store.error
+    // because it cause two time rendring 
+    // first time when component render
+    // why => first time we have projects = [] length is 0
+    // when data fetched then we have projects =[data] length more than 0
+    // second time when dependancy var changes store.projects.length
+    // api calling two time 
+    
+    // store.projects.length, 
+    paramsURL.filter, paramsURL.tag, query, sort
   ])
 
 
@@ -61,6 +69,7 @@ const TODO = () => {
     <Fragment>
       <Sidebar
         store={store}
+        setLoading={setLoading}
         params={params}
         getProjects={getProjects}
         dispatch={dispatch}
@@ -89,6 +98,7 @@ const TODO = () => {
                 setSort={setSort}
                 setQuery={setQuery}
                 dispatch={dispatch}
+                setLoading={setLoading}
                 getProjects={getProjects}
                 paramsURL={paramsURL}
                 updateProject={updateProject}

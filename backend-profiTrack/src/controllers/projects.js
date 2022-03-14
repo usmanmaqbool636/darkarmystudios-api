@@ -14,7 +14,7 @@ exports.addProject = async (req, res, next) => {
       data: {
         project
       },
-      message: "project Created Successfully",
+      message: "Project Created Successfully",
       status: 200,
     });
   } catch (error) {
@@ -23,9 +23,15 @@ exports.addProject = async (req, res, next) => {
 };
 exports.getAllProjects = async (req, res, next) => {
   try {
-    const projects = await  ProjectService.getProjects({
-      isDeleted:false
-    });
+    const query = {
+      isDeleted:false,
+    };
+    if(req.query.filter === "deleted"){
+      query.isDeleted = true;
+    }else if(req.query.filter === "important"){
+      query.isImportant = true;
+    }
+    const projects = await  ProjectService.getProjects(query);
     return res.status(200).json({
       success: true,
       data: {
@@ -76,13 +82,35 @@ exports.updateProject = async (req, res, next) => {
       data: {
         project
       },
-      message: "ok",
+      message: "Project Updated successfully",
       status: 200,
     });
   } catch (error) {
     return next(error);
   }
 };
+
+exports.setProjectImportant = async (req, res, next) => {
+  try {
+    const project = await ProjectService.updateProject({_id:req.params.id},{$set:{isImportant:req.body.isImportant}});
+    if(!project) return next({
+      success: false,
+      data: {},
+      message: "Project Not found",
+      status: 404,
+    })
+    return res.status(200).json({
+      success: true,
+      data: {
+      },
+      message: "",
+      status: 200,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 
 exports.delProject = async (req, res, next) => {
   try {
@@ -93,8 +121,7 @@ exports.delProject = async (req, res, next) => {
 
     }})
     
-    if(!false) return next({
-      // if(!project) return next({
+    if(!project) return next({
       success: false,
       data: {},
       message: "Project Not found",
@@ -106,7 +133,7 @@ exports.delProject = async (req, res, next) => {
       data: {
         project
       },
-      message: "ok",
+      message: "Project Deleted successfully",
       status: 200,
     });
   } catch (error) {

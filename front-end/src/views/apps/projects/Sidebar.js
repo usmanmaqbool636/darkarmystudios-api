@@ -31,15 +31,17 @@ const projects = [
 const TodoSidebar = props => {
   
   // ** Props
-  const { handleTaskSidebar, setMainSidebar, mainSidebar, dispatch, getProjects, params } = props
+  const { handleTaskSidebar, setMainSidebar, mainSidebar, dispatch, getProjects, params, setLoading } = props
 
   // ** Functions To Handle List Item Filter
   const handleFilter = filter => {
     console.log(params)
+    dispatch(setLoading(true))
     dispatch(getProjects({ ...params, filter }))
   }
 
   const handleTag = tag => {
+    dispatch(setLoading(true))
     dispatch(getProjects({ ...params, tag }))
   }
 
@@ -58,6 +60,7 @@ const TodoSidebar = props => {
     setMainSidebar()
   }
   const changeUser = (e) => {
+    dispatch(setLoading(true))
     dispatch(getProjects({ ...params, q:e.label }))
   }
 

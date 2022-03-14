@@ -3,8 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 // TODO api request with "try catch"
 
-// ** Axios Imports
-import axios from 'axios'
+// ** AxiosCustomeClient Imports
 import axiosClient from '../../../../axios'
 
 const route = "/projects"
@@ -14,7 +13,6 @@ const route = "/projects"
 
 export const getProjects = createAsyncThunk('appProject/getProjects', async params => {
   try {
-    
     const response = await axiosClient.get(`${route}/all`, { params })
     return {
       params,
@@ -89,13 +87,17 @@ export const appTodoSlice = createSlice({
       q: '',
       sort: '',
       tag: ''
-    }
+    },
+    isLoading:true
   },
   reducers: {
     // not required
     // reOrderTasks: (state, action) => {
     //   state.tasks = action.payload
     // },
+    setLoading: (state, action) => {
+      state.isLoading = action.payload
+    },
     selectProject: (state, action) => {
       state.selectedProject = action.payload
     }
@@ -104,10 +106,15 @@ export const appTodoSlice = createSlice({
     builder.addCase(getProjects.fulfilled, (state, action) => {
       state.projects = action.payload.data
       state.params = action.payload.params
+      state.isLoading = false
     })
   }
 })
 
-export const { reOrderTasks, selectProject } = appTodoSlice.actions
+export const { 
+  // reOrderTasks, 
+  selectProject, 
+  setLoading 
+} = appTodoSlice.actions
 
 export default appTodoSlice.reducer
