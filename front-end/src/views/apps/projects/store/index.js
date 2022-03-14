@@ -95,9 +95,6 @@ export const appTodoSlice = createSlice({
     // reOrderTasks: (state, action) => {
     //   state.tasks = action.payload
     // },
-    setLoading: (state, action) => {
-      state.isLoading = action.payload
-    },
     selectProject: (state, action) => {
       state.selectedProject = action.payload
     }
@@ -108,13 +105,15 @@ export const appTodoSlice = createSlice({
       state.params = action.payload.params
       state.isLoading = false
     })
+    builder.addCase(getProjects.pending, (state, action) => {
+      state.isLoading = true
+    })
   }
 })
 
 export const { 
   // reOrderTasks, 
-  selectProject, 
-  setLoading 
+  selectProject
 } = appTodoSlice.actions
 
 export default appTodoSlice.reducer

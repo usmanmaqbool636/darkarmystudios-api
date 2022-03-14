@@ -26,7 +26,8 @@ import {
   UncontrolledDropdown,
   Row,
   Col,
-  Container
+  Container,
+  Spinner
 } from 'reactstrap'
 import React, { useEffect } from 'react'
 
@@ -47,7 +48,6 @@ const Projects = props => {
     reOrderTasks,
     handleTaskSidebar,
     handleMainSidebar,
-    setLoading,
     store
   } = props
 
@@ -121,7 +121,11 @@ const Projects = props => {
 
   const renderProjects = () => {
     if (store.isLoading) {
-      return <h2 className='m-auto'>loading</h2>
+      return (
+        <div  className='mt-2 d-flex justify-content-center'>
+          <Spinner />
+        </div>
+      )
     }
     return (
       <PerfectScrollbar
@@ -164,7 +168,6 @@ const Projects = props => {
   // ** Function to getTasks based on search query
   const handleFilter = e => {
     setQuery(e.target.value)
-    dispatch(setLoading(true))
     dispatch(getProjects(params))
   }
 
