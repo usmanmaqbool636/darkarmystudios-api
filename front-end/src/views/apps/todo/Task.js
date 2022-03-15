@@ -1,7 +1,9 @@
 import React from "react"
 import classnames from 'classnames'
 import { MoreVertical } from 'react-feather'
-import { Input } from 'reactstrap'
+import { Badge, Input } from 'reactstrap'
+import Avatar from '@components/avatar'
+
 const returnTimeTakenString = (start, end) =>{
     if (!end) return ""
     start = moment(start)
@@ -14,6 +16,38 @@ const returnTimeTakenString = (start, end) =>{
     return time
 }
 
+ // ** Renders task tags
+ const renderTags = arr => {
+  const badgeColor = {
+    team: 'light-primary',
+    low: 'light-success',
+    medium: 'light-warning',
+    high: 'light-danger',
+    update: 'light-info'
+  }
+
+  return arr.map((item, index) => {
+    return (
+      <Badge className='text-capitalize' key={`renderTags-${item}-${index}`} color={badgeColor[item]} pill>
+        {item}
+      </Badge>
+    )
+  } 
+  )
+}
+
+  // ** Renders Avatar
+  const renderAvatar = obj => {
+    const item = obj.assignee
+
+    if (item.avatar === undefined || item.avatar === null) {
+      return <Avatar img={blankAvatar} imgHeight='32' imgWidth='32' />
+    } else if (item.avatar !== '') {
+      return <Avatar img={item.avatar} imgHeight='32' imgWidth='32' />
+    } else {
+      return <Avatar color={resolveAvatarVariant(obj.tags)} content={item.fullName} initials />
+    }
+  }
 const Task = ({ item, handleTaskClick }) => {
   const timeTaken = returnTimeTakenString(item.createdAt, item.completedAt)
   return (

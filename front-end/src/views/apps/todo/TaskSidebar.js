@@ -9,6 +9,7 @@ import { X, Star, Trash } from 'react-feather'
 import Select, { components } from 'react-select'
 import { useForm, Controller } from 'react-hook-form'
 import { EditorState, ContentState } from 'draft-js'
+import { toast } from 'react-toastify'
 
 // ** Reactstrap Imports
 import { Modal, ModalBody, Button, Form, Input, Label, FormFeedback } from 'reactstrap'
@@ -28,6 +29,9 @@ import img6 from '@src/assets/images/portrait/small/avatar-s-11.jpg'
 import '@styles/react/libs/editor/editor.scss'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import '@styles/react/libs/react-select/_react-select.scss'
+
+import { ErrorToast, SuccessToast } from '../components/Toast'
+import { convertToHTML } from 'draft-convert'
 
 // ** Function to capitalize the first letter of string
 const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1)
@@ -78,6 +82,7 @@ const TaskSidebar = props => {
   const [desc, setDesc] = useState(EditorState.createEmpty())
   const [completed, setCompleted] = useState(false)
   const [important, setImportant] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [deleted, setDeleted] = useState(false)
   const [dueDate, setDueDate] = useState(new Date())
 
@@ -245,7 +250,7 @@ const TaskSidebar = props => {
     }
   }
 
-  const onSubmit = data => {
+  const onSubmit = async data => {
     const newTaskTag = []
 
     const doesInclude = !isObjEmpty(store.selectedTask) && assignee.label === store.selectedTask.assignee.fullName
@@ -258,26 +263,36 @@ const TaskSidebar = props => {
       fullName: assignee.label,
       avatar: assignee.img
     }
+    const currentContentAsHTML = convertToHTML(desc.getCurrentContent())
     const state = {
       dueDate,
       title: data.title,
       project:project.label,
       tags: newTaskTag,
-      description: desc,
+      description: currentContentAsHTML,
       isCompleted: completed,
       isDeleted: deleted,
       isImportant: important,
       assignee: doesInclude || assignee.label === undefined ? store.selectedTask.assignee : newAssignee
     }
 
+    let responce
+
     if (data.title.length) {
       if (isObjEmpty(errors)) {
+        setLoading(true)
         if (isObjEmpty(store.selectedTask) || (!isObjEmpty(store.selectedTask) && !store.selectedTask.title.length)) {
-          dispatch(addTask(state))
+          responce = await dispatch(addTask(state))
         } else {
-          dispatch(updateTask({ ...state, id: store.selectedTask.id }))
+          responce = await dispatch(updateTask({ ...state, id: store.selectedTask.id }))
         }
-        handleTaskSidebar()
+        if (responce.payload.success === false) {
+
+          toast.error(<ErrorToast error={responce.payload.message} />, { icon: false, hideProgressBar: true })
+        } else {
+          handleTaskSidebar()
+          toast.success(<SuccessToast msg={responce.payload.message} />, { icon: false, hideProgressBar: true })
+        }
       }
     } else {
       setError('title', {

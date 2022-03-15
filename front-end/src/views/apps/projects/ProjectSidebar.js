@@ -32,6 +32,7 @@ import img6 from '@src/assets/images/portrait/small/avatar-s-11.jpg'
 import '@styles/react/libs/editor/editor.scss'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 import '@styles/react/libs/react-select/_react-select.scss'
+
 import { ErrorToast, SuccessToast } from '../components/Toast'
 
 // ** Function to capitalize the first letter of string

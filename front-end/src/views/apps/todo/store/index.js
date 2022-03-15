@@ -4,6 +4,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 // ** axiosClient Imports
 import axiosClient from '../../../../axios'
 
+// task
+// 1. add todo (working)
+// 2. get all todos.
+// 3. update todo.
+// 4. complete todo.
+// 5. delete Todo.
+// 6. important todo.
+
 export const getTasks = createAsyncThunk('appTodo/getTasks', async params => {
   const response = await axiosClient.get('/todo/all', { params })
   return {
@@ -13,9 +21,13 @@ export const getTasks = createAsyncThunk('appTodo/getTasks', async params => {
 })
 
 export const addTask = createAsyncThunk('appTodo/addTask', async (task, { dispatch, getState }) => {
-  const response = await axiosClient.post('/todo/add-tasks', { task })
-  await dispatch(getTasks(getState().todo.params))
-  return response
+  try {
+    const response = await axiosClient.post('/todo/add-tasks', { ...task })
+    await dispatch(getTasks(getState().todo.params))
+    return response
+  } catch (error) {
+    return error
+  }
 })
 
 export const updateTask = createAsyncThunk('appTodo/updateTask', async (task, { dispatch, getState }) => {
@@ -23,6 +35,18 @@ export const updateTask = createAsyncThunk('appTodo/updateTask', async (task, { 
   const response = await axiosClient.post(`/todo/update-task/${task._id}`, { task })
   await dispatch(getTasks(getState().todo.params))
   return response
+})
+
+export const completeTask = createAsyncThunk('appTodo/updateProject', async (data, { dispatch, getState }) => {
+  try {
+    const response = await axiosClient.patch(`/todo/complete-task/${data.id}`, { isImportant:data.isImportant })
+    // replace completed task with this task
+    // await dispatch(getProjects(getState().todo.params))
+    return response
+  } catch (error) {
+    console.log(error)
+    return error
+  }
 })
 
 export const deleteTask = createAsyncThunk('appTodo/deleteTask', async (taskId, { dispatch, getState }) => {

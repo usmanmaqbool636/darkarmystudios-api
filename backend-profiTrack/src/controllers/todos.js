@@ -12,7 +12,7 @@ exports.addTodo = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       data: {
-        todo
+        todo,
       },
       message: "todo Created Successfully",
       status: 200,
@@ -24,11 +24,11 @@ exports.addTodo = async (req, res, next) => {
 };
 exports.getAllTodos = async (req, res, next) => {
   try {
-    const todos =await TodoService.getTodos({});
+    const todos = await TodoService.getTodos({});
     return res.status(200).json({
       success: true,
       data: {
-        todos
+        todos,
       },
       message: "ok",
       status: 200,
@@ -40,18 +40,19 @@ exports.getAllTodos = async (req, res, next) => {
 
 exports.getSingleTodo = async (req, res, next) => {
   try {
-    const todo = await TodoService.getTodo({_id:req.params.id});
-    console.log(todo)
-    if(!todo) return next({
-      success: false,
-      data: {},
-      message: "Todo Not found",
-      status: 404,
-    })
+    const todo = await TodoService.getTodo({ _id: req.params.id });
+    console.log(todo);
+    if (!todo)
+      return next({
+        success: false,
+        data: {},
+        message: "Todo Not found",
+        status: 404,
+      });
     return res.status(200).json({
       success: true,
       data: {
-        todo
+        todo,
       },
       message: "ok",
       status: 200,
@@ -63,13 +64,47 @@ exports.getSingleTodo = async (req, res, next) => {
 
 exports.updateTodo = async (req, res, next) => {
   try {
-    const todo = await TodoService.updateTodo({_id:req.params.id},req.body);
-    if(!todo) return next({
-      success: false,
-      data: {},
-      message: "Todo Not found",
-      status: 404,
-    })
+    const todo = await TodoService.updateTodo({ _id: req.params.id }, req.body);
+    if (!todo)
+      return next({
+        success: false,
+        data: {},
+        message: "Todo Not found",
+        status: 404,
+      });
+    return res.status(200).json({
+      success: true,
+      data: {
+        todo,
+      },
+      message: "ok",
+      status: 200,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+exports.completeTaskByValue = async (req, res, next) => {
+  try {
+    const updateData = {};
+    if(req.body.isCompleted == "true" || req.body.isCompleted == true ){
+      updateData.isCompleted = req.body.isCompleted;  
+      updateData.completedAt = Date.now();
+    }else{
+      updateData.completedAt = ""
+    }
+    const todo = await TodoService.updateTodo(
+      // Add user field in query
+      { _id: req.params.id },
+      updateData
+    );
+    if (!todo)
+      return next({
+        success: false,
+        data: {},
+        message: "Todo Not found",
+        status: 404,
+      });
     return res.status(200).json({
       success: true,
       data: {
@@ -85,23 +120,28 @@ exports.updateTodo = async (req, res, next) => {
 
 exports.delTodo = async (req, res, next) => {
   try {
-    const todo = await TodoService.updateTodo({_id:req.params.id},{$set:{
-      deletedAt:Date.now(),
-      // deletedBy:
-      isDeleted:true
+    const todo = await TodoService.updateTodo(
+      { _id: req.params.id },
+      {
+        $set: {
+          deletedAt: Date.now(),
+          // deletedBy:
+          isDeleted: true,
+        },
+      }
+    );
+    if (!todo)
+      return next({
+        success: false,
+        data: {},
+        message: "Todo Not found",
+        status: 404,
+      });
 
-    }})
-    if(!todo) return next({
-      success: false,
-      data: {},
-      message: "Todo Not found",
-      status: 404,
-    })
-    
     return res.status(200).json({
       success: true,
       data: {
-        todo
+        todo,
       },
       message: "ok",
       status: 200,

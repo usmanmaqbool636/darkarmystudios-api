@@ -87,6 +87,7 @@ const Projects = props => {
   }
 
   // ** Renders task tags
+  // Dont remove may be used in future
   const renderTags = arr => {
     const badgeColor = {
       team: 'light-primary',
@@ -106,6 +107,7 @@ const Projects = props => {
     )
   }
 
+  // Dont remove may be used in future
   // ** Renders Avatar
   const renderAvatar = obj => {
     const item = obj.assignee

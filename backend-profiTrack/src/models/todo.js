@@ -18,7 +18,7 @@ const todoSchema = new mongoose.Schema(
       // ask to @SyedAbbas
       // who is assignee,
       // whether admin user or seprate users? 
-      type:mongoose.Types.ObjectId,
+      // type:mongoose.Types.ObjectId,
       // update ref accordingly
       // ref:""
 
@@ -27,9 +27,10 @@ const todoSchema = new mongoose.Schema(
       // avatar: require('@src/assets/images/avatars/12.png').default
     },
     project:{
-      type:mongoose.Types.ObjectId,
+      // type:mongoose.Types.ObjectId,
       // make sure collection name is same in project schema
-      ref:"projects"
+      // ref:"projects"
+      type:String
     },
     tags: [{
       // whether tags are predefined (mongoose model) 
@@ -55,6 +56,11 @@ const todoSchema = new mongoose.Schema(
     isImportant: {
       type:Boolean,
       default:false
+    },
+    completedBy:{
+      type:mongoose.Types.ObjectId,
+      // may be admin or user Discuss with @SyedAbass
+      // ref:"admins"
     },
     createdBy:{
       type:mongoose.Types.ObjectId,
