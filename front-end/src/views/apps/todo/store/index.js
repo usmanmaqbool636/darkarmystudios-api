@@ -2,33 +2,33 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 // TODO api request with "try catch"
 // ** axiosClient Imports
-import axiosClientClient from '../../../../axios'
+import axiosClient from '../../../../axios'
 
 export const getTasks = createAsyncThunk('appTodo/getTasks', async params => {
-  const response = await axiosClient.get('/apps/todo/tasks', { params })
-
+  const response = await axiosClient.get('/todo/all', { params })
   return {
     params,
-    data: response.data
+    data: response.data.todos
   }
 })
 
 export const addTask = createAsyncThunk('appTodo/addTask', async (task, { dispatch, getState }) => {
-  const response = await axiosClient.post('/apps/todo/add-tasks', { task })
+  const response = await axiosClient.post('/todo/add-tasks', { task })
   await dispatch(getTasks(getState().todo.params))
-  return response.data
+  return response
 })
 
 export const updateTask = createAsyncThunk('appTodo/updateTask', async (task, { dispatch, getState }) => {
-  const response = await axiosClient.post('/apps/todo/update-task', { task })
+  // need to change if task._id is not defined
+  const response = await axiosClient.post(`/todo/update-task/${task._id}`, { task })
   await dispatch(getTasks(getState().todo.params))
-  return response.data
+  return response
 })
 
 export const deleteTask = createAsyncThunk('appTodo/deleteTask', async (taskId, { dispatch, getState }) => {
   const response = await axiosClient.delete('/apps/todo/delete-task', { taskId })
   await dispatch(getTasks(getState().todo.params))
-  return response.data
+  return response
 })
 
 export const appTodoSlice = createSlice({
@@ -41,7 +41,8 @@ export const appTodoSlice = createSlice({
       q: '',
       sort: '',
       tag: ''
-    }
+    },
+    isLoading:true
   },
   reducers: {
     reOrderTasks: (state, action) => {
@@ -55,6 +56,13 @@ export const appTodoSlice = createSlice({
     builder.addCase(getTasks.fulfilled, (state, action) => {
       state.tasks = action.payload.data
       state.params = action.payload.params
+      state.isLoading = false
+    })
+    builder.addCase(getTasks.pending, (state, action) => {
+      state.isLoading = true
+    })
+    builder.addCase(getTasks.rejected, (state, action) => {
+      state.isLoading = false
     })
   }
 })

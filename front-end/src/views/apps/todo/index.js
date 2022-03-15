@@ -58,7 +58,11 @@ const TODO = () => {
 
       })
     )
-  }, [store.tasks.length, paramsURL.filter, paramsURL.tag, query, assignee, project, sort])
+  }, [
+    // because it cause two time request sent
+    // store.tasks.length, 
+    paramsURL.filter, paramsURL.tag, query, assignee, project, sort
+  ])
 
   return (
     <Fragment>

@@ -24,11 +24,11 @@ exports.addTodo = async (req, res, next) => {
 };
 exports.getAllTodos = async (req, res, next) => {
   try {
-    const Todos =await TodoService.getTodos({});
+    const todos =await TodoService.getTodos({});
     return res.status(200).json({
       success: true,
       data: {
-        Todos
+        todos
       },
       message: "ok",
       status: 200,
