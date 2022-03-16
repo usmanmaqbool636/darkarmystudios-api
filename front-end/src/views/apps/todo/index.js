@@ -12,7 +12,7 @@ import TaskSidebar from './TaskSidebar'
 
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
-import { getTasks, updateTask, selectTask, addTask, deleteTask, reOrderTasks } from './store'
+import { getTasks, updateTask, selectTask, addTask, deleteTask, reOrderTasks, completeTask } from './store'
 import { getProjectsNameList } from "../projects/store"
 // ** Styles
 import '@styles/react/apps/app-todo.scss'

@@ -3,6 +3,10 @@ import classnames from 'classnames'
 import { MoreVertical } from 'react-feather'
 import { Badge, Input } from 'reactstrap'
 import Avatar from '@components/avatar'
+import { useDispatch } from 'react-redux'
+import { completeTask } from "./store"
+import moment from "moment"
+
 
 const returnTimeTakenString = (start, end) =>{
     if (!end) return ""
@@ -49,6 +53,8 @@ const returnTimeTakenString = (start, end) =>{
     }
   }
 const Task = ({ item, handleTaskClick }) => {
+  const dispatch = useDispatch()
+
   const timeTaken = returnTimeTakenString(item.createdAt, item.completedAt)
   return (
     <li
@@ -69,7 +75,7 @@ const Task = ({ item, handleTaskClick }) => {
               onChange={(e) => {
                 e.stopPropagation()
                 dispatch(
-                  updateTask({ ...item, isCompleted: e.target.checked })
+                  completeTask({ _id: item._id, isCompleted: e.target.checked })
                 )
               }}
             />

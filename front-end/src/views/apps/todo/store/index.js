@@ -11,7 +11,6 @@ import axiosClient from '../../../../axios'
 // 4. complete todo.
 // 5. delete Todo.
 // 6. important todo.
-
 export const getTasks = createAsyncThunk('appTodo/getTasks', async params => {
   const response = await axiosClient.get('/todo/all', { params })
   return {
@@ -19,6 +18,55 @@ export const getTasks = createAsyncThunk('appTodo/getTasks', async params => {
     data: response.data.todos
   }
 })
+export const appTodoSlice = createSlice({
+  name: 'appTodo',
+  initialState: {
+    tasks: [],
+    selectedTask: {},
+    params: {
+      filter: '',
+      q: '',
+      sort: '',
+      tag: ''
+    },
+    isLoading:true
+  },
+  reducers: {
+    reOrderTasks: (state, action) => {
+      state.tasks = action.payload
+    },
+    selectTask: (state, action) => {
+      state.selectedTask = action.payload
+    },
+    updateTaskField: (state, action) =>{
+      debugger
+      state.tasks = state.tasks.map(tsk=>{
+        if (tsk._id === action.payload._id) {
+          return {
+            ...tsk,
+            isCompleted:action.payload.isCompleted
+          }
+        }
+        return tsk
+      }) 
+    }
+  },
+  extraReducers: builder => {
+    builder.addCase(getTasks.fulfilled, (state, action) => {
+      state.tasks = action.payload.data
+      state.params = action.payload.params
+      state.isLoading = false
+    })
+    builder.addCase(getTasks.pending, (state, action) => {
+      state.isLoading = true
+    })
+    builder.addCase(getTasks.rejected, (state, action) => {
+      state.isLoading = false
+    })
+  }
+})
+
+export const { reOrderTasks, selectTask, updateTaskField } = appTodoSlice.actions
 
 export const addTask = createAsyncThunk('appTodo/addTask', async (task, { dispatch, getState }) => {
   try {
@@ -39,9 +87,10 @@ export const updateTask = createAsyncThunk('appTodo/updateTask', async (task, { 
 
 export const completeTask = createAsyncThunk('appTodo/updateProject', async (data, { dispatch, getState }) => {
   try {
-    const response = await axiosClient.patch(`/todo/complete-task/${data.id}`, { isImportant:data.isImportant })
+    const response = await axiosClient.patch(`/todo/complete-task/${data._id}`, { isCompleted: data.isCompleted })
     // replace completed task with this task
-    // await dispatch(getProjects(getState().todo.params))
+    // updateTaskField
+    dispatch(updateTaskField(data))
     return response
   } catch (error) {
     console.log(error)
@@ -54,43 +103,5 @@ export const deleteTask = createAsyncThunk('appTodo/deleteTask', async (taskId, 
   await dispatch(getTasks(getState().todo.params))
   return response
 })
-
-export const appTodoSlice = createSlice({
-  name: 'appTodo',
-  initialState: {
-    tasks: [],
-    selectedTask: {},
-    params: {
-      filter: '',
-      q: '',
-      sort: '',
-      tag: ''
-    },
-    isLoading:true
-  },
-  reducers: {
-    reOrderTasks: (state, action) => {
-      state.tasks = action.payload
-    },
-    selectTask: (state, action) => {
-      state.selectedTask = action.payload
-    }
-  },
-  extraReducers: builder => {
-    builder.addCase(getTasks.fulfilled, (state, action) => {
-      state.tasks = action.payload.data
-      state.params = action.payload.params
-      state.isLoading = false
-    })
-    builder.addCase(getTasks.pending, (state, action) => {
-      state.isLoading = true
-    })
-    builder.addCase(getTasks.rejected, (state, action) => {
-      state.isLoading = false
-    })
-  }
-})
-
-export const { reOrderTasks, selectTask } = appTodoSlice.actions
 
 export default appTodoSlice.reducer
