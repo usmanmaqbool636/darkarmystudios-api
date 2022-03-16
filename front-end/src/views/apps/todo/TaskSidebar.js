@@ -32,6 +32,7 @@ import '@styles/react/libs/react-select/_react-select.scss'
 
 import { ErrorToast, SuccessToast } from '../components/Toast'
 import { convertToHTML } from 'draft-convert'
+import { completeTask, setTaskImportant } from './store'
 
 // ** Function to capitalize the first letter of string
 const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1)
@@ -59,7 +60,11 @@ const ModalHeader = props => {
         <span className='todo-item-favorite cursor-pointer mx-75'>
           <Star
             size={16}
-            onClick={() => setImportant(!important)}
+            onClick={() => {
+              // important logic with api
+              dispatch(setTaskImportant({_id: store.selectedTask._id, isImportant: !important}))
+              setImportant(!important)
+            }}
             className={classnames({
               'text-warning': important === true
             })}
@@ -134,7 +139,12 @@ const TaskSidebar = props => {
         <Button
           outline
           size='sm'
-          onClick={() => setCompleted(!completed)}
+          onClick={() => {
+            dispatch(
+              completeTask({ _id: store.selectedTask._id, isCompleted: !completed })
+            )
+            setCompleted(!completed)
+          }}
           color={completed === true ? 'success' : 'secondary'}
         >
           {completed === true ? 'Completed' : 'Mark Complete'}
@@ -286,6 +296,7 @@ const TaskSidebar = props => {
         if (isObjEmpty(store.selectedTask) || (!isObjEmpty(store.selectedTask) && !store.selectedTask.title.length)) {
           responce = await dispatch(addTask(state))
         } else {
+          // inprogress
           responce = await dispatch(updateTask({ ...state, id: store.selectedTask.id }))
         }
         if (responce.payload.success === false) {

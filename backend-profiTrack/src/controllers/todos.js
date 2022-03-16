@@ -91,6 +91,7 @@ exports.completeTaskByValue = async (req, res, next) => {
       updateData.isCompleted = req.body.isCompleted;  
       updateData.completedAt = Date.now();
     }else{
+      updateData.isCompleted = req.body.isCompleted; 
       updateData.completedAt = ""
     }
     const todo = await TodoService.updateTodo(
@@ -118,6 +119,39 @@ exports.completeTaskByValue = async (req, res, next) => {
   }
 };
 
+exports.importantTaskByValue = async (req, res, next) => {
+  try {
+    const updateData = {};
+    updateData.isImportant = req.body.isImportant;  
+    // if(req.body.isImportant == "true" || req.body.isImportant == true ){
+    //   updateData.isImportant = req.body.isImportant;  
+    // }else{
+    //   updateData.isImportant = req.body.isImportant;  
+    // }
+    const todo = await TodoService.updateTodo(
+      // Add user field in query
+      { _id: req.params.id },
+      updateData
+    );
+    if (!todo)
+      return next({
+        success: false,
+        data: {},
+        message: "Todo Not found",
+        status: 404,
+      });
+    return res.status(200).json({
+      success: true,
+      data: {
+        todo
+      },
+      message: "ok",
+      status: 200,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
 exports.delTodo = async (req, res, next) => {
   try {
     const todo = await TodoService.updateTodo(

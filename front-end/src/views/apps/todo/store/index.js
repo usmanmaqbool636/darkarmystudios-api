@@ -38,13 +38,24 @@ export const appTodoSlice = createSlice({
     selectTask: (state, action) => {
       state.selectedTask = action.payload
     },
-    updateTaskField: (state, action) =>{
-      debugger
+    updateTaskFieldComplete: (state, action) =>{
       state.tasks = state.tasks.map(tsk=>{
         if (tsk._id === action.payload._id) {
           return {
             ...tsk,
-            isCompleted:action.payload.isCompleted
+            isCompleted:action.payload.isCompleted,
+            completedAt:action.payload.completedAt
+          }
+        }
+        return tsk
+      }) 
+    },
+    importantTaskField: (state, action) =>{
+      state.tasks = state.tasks.map(tsk=>{
+        if (tsk._id === action.payload._id) {
+          return {
+            ...tsk,
+            isImportant:action.payload.isImportant
           }
         }
         return tsk
@@ -66,7 +77,7 @@ export const appTodoSlice = createSlice({
   }
 })
 
-export const { reOrderTasks, selectTask, updateTaskField } = appTodoSlice.actions
+export const { reOrderTasks, selectTask, updateTaskFieldComplete, importantTaskField } = appTodoSlice.actions
 
 export const addTask = createAsyncThunk('appTodo/addTask', async (task, { dispatch, getState }) => {
   try {
@@ -88,9 +99,18 @@ export const updateTask = createAsyncThunk('appTodo/updateTask', async (task, { 
 export const completeTask = createAsyncThunk('appTodo/updateProject', async (data, { dispatch, getState }) => {
   try {
     const response = await axiosClient.patch(`/todo/complete-task/${data._id}`, { isCompleted: data.isCompleted })
-    // replace completed task with this task
-    // updateTaskField
-    dispatch(updateTaskField(data))
+    dispatch(updateTaskFieldComplete({ ...data, completedAt:response.data.todo.completedAt}))
+    return response
+  } catch (error) {
+    console.log(error)
+    return error
+  }
+})
+
+export const setTaskImportant = createAsyncThunk('appTodo/important', async (data, { dispatch, getState }) => {
+  try {
+    const response = await axiosClient.patch(`/todo/important-task/${data._id}`, { isImportant: data.isImportant })
+    dispatch(importantTaskField({ ...data, isImportant:response.data.todo.isImportant}))
     return response
   } catch (error) {
     console.log(error)
