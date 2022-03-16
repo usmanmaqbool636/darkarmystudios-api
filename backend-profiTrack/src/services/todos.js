@@ -14,7 +14,7 @@ class TodosService {
   }
 
   getTodos(req) {
-    return TodosModel.find(req);
+    return TodosModel.find(req).populate("project","title");;
   }
 }
 

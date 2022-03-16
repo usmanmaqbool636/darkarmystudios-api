@@ -114,12 +114,6 @@ const TaskSidebar = props => {
     { value: 'high', label: 'High' },
     { value: 'update', label: 'Update' }
   ]
-  const projectOptions = [
-    { value: 'p1', label: 'p1', isFixed: true },
-    { value: 'p2', label: 'p2', isFixed: true },
-    { value: 'p3', label: 'p3', isFixed: true },
-    { value: 'p4', label: 'p4', isFixed: false }
-  ]
 
   // ** Custom Assignee Component
   const AssigneeComponent = ({ data, ...props }) => {
@@ -165,6 +159,10 @@ const TaskSidebar = props => {
           img: selectedTask.assignee.avatar
         }
       ])
+      setProject({
+        value:selectedTask.project._id,
+        label:selectedTask.project.title
+      })
       setDueDate(selectedTask.dueDate)
       if (typeof selectedTask.description === 'string') {
         setDesc(EditorState.createWithContent(ContentState.createFromText(selectedTask.description)))
@@ -194,6 +192,10 @@ const TaskSidebar = props => {
     setCompleted(false)
     setImportant(false)
     setDueDate(new Date())
+    setProject({
+      value:"",
+      label:""
+    })
     dispatch(selectTask({}))
   }
 
@@ -267,7 +269,7 @@ const TaskSidebar = props => {
     const state = {
       dueDate,
       title: data.title,
-      project:project.label,
+      project:project.value,
       tags: newTaskTag,
       description: currentContentAsHTML,
       isCompleted: completed,

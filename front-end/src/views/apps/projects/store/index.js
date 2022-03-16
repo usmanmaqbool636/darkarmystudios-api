@@ -48,7 +48,6 @@ export const addProject = createAsyncThunk('appProject/addProject', async (proje
     await dispatch(getProjects(getState().todo.params))
     return response
   } catch (error) {
-    console.log(error)
     return error
   }
 })
@@ -59,7 +58,6 @@ export const updateProject = createAsyncThunk('appProject/updateProject', async 
     await dispatch(getProjects(getState().todo.params))
     return response
   } catch (error) {
-    console.log(error)
     return error
   }
 })
@@ -70,7 +68,6 @@ export const setImportantApi = createAsyncThunk('appProject/updateProject', asyn
     await dispatch(getProjects(getState().todo.params))
     return response
   } catch (error) {
-    console.log(error)
     return error
   }
 })
@@ -126,7 +123,6 @@ export const appTodoSlice = createSlice({
     // for geting projects name list
     builder.addCase(getProjectsNameList.fulfilled, (state, action) => {
       state.projectNames = [...action.payload.map(p=> ({ value: p._id, label: p.title, isFixed: false }))]
-
     })
     // if we need loading then uncomment below code add you logic
     // builder.addCase(getProjects.pending, (state, action) => {

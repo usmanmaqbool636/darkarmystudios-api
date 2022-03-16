@@ -67,7 +67,6 @@ exports.getProjectsNameList = async (req, res, next) => {
 exports.getSingleProject = async (req, res, next) => {
   try {
     const project = await ProjectService.getProject({_id:req.params.id});
-    console.log(project)
     if(!project) return next({
       success: false,
       data: {},

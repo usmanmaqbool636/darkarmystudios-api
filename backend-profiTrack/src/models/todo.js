@@ -27,10 +27,9 @@ const todoSchema = new mongoose.Schema(
       // avatar: require('@src/assets/images/avatars/12.png').default
     },
     project:{
-      // type:mongoose.Types.ObjectId,
+      type:mongoose.Types.ObjectId,
       // make sure collection name is same in project schema
-      // ref:"projects"
-      type:String
+      ref:"projects"
     },
     tags: [{
       // whether tags are predefined (mongoose model) 

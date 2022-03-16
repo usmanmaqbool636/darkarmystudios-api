@@ -75,5 +75,5 @@ const projectSchema = new mongoose.Schema(
 //   visibility:"public"
 // }
 
-const model = mongoose.model("project", projectSchema);
+const model = mongoose.model("projects", projectSchema);
 module.exports = model;
