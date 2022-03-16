@@ -44,6 +44,25 @@ exports.getAllProjects = async (req, res, next) => {
     return next(error);
   }
 };
+exports.getProjectsNameList = async (req, res, next) => {
+  try {
+    const query = {
+      isDeleted:false,
+    };
+    const projects = await  ProjectService.getProjectsTitle(query);
+    return res.status(200).json({
+      success: true,
+      data: {
+        projects
+      },
+      message: "ok",
+      status: 200,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 
 exports.getSingleProject = async (req, res, next) => {
   try {

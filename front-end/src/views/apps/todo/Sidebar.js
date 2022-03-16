@@ -34,7 +34,7 @@ const projects = [
 const TodoSidebar = props => {
   
   // ** Props
-  const { handleTaskSidebar, setMainSidebar, mainSidebar, dispatch, getTasks, params, setAssignee, setProject } = props
+  const { handleTaskSidebar, setMainSidebar, mainSidebar, dispatch, getTasks, params, setAssignee, setProject, projectNames } = props
 
   // ** Functions To Handle List Item Filter
   const handleFilter = filter => {
@@ -84,10 +84,10 @@ const TodoSidebar = props => {
                 onChange={(e)=>setProject(e.label)}
                 isClearable={false}
                 theme={selectThemeColors}
-                // defaultValue={}
+                defaultValue={projectNames[0]}
                 // isMulti={false}
                 name='project'
-                options={projects}
+                options={projectNames}
                 className='react-select'
                 classNamePrefix='select'
                 />

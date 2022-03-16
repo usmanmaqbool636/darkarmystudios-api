@@ -13,7 +13,7 @@ import TaskSidebar from './TaskSidebar'
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
 import { getTasks, updateTask, selectTask, addTask, deleteTask, reOrderTasks } from './store'
-
+import { getProjectsNameList } from "../projects/store"
 // ** Styles
 import '@styles/react/apps/app-todo.scss'
 
@@ -29,6 +29,7 @@ const TODO = () => {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.todo)
+  const projectNames = useSelector(state => state.projects.projectNames)
 
   // ** URL Params
   const paramsURL = useParams()
@@ -58,6 +59,8 @@ const TODO = () => {
 
       })
     )
+    dispatch(getProjectsNameList())
+
   }, [
     // because it cause two time request sent
     // store.tasks.length, 
@@ -67,6 +70,7 @@ const TODO = () => {
   return (
     <Fragment>
       <Sidebar
+        projectNames={[{ value: '', label: 'All' }, ...projectNames]}
         store={store}
         setAssignee={setAssignee}
         setProject={setProject}
@@ -110,6 +114,7 @@ const TODO = () => {
             ) : null}
 
             <TaskSidebar
+              projectNames={projectNames}
               store={store}
               params={params}
               addTask={addTask}

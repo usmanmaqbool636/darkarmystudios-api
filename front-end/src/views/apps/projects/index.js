@@ -12,7 +12,7 @@ import ProjectSidebar from './ProjectSidebar'
 
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
-import { getProjects, updateProject, selectProject, addProject, deleteProject, setImportantApi } from './store'
+import { getProjects, updateProject, selectProject, addProject, deleteProject, setImportantApi, getProjectsNameList } from './store'
 
 // ** Styles
 import '@styles/react/apps/app-project.scss'
@@ -51,6 +51,8 @@ const TODO = () => {
         tag: paramsURL.tag || ''
       })
     )
+    // no need here
+    // dispatch(getProjectsNameList())
   }, [
     // because it cause two time rendring 
     // first time when component render

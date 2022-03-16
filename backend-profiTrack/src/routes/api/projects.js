@@ -5,6 +5,7 @@ const { addProjectValidation } = require('../../Validator');
 // TODO we need to add middleware so that we can handle permissions
 router.post("/add",addProjectValidation,ProjectController.addProject)
 router.get("/all",ProjectController.getAllProjects)
+router.get("/namesTitle",ProjectController.getProjectsNameList)
 router.put("/:id",ProjectController.updateProject)
 router.patch("/setImportant/:id",ProjectController.setProjectImportant)
 router.delete("/:id", ProjectController.delProject)

@@ -73,7 +73,7 @@ const ModalHeader = props => {
 
 const TaskSidebar = props => {
   // ** Props
-  const { open, handleTaskSidebar, store, dispatch, updateTask, selectTask, addTask, deleteTask } = props
+  const { open, handleTaskSidebar, store, dispatch, updateTask, selectTask, addTask, deleteTask, projectNames } = props
 
   // ** States
   const [assignee, setAssignee] = useState({ value: 'pheobe', label: 'Pheobe Buffay', img: img1 })
@@ -399,7 +399,8 @@ const TaskSidebar = props => {
               className='react-select'
               classNamePrefix='select'
               // isClearable={false}
-              options={projectOptions}
+              placeholder={"Select project"}
+              options={projectNames}
               theme={selectThemeColors}
               value={project}
               onChange={data => {

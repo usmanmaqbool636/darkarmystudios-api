@@ -24,6 +24,14 @@ export const getProjects = createAsyncThunk('appProject/getProjects', async para
     throw error
   }
 })
+export const getProjectsNameList = createAsyncThunk("appProject/getProjectsNameList", async params =>{
+  try {
+    const responce = await axiosClient.get(`${route}/namesTitle`, { params })
+    return responce.data.projects
+  } catch (error) {
+    throw error
+  }
+})
 
 // Hint for update delete create
 // await for responce like this
@@ -89,6 +97,7 @@ export const appTodoSlice = createSlice({
       sort: '',
       tag: ''
     },
+    projectNames : [],
     isLoading:true
   },
   reducers: {
@@ -101,6 +110,7 @@ export const appTodoSlice = createSlice({
     }
   },
   extraReducers: builder => {
+    // for geting project
     builder.addCase(getProjects.fulfilled, (state, action) => {
       state.projects = action.payload.data
       state.params = action.payload.params
@@ -112,6 +122,20 @@ export const appTodoSlice = createSlice({
     builder.addCase(getProjects.rejected, (state, action) => {
       state.isLoading = false
     })
+
+    // for geting projects name list
+    builder.addCase(getProjectsNameList.fulfilled, (state, action) => {
+      state.projectNames = [...action.payload.map(p=> ({ value: p._id, label: p.title, isFixed: false }))]
+
+    })
+    // if we need loading then uncomment below code add you logic
+    // builder.addCase(getProjects.pending, (state, action) => {
+    //   state.isLoading = true
+    // })
+    // builder.addCase(getProjects.rejected, (state, action) => {
+    //   state.isLoading = false
+    // })
+    
   }
 })
 

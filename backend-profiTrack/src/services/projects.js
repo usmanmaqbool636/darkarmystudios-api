@@ -16,6 +16,10 @@ class ProjectService {
   getProjects(req) {
     return ProjectsModel.find(req);
   }
+
+  getProjectsTitle(req) {
+    return ProjectsModel.find(req).select("title");
+  }
   
 }
 
