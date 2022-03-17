@@ -1,24 +1,24 @@
-const {AdminModel} = require('../models/admin');
+const {AdminsModel} = require('../models/admin');
 
 class AdminService{
     newAdmin(request)  {
-        return new AdminModel(request);
+        return new AdminsModel(request);
     };
 
     getAdmin(request) {
-        return AdminModel.findOne(request);
+        return AdminsModel.findOne(request);
     }
 
     getAdmins(){
-        return AdminModel.find({});
+        return AdminsModel.find({});
     }
 
     updateAdmin(req, data){
-        return AdminModel.findOneAndUpdate(req, data, { new: true });
+        return AdminsModel.findOneAndUpdate(req, data, { new: true });
     }
 
     deleteAdmin(){
-        return AdminModel.findOneAndDelete(req);
+        return AdminsModel.findOneAndDelete(req);
     }
 }
 

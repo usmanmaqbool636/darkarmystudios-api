@@ -1,10 +1,8 @@
-var RoleService = require('../services/Role.js') 
-// import { nanoid } from 'nanoid'
+var RoleService = require('../services/roles.js') 
 
 exports.addRole = async (req, res, next) => {
     try {
       const { body } = req;
-      // body.roleId = nanoid()
       const Role = RoleService.newRole(body);
 
       await Role.save();
@@ -40,7 +38,7 @@ exports.getAllRoles = async (req, res, next) => {
   
 exports.getSingleRole = async (req, res, next) => {
     try {
-      const Role = await RoleService.getRole({_id:req.params.id});
+      const Role = await RoleService.getRole({_id:req.query.id});
       console.log(Role)
       return res.status(200).json({
         success: true,
@@ -57,7 +55,14 @@ exports.getSingleRole = async (req, res, next) => {
   
 exports.updateRole = async (req, res, next) => {
     try {
-        const Role = await RoleService.updateRole({_id:req.params.id},req.body);
+        const Role = await RoleService.updateRole({_id:req.query.id},req.body);
+        if (!Role)
+          return next({
+            success: false,
+            data: {},
+            message: "Role Not found",
+            status: 404,
+          });
         return res.status(200).json({
         success: true,
         data: {
@@ -73,12 +78,19 @@ exports.updateRole = async (req, res, next) => {
   
 exports.deleteRole = async (req, res, next) => {
     try {
-        const Role = await RoleService.deleteRole({_id:req.params.id},{$set:{
+      console.log(req.query.id);
+        const Role = await RoleService.deleteRole({_id:req.query.id},{$set:{
         deletedAt:Date.now(),
         // deletedBy:
         isDeleted:true
         }})
-        
+        if (!Role)
+          return next({
+            success: false,
+            data: {},
+            message: "Role Not found",
+            status: 404,
+          });
         return res.status(200).json({
         success: true,
         data: {
