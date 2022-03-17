@@ -25,6 +25,8 @@ const TODO = () => {
   const [project, setProject] = useState('')
   const [mainSidebar, setMainSidebar] = useState(false)
   const [openTaskSidebar, setOpenTaskSidebar] = useState(false)
+  const [filter, setFilter] = useState("")
+  // const [param,setParam] = useState()
 
   // ** Store Vars
   const dispatch = useDispatch()
@@ -34,13 +36,15 @@ const TODO = () => {
   // ** URL Params
   const paramsURL = useParams()
   const params = {
-    filter: paramsURL.filter || '',
+    filter: filter || '',
     q: query || '',
     sortBy: sort || '',
     assignee: assignee || '',
+    project: project || '',
     tag: paramsURL.tag || ''
 
   }
+  console.log("[todo/index] params", params)
 
   // ** Function to handle Left sidebar & Task sidebar
   const handleMainSidebar = () => setMainSidebar(!mainSidebar)
@@ -48,9 +52,10 @@ const TODO = () => {
 
   // ** Get Tasks on mount & based on dependency change
   useEffect(() => {
+
     dispatch(
       getTasks({
-        filter: paramsURL.filter || '',
+        filter: filter || '',
         q: query || '',
         sortBy: sort || '',
         assignee: assignee || '',
@@ -60,11 +65,15 @@ const TODO = () => {
       })
     )
     dispatch(getProjectsNameList())
-
   }, [
     // because it cause two time request sent
     // store.tasks.length, 
-    paramsURL.filter, paramsURL.tag, query, assignee, project, sort
+    filter, 
+    paramsURL.tag, 
+    query, 
+    assignee, 
+    project, 
+    sort
   ])
 
   return (
@@ -72,13 +81,15 @@ const TODO = () => {
       <Sidebar
         projectNames={[{ value: '', label: 'All' }, ...projectNames]}
         store={store}
+        project={project}
         setAssignee={setAssignee}
         setProject={setProject}
         params={params}
         getTasks={getTasks}
         dispatch={dispatch}
         mainSidebar={mainSidebar}
-        urlFilter={paramsURL.filter}
+        setFilter={setFilter}
+        // urlFilter={filter}
         setMainSidebar={setMainSidebar}
         handleTaskSidebar={handleTaskSidebar}
       />

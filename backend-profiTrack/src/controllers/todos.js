@@ -24,7 +24,22 @@ exports.addTodo = async (req, res, next) => {
 };
 exports.getAllTodos = async (req, res, next) => {
   try {
-    const todos = await TodoService.getTodos({});
+    const query={
+      isDeleted:false
+    };
+    if(req.query.project){
+      query.project = req.query.project
+    }
+    if(req.query.filter == "important"){
+      query.isImportant = true
+    }
+    if(req.query.filter == 'completed'){
+      query.isCompleted = true
+    }
+    if(req.query.filter == 'deleted'){
+      query.isDeleted = true
+    }
+    const todos = await TodoService.getTodos(query);
     return res.status(200).json({
       success: true,
       data: {

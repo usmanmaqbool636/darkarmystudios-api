@@ -30,7 +30,8 @@ export const appTodoSlice = createSlice({
       filter: '',
       q: '',
       sort: '',
-      tag: ''
+      tag: '',
+      project: ''
     },
     isLoading:true
   },
