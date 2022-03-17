@@ -8,7 +8,7 @@ import { Editor } from 'react-draft-wysiwyg'
 import { X, Star, Trash } from 'react-feather'
 import Select, { components } from 'react-select'
 import { useForm, Controller } from 'react-hook-form'
-import { EditorState, ContentState } from 'draft-js'
+import { EditorState, ContentState, convertFromHTML } from 'draft-js'
 import { toast } from 'react-toastify'
 
 // ** Reactstrap Imports
@@ -32,7 +32,7 @@ import '@styles/react/libs/react-select/_react-select.scss'
 
 import { ErrorToast, SuccessToast } from '../components/Toast'
 import { convertToHTML } from 'draft-convert'
-import { completeTask, setTaskImportant } from './store'
+import { completeTask, setTaskImportant, deleteTask } from './store'
 
 // ** Function to capitalize the first letter of string
 const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1)
@@ -40,14 +40,19 @@ const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1)
 // ** Modal Header
 const ModalHeader = props => {
   // ** Props
-  const { children, store, handleTaskSidebar, setDeleted, deleted, important, setImportant, deleteTask, dispatch } =
+  const { children, store, handleTaskSidebar, setDeleted, deleted, important, setImportant, dispatch } =
     props
 
   // ** Function to delete task
-  const handleDeleteTask = () => {
+  const handleDeleteTask = async () => {
+    const responce = await dispatch(deleteTask(store.selectedTask._id))
     setDeleted(!deleted)
-    dispatch(deleteTask(store.selectedTask.id))
-    handleTaskSidebar()
+    if (responce.payload.success === false) {
+      toast.error(<ErrorToast error={responce.payload.message} />, { icon: false, hideProgressBar: true })
+    } else {
+      handleTaskSidebar()
+      toast.success(<SuccessToast msg={responce.payload.message} />, { icon: false, hideProgressBar: true })
+    }
   }
 
   return (
@@ -78,7 +83,7 @@ const ModalHeader = props => {
 
 const TaskSidebar = props => {
   // ** Props
-  const { open, handleTaskSidebar, store, dispatch, updateTask, selectTask, addTask, deleteTask, projectNames } = props
+  const { open, handleTaskSidebar, store, dispatch, updateTask, selectTask, addTask, projectNames } = props
 
   // ** States
   const [assignee, setAssignee] = useState({ value: 'pheobe', label: 'Pheobe Buffay', img: img1 })
@@ -175,12 +180,14 @@ const TaskSidebar = props => {
       })
       setDueDate(selectedTask.dueDate)
       if (typeof selectedTask.description === 'string') {
-        setDesc(EditorState.createWithContent(ContentState.createFromText(selectedTask.description)))
+        // setDesc(EditorState.createWithContent(ContentState.createFromText(selectedTask.description)))
+        setDesc(EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(selectedTask.description))))
+
       } else {
         const obj = selectedTask.description._immutable.currentContent.blockMap
         const property = Object.keys(obj).map(val => val)
 
-        setDesc(EditorState.createWithContent(ContentState.createFromText(obj[property].text)))
+        setDesc(EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(obj[property].text))))
       }
 
       if (selectedTask.tags.length) {
@@ -297,7 +304,7 @@ const TaskSidebar = props => {
           responce = await dispatch(addTask(state))
         } else {
           // inprogress
-          responce = await dispatch(updateTask({ ...state, id: store.selectedTask.id }))
+          responce = await dispatch(updateTask({ ...state, _id: store.selectedTask._id }))
         }
         if (responce.payload.success === false) {
 
@@ -329,7 +336,6 @@ const TaskSidebar = props => {
           deleted={deleted}
           dispatch={dispatch}
           important={important}
-          deleteTask={deleteTask}
           setDeleted={setDeleted}
           setImportant={setImportant}
           handleTaskSidebar={handleTaskSidebar}

@@ -273,7 +273,6 @@ const ProjectSidebar = props => {
     //   fullName: assignee.label,
     //   avatar: assignee.img
     // }
-    console.log(desc.getCurrentContent())
     const currentContentAsHTML = convertToHTML(desc.getCurrentContent())
     console.log(currentContentAsHTML)
     const state = {

@@ -5,12 +5,15 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axiosClient from '../../../../axios'
 
 // task
-// 1. add todo (working)
-// 2. get all todos.
-// 3. update todo.
-// 4. complete todo.
-// 5. delete Todo.
-// 6. important todo.
+// 1. add todo (done)
+// 2. get all (done).
+// 3. update todo (done).
+// 4. complete todo (done).
+// 5. delete Todo .
+// 6. important todo (done).
+// 7. get task by project.
+// 8. get task by user but user portion is not completed.
+// 9. search task
 export const getTasks = createAsyncThunk('appTodo/getTasks', async params => {
   const response = await axiosClient.get('/todo/all', { params })
   return {
@@ -90,10 +93,13 @@ export const addTask = createAsyncThunk('appTodo/addTask', async (task, { dispat
 })
 
 export const updateTask = createAsyncThunk('appTodo/updateTask', async (task, { dispatch, getState }) => {
-  // need to change if task._id is not defined
-  const response = await axiosClient.post(`/todo/update-task/${task._id}`, { task })
-  await dispatch(getTasks(getState().todo.params))
-  return response
+  try {
+    const response = await axiosClient.put(`/todo/update-task/${task._id}`, { task })
+    await dispatch(getTasks(getState().todo.params))
+    return response
+  } catch (error) {
+    return error
+  }
 })
 
 export const completeTask = createAsyncThunk('appTodo/updateProject', async (data, { dispatch, getState }) => {
@@ -119,9 +125,14 @@ export const setTaskImportant = createAsyncThunk('appTodo/important', async (dat
 })
 
 export const deleteTask = createAsyncThunk('appTodo/deleteTask', async (taskId, { dispatch, getState }) => {
-  const response = await axiosClient.delete('/apps/todo/delete-task', { taskId })
-  await dispatch(getTasks(getState().todo.params))
-  return response
+  try {
+    const response = await axiosClient.delete(`/todo/delete-task/${taskId}`)
+    await dispatch(getTasks(getState().todo.params))
+    return response
+    
+  } catch (error) {
+    return error
+  }
 })
 
 export default appTodoSlice.reducer

@@ -77,7 +77,7 @@ exports.updateTodo = async (req, res, next) => {
       data: {
         todo,
       },
-      message: "ok",
+      message: "Task Updated Successfully",
       status: 200,
     });
   } catch (error) {
@@ -177,7 +177,7 @@ exports.delTodo = async (req, res, next) => {
       data: {
         todo,
       },
-      message: "ok",
+      message: "Task Deleted",
       status: 200,
     });
   } catch (error) {
