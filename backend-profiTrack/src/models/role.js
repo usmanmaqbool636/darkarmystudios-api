@@ -2,16 +2,19 @@ const mongoose = require("mongoose");
 
 const roleSchema = new mongoose.Schema(
     {
-      roleId: {
-        type: String,
-      },
       name: {
         type: String,
         required: true,
+        allowNull: false,
+        unique: {
+          args: true,
+          msg: 'Role already exists',
+        },
       },
       // alson called privileges
       permissions: {
-        type: [
+        type: Array,
+        default: [
           {
             read: Boolean,
             default: false

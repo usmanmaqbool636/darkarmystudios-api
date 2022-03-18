@@ -1,24 +1,24 @@
-const {RoleModel} = require('../models/role.js');
+const {RolesModel} = require('../models');
 
 class RoleService{
     newRole(request)  {
-        return new RoleModel(request);
+        return new RolesModel(request);
     };
 
     getRole(request) {
-        return RoleModel.findOne(request);
+        return RolesModel.findOne(request);
     }
 
     getRoles(){
-        return RoleModel.find({});
+        return RolesModel.find({});
     }
 
     updateRole(req, data){
-        return RoleModel.findOneAndUpdate(req, data, { new: true });
+        return RolesModel.findOneAndUpdate(req, data, { new: true });
     }
 
-    deleteRole(){
-        return RoleModel.findOneAndDelete(req);
+    deleteRole(req){
+        return RolesModel.findOneAndDelete(req);
     }
 }
 
