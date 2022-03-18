@@ -30,21 +30,21 @@ import {
   Spinner
 } from 'reactstrap'
 import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { getProjects, selectProject } from './store'
 
 const Projects = props => {
   const location = useLocation()
   const history = useHistory()
+  const dispatch = useDispatch()
 
   const {
     query,
     projects,
     params,
     setSort,
-    dispatch,
-    getProjects,
     setQuery,
     updateProject,
-    selectProject,
     reOrderTasks,
     handleTaskSidebar,
     handleMainSidebar,

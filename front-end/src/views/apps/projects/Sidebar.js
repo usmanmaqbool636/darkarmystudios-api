@@ -10,6 +10,8 @@ import { Mail, Star, Check, Trash, Plus } from 'react-feather'
 
 // ** Reactstrap Imports
 import { Button, ListGroup, ListGroupItem, Label, Container } from 'reactstrap'
+import { getProjects } from './store'
+import { useDispatch } from 'react-redux'
 
 
 const assigneeOptions = [
@@ -29,9 +31,9 @@ const projects = [
 ]
 
 const TodoSidebar = props => {
-  
+  const dispatch = useDispatch()
   // ** Props
-  const { handleTaskSidebar, setMainSidebar, mainSidebar, dispatch, getProjects, params } = props
+  const { handleTaskSidebar, setMainSidebar, mainSidebar, params } = props
 
   // ** Functions To Handle List Item Filter
   const handleFilter = filter => {

@@ -34,6 +34,8 @@ import '@styles/react/libs/flatpickr/flatpickr.scss'
 import '@styles/react/libs/react-select/_react-select.scss'
 
 import { ErrorToast, SuccessToast } from '../components/Toast'
+import { addProject, deleteProject, selectProject, setImportantApi, updateProject } from './store'
+import { useDispatch } from 'react-redux'
 
 // ** Function to capitalize the first letter of string
 const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1)
@@ -41,7 +43,7 @@ const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1)
 // ** Modal Header
 const ModalHeader = props => {
   // ** Props
-  const { children, store, handleTaskSidebar, setDeleted, deleted, important, setImportant, deleteProject, dispatch, updateProject, setImportantApi } =
+  const { children, store, handleTaskSidebar, setDeleted, deleted, important, setImportant, dispatch } =
     props
 
   // ** Function to delete task
@@ -82,8 +84,9 @@ const ModalHeader = props => {
 }
 
 const ProjectSidebar = props => {
+  const dispatch = useDispatch()
   // ** Props
-  const { open, handleTaskSidebar, store, dispatch, updateProject, selectProject, addProject, deleteProject, setImportantApi } = props
+  const { open, handleTaskSidebar, store, setImportantApi } = props
 
   // ** States
   const [assignees, setAssignee] = useState([{ value: 'pheobe', label: 'Pheobe Buffay', img: img1 }])
@@ -336,7 +339,6 @@ const ProjectSidebar = props => {
           deleted={deleted}
           dispatch={dispatch}
           important={important}
-          deleteProject={deleteProject}
           setDeleted={setDeleted}
           setImportant={setImportant}
           handleTaskSidebar={handleTaskSidebar}

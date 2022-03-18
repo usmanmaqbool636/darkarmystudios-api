@@ -51,19 +51,7 @@ const TODO = () => {
         tag: paramsURL.tag || ''
       })
     )
-    // no need here
-    // dispatch(getProjectsNameList())
-  }, [
-    // because it cause two time rendring 
-    // first time when component render
-    // why => first time we have projects = [] length is 0
-    // when data fetched then we have projects =[data] length more than 0
-    // second time when dependancy var changes store.projects.length
-    // api calling two time 
-
-    // store.projects.length, 
-    paramsURL.filter, paramsURL.tag, query, sort
-  ])
+  }, [paramsURL.filter, paramsURL.tag, query, sort])
 
 
   return (
@@ -71,8 +59,6 @@ const TODO = () => {
       <Sidebar
         store={store}
         params={params}
-        getProjects={getProjects}
-        dispatch={dispatch}
         mainSidebar={mainSidebar}
         urlFilter={paramsURL.filter}
         setMainSidebar={setMainSidebar}
@@ -97,11 +83,8 @@ const TODO = () => {
                 params={params}
                 setSort={setSort}
                 setQuery={setQuery}
-                dispatch={dispatch}
-                getProjects={getProjects}
                 paramsURL={paramsURL}
                 updateProject={updateProject}
-                selectProject={selectProject}
                 // reOrderTasks={reOrderTasks}
                 handleMainSidebar={handleMainSidebar}
                 handleTaskSidebar={handleTaskSidebar}
@@ -109,15 +92,9 @@ const TODO = () => {
             ) : null}
 
             <ProjectSidebar
-              setImportantApi={setImportantApi}
               store={store}
               params={params}
-              addProject={addProject}
-              dispatch={dispatch}
               open={openTaskSidebar}
-              updateProject={updateProject}
-              selectProject={selectProject}
-              deleteProject={deleteProject}
               handleTaskSidebar={handleTaskSidebar}
             />
           </div>
