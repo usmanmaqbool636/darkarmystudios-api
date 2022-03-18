@@ -36,6 +36,18 @@ const TodoSidebar = props => {
   const history = useHistory()
   // ** Props
   const { handleTaskSidebar, setMainSidebar, mainSidebar, dispatch, getTasks, params, setAssignee, setProject, project, projectNames, setFilter } = props
+  const handleActiveItem = value => {
+    // if ((params.filter && params.filter === value) || (params.tag && params.tag === value)) {
+    //   return true
+    // } else {
+    //   return false
+    // }
+    if ((query.get("filter") && query.get("filter") === value)  || (params.tag && params.tag === value)) {
+      return true
+    } else {
+      return false
+    }
+  }
   const getParams = () => {
     const params = {}
     if (query.get("filter")) {
@@ -58,9 +70,9 @@ const TodoSidebar = props => {
     }
     return params
   }
-  // ** Functions To Handle List Item Filter
+  
   useEffect(()=>{
-    
+    handleActiveItem(query.get("filter") || "")
     dispatch(getTasks({  
       ...getParams()
       // ...params, 
@@ -88,13 +100,7 @@ const TodoSidebar = props => {
   }
 
   // ** Functions To Active List Item
-  const handleActiveItem = value => {
-    if ((params.filter && params.filter === value) || (params.tag && params.tag === value)) {
-      return true
-    } else {
-      return false
-    }
-  }
+
 
   // ** Functions To Handle Add Task Click
   const handleAddClick = () => {
@@ -124,13 +130,14 @@ const TodoSidebar = props => {
                 // menuIsOpen={true}
                 onChange={(e)=>{
                   query.set("project", e.value)
-                  console.log("project Search =>", query)
+                  query.set("projectL", e.label)
                   history.push({search:query.toString()})
                   // setProject(e.value)
                 }}
                 isClearable={false}
                 theme={selectThemeColors}
-                defaultValue={projectNames[0]}
+                // defaultValue={projectNames[0]}
+                defaultValue={{value :query.get("project") || "All", label:query.get("projectL") || "All" }}
                 // isMulti={false}
                 name='project'
                 options={projectNames}
@@ -142,6 +149,7 @@ const TodoSidebar = props => {
                 <Select
                 onChange={(e)=>{
                   query.set("assignee", e.label)
+                  query.set("assigneeL", e.label)
                   console.log("assignee Search =>", query)
                   history.push({search:query.toString()})
                   // setAssignee(e.label)
@@ -149,7 +157,7 @@ const TodoSidebar = props => {
                   // menuIsOpen={true}
                   isClearable={false}
                   theme={selectThemeColors}
-                  defaultValue={assigneeOptions[0]}
+                  defaultValue={{value :query.get("assignee") || "All", label:query.get("assigneeL") || "All" }}
                   // if set to true then also change Regex according to multiple assignee
                   // isMulti={false}
                   name='user'
@@ -174,7 +182,8 @@ const TodoSidebar = props => {
                   tag="button"
                   // tag={Link}
                   // to={'/apps/todo/'}
-                  active={params.filter === '' && params.tag === ''}
+                  // active={params.filter === '' && params.tag === ''}
+                  active={query.get("filter") === ""}
                   onClick={() => handleFilter('')}
                 >
                   <Mail className='me-75' size={18} />

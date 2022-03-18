@@ -52,6 +52,10 @@ const TODO = () => {
 
 
   // ** Get Tasks on mount & based on dependency change
+  useEffect(()=>{
+    // issue solved for calling getProjectsNameList every time when updates
+    dispatch(getProjectsNameList())
+  }, [])
   useEffect(() => {
 
     dispatch(
@@ -76,10 +80,7 @@ const TODO = () => {
     project, 
     sort
   ])
-  useEffect(()=>{
-    // issue solved for calling getProjectsNameList every time when updates
-    dispatch(getProjectsNameList())
-  }, [])
+
 
   return (
     <Fragment>
