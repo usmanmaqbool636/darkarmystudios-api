@@ -50,6 +50,7 @@ const TODO = () => {
   const handleMainSidebar = () => setMainSidebar(!mainSidebar)
   const handleTaskSidebar = () => setOpenTaskSidebar(!openTaskSidebar)
 
+
   // ** Get Tasks on mount & based on dependency change
   useEffect(() => {
 
@@ -64,7 +65,7 @@ const TODO = () => {
 
       })
     )
-    dispatch(getProjectsNameList())
+    // dispatch(getProjectsNameList())
   }, [
     // because it cause two time request sent
     // store.tasks.length, 
@@ -75,6 +76,10 @@ const TODO = () => {
     project, 
     sort
   ])
+  useEffect(()=>{
+    // issue solved for calling getProjectsNameList every time when updates
+    dispatch(getProjectsNameList())
+  }, [])
 
   return (
     <Fragment>

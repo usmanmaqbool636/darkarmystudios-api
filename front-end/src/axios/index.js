@@ -10,6 +10,8 @@ const axiosClient = axios.create()
 
 // axiosClient.defaults.baseURL = 'http://192.168.100.6:4050/api'
 axiosClient.defaults.baseURL = 'http://localhost:4050/api'
+// axiosClient.defaults.baseURL = 'https://profitrack.darkarmylabs.com/api/'
+
 
 axiosClient.defaults.headers = {
   'Content-Type': 'application/json',

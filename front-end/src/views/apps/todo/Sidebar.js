@@ -1,6 +1,6 @@
 // ** React Imports
-import { Link } from 'react-router-dom'
-import React from 'react'
+import { Link, useLocation, useHistory } from 'react-router-dom'
+import React, { useEffect } from 'react'
 import Select from 'react-select'
 import { selectThemeColors } from '@utils'
 
@@ -24,16 +24,63 @@ const assigneeOptions = [
   { value: 'Rachel', label: 'Rachel Green' }
 ]
 
+// custome Hook that will be seprate hook file but for now use in the same file
+function useQuery() {
+  const { search } = useLocation()
+
+  return React.useMemo(() => new URLSearchParams(search), [search])
+}
+
 const TodoSidebar = props => {
-  
+  const query = useQuery()
+  const history = useHistory()
   // ** Props
   const { handleTaskSidebar, setMainSidebar, mainSidebar, dispatch, getTasks, params, setAssignee, setProject, project, projectNames, setFilter } = props
-
+  const getParams = () => {
+    const params = {}
+    if (query.get("filter")) {
+      params.filter = query.get("filter")
+    } 
+    if (query.get("q")) {
+      params.q = query.get("q")
+    } 
+    if (query.get("sortBy")) {
+      params.sortBy = query.get("sortBy")
+    } 
+    if (query.get("assignee")) {
+      params.assignee = query.get("assignee")
+    } 
+    if (query.get("project")) {
+      params.project = query.get("project")
+    } 
+    if (query.get("tag")) {
+      params.tag = query.get("tag")
+    }
+    return params
+  }
   // ** Functions To Handle List Item Filter
+  useEffect(()=>{
+    
+    dispatch(getTasks({  
+      ...getParams()
+      // ...params, 
+      // filter: query.get("filter") || '',
+      // q: query.get("q") || '',
+      // sortBy: query.get("sortBy") || '',
+      // assignee: query.get("assignee") || '',
+      // project: query.get("project") || '',
+      // tag: query.get("tag") || ''
+    }))
+    console.log("[ useEffect ] ", query.toString())
+  }, [query])
+  
   const handleFilter = filter => {
+    query.set("filter", filter)
+    history.push({search:query.toString()})
     console.log(params)
-    setFilter(filter)
-    dispatch(getTasks({ ...params, project, filter }))
+
+    // setFilter(filter)
+    // dispatch(getTasks({ ...params, project, filter }))
   }
 
   const handleTag = tag => {
@@ -75,7 +122,12 @@ const TodoSidebar = props => {
               <Label className='form-label'>Select Project</Label>
               <Select
                 // menuIsOpen={true}
-                onChange={(e)=>setProject(e.value)}
+                onChange={(e)=>{
+                  query.set("project", e.value)
+                  console.log("project Search =>", query)
+                  history.push({search:query.toString()})
+                  // setProject(e.value)
+                }}
                 isClearable={false}
                 theme={selectThemeColors}
                 defaultValue={projectNames[0]}
@@ -88,7 +140,12 @@ const TodoSidebar = props => {
                 <br/>
               <Label className='form-label'>Select User</Label>
                 <Select
-                onChange={(e)=>setAssignee(e.label)}
+                onChange={(e)=>{
+                  query.set("assignee", e.label)
+                  console.log("assignee Search =>", query)
+                  history.push({search:query.toString()})
+                  // setAssignee(e.label)
+                }}
                   // menuIsOpen={true}
                   isClearable={false}
                   theme={selectThemeColors}
