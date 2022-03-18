@@ -31,7 +31,7 @@ exports.getAllProjects = async (req, res, next) => {
     }else if(req.query.filter === "important"){
       query.isImportant = true;
     }
-    const projects = await  ProjectService.getProjects(query);
+    const projects = await  ProjectService.getProjectsAggregate(query);
     return res.status(200).json({
       success: true,
       data: {

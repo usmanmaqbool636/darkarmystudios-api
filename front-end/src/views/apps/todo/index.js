@@ -56,30 +56,32 @@ const TODO = () => {
     // issue solved for calling getProjectsNameList every time when updates
     dispatch(getProjectsNameList())
   }, [])
-  useEffect(() => {
+  
+  // NO need below reducer because i handle this in sidear component
+  // useEffect(() => {
 
-    dispatch(
-      getTasks({
-        filter: filter || '',
-        q: query || '',
-        sortBy: sort || '',
-        assignee: assignee || '',
-        project: project || '',
-        tag: paramsURL.tag || ''
+  //   // dispatch(
+  //   //   getTasks({
+  //   //     filter: filter || '',
+  //   //     q: query || '',
+  //   //     sortBy: sort || '',
+  //   //     assignee: assignee || '',
+  //   //     project: project || '',
+  //   //     tag: paramsURL.tag || ''
 
-      })
-    )
-    // dispatch(getProjectsNameList())
-  }, [
-    // because it cause two time request sent
-    // store.tasks.length, 
-    filter, 
-    paramsURL.tag, 
-    query, 
-    assignee, 
-    project, 
-    sort
-  ])
+  //   //   })
+  //   // )
+  //   // dispatch(getProjectsNameList())
+  // }, [
+  //   // because it cause two time request sent
+  //   // store.tasks.length, 
+  //   filter, 
+  //   paramsURL.tag, 
+  //   query, 
+  //   assignee, 
+  //   project, 
+  //   sort
+  // ])
 
 
   return (

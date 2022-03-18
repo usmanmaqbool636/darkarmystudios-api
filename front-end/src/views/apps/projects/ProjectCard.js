@@ -101,6 +101,23 @@ const CardAppDesign = ({ item, handleProjectClick }) => {
             </div>
           ))}
         </div>
+
+        <h6 className='section-label'>Task</h6>
+        <div className='design-planning-wrapper mb-2 py-75'>
+            <div className='design-planning'>
+              <CardText className='mb-25'>Total </CardText>
+              <h6 className='mb-0'>{item.total_task}</h6>
+            </div>
+            <div className='design-planning'>
+              <CardText className='mb-25'>Completed</CardText>
+              <h6 className='mb-0'>{item.completed_task}</h6>
+            </div>
+            <div className='design-planning'>
+              <CardText className='mb-25'>Inprogress</CardText>
+              <h6 className='mb-0'>{item.total_task - item.completed_task}</h6>
+            </div>
+        </div>
+
         <div className='d-flex justify-content-around'>
           {/* TODO propagation*/}
           {/* get help from this stackoverflow Question */}
