@@ -32,15 +32,17 @@ import '@styles/react/libs/react-select/_react-select.scss'
 
 import { ErrorToast, SuccessToast } from '../components/Toast'
 import { convertToHTML } from 'draft-convert'
-import { completeTask, setTaskImportant, deleteTask } from './store'
+import { completeTask, setTaskImportant, addTask, updateTask, selectTask, deleteTask } from './store'
+import { useDispatch } from 'react-redux'
 
 // ** Function to capitalize the first letter of string
 const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1)
 
 // ** Modal Header
 const ModalHeader = props => {
+  const dispatch = useDispatch()
   // ** Props
-  const { children, store, handleTaskSidebar, setDeleted, deleted, important, setImportant, dispatch } =
+  const { children, store, handleTaskSidebar, setDeleted, deleted, important, setImportant } =
     props
 
   // ** Function to delete task
@@ -83,7 +85,7 @@ const ModalHeader = props => {
 
 const TaskSidebar = props => {
   // ** Props
-  const { open, handleTaskSidebar, store, dispatch, updateTask, selectTask, addTask, projectNames } = props
+  const { open, handleTaskSidebar, store, dispatch, projectNames } = props
 
   // ** States
   const [assignee, setAssignee] = useState({ value: 'pheobe', label: 'Pheobe Buffay', img: img1 })

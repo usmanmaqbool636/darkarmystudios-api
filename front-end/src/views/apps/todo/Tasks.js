@@ -27,10 +27,13 @@ import {
 } from 'reactstrap'
 import React, { useEffect } from 'react'
 import Task from './Task'
+import { useDispatch } from 'react-redux'
+import { getTasks, reOrderTasks, selectTask } from './store'
 
 const Tasks = props => {
   const location = useLocation()
   const history = useHistory()
+  const dispatch = useDispatch()
 
   const {
     store,
@@ -38,12 +41,7 @@ const Tasks = props => {
     tasks,
     params,
     setSort,
-    dispatch,
-    getTasks,
     setQuery,
-    updateTask,
-    selectTask,
-    reOrderTasks,
     handleTaskSidebar,
     handleMainSidebar
   } = props

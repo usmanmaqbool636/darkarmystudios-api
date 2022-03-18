@@ -93,8 +93,6 @@ const TODO = () => {
         setAssignee={setAssignee}
         setProject={setProject}
         params={params}
-        getTasks={getTasks}
-        dispatch={dispatch}
         mainSidebar={mainSidebar}
         setFilter={setFilter}
         // urlFilter={filter}
@@ -121,12 +119,7 @@ const TODO = () => {
                 params={params}
                 setSort={setSort}
                 setQuery={setQuery}
-                dispatch={dispatch}
-                getTasks={getTasks}
                 paramsURL={paramsURL}
-                updateTask={updateTask}
-                selectTask={selectTask}
-                reOrderTasks={reOrderTasks}
                 handleMainSidebar={handleMainSidebar}
                 handleTaskSidebar={handleTaskSidebar}
               />
@@ -136,12 +129,7 @@ const TODO = () => {
               projectNames={projectNames}
               store={store}
               params={params}
-              addTask={addTask}
-              dispatch={dispatch}
               open={openTaskSidebar}
-              updateTask={updateTask}
-              selectTask={selectTask}
-              deleteTask={deleteTask}
               handleTaskSidebar={handleTaskSidebar}
             />
           </div>

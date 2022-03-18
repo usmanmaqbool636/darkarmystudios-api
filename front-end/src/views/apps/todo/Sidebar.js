@@ -12,6 +12,8 @@ import { Mail, Star, Check, Trash, Plus } from 'react-feather'
 
 // ** Reactstrap Imports
 import { Button, ListGroup, ListGroupItem, Label, Container } from 'reactstrap'
+import { getTasks } from './store'
+import { useDispatch } from 'react-redux'
 
 
 const assigneeOptions = [
@@ -34,8 +36,9 @@ function useQuery() {
 const TodoSidebar = props => {
   const query = useQuery()
   const history = useHistory()
+  const dispatch = useDispatch()
   // ** Props
-  const { handleTaskSidebar, setMainSidebar, mainSidebar, dispatch, getTasks, params, setAssignee, setProject, project, projectNames, setFilter } = props
+  const { handleTaskSidebar, setMainSidebar, mainSidebar, params, setAssignee, setProject, project, projectNames, setFilter } = props
   const handleActiveItem = value => {
     // if ((params.filter && params.filter === value) || (params.tag && params.tag === value)) {
     //   return true
